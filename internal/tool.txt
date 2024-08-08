@@ -1,0 +1,3 @@
+Next json
+prisma 
+auth 5
