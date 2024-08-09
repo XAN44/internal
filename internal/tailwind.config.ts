@@ -1,27 +1,32 @@
 import type { Config } from "tailwindcss";
-import daisyui from "daisyui";
+const { nextui } = require("@nextui-org/react");
+
 const config = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
     screens: {
       xxsm: "100px",
-      xsm: "300px",
+      xsm: "100px", //300
+      ssm: "360",
       sm: "360px",
       md: "375px",
+      smd: "410",
+      mmd: "508",
+      slg: "591",
+      mlg: "608",
       lg: "768px",
       xl: "1024px",
       "2xl": "1280px",
       "3xl": "1440px",
       "4xl": "1600px",
     },
-
     container: {
       center: true,
       padding: "2rem",
@@ -31,6 +36,7 @@ const config = {
     },
     extend: {
       colors: {
+        "blue-input": "#caddff",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -86,11 +92,11 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), daisyui],
+  plugins: [nextui(), require("tailwindcss-animate"), require("daisyui")],
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode
-    base: false, // applies background color and foreground color for root element by default
+    base: true, // applies background color and foreground color for root element by default
     styled: true, // include daisyUI colors and design decisions for all components
     utils: true, // adds responsive and modifier utility classes
     prefix: "", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)

@@ -20,11 +20,12 @@ import { SignInSchema } from "../../lib/schema/tsae";
 import { z } from "zod";
 import { TEST } from "../../../../server/test";
 import SignInForm from "../../components/auth/sign-in/sign-InForm";
+import SignUpForm from "../../components/auth/sign-up/sign-UpForm";
 
 export default function Page() {
   return (
-    <CardWrapper headerImg="/headImg.svg">
-      <SignInForm />
+    <CardWrapper headerImg="/Webinar.svg">
+      <SignUpForm />
     </CardWrapper>
   );
 }
