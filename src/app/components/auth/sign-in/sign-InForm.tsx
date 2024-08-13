@@ -103,7 +103,6 @@ function SignInForm() {
                       color="primary"
                       radius="full"
                       size="lg"
-                      variant="faded"
                       classNames={{
                         inputWrapper: "bg-blue-input/60 ring-2 ",
                       }}

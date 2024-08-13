@@ -103,8 +103,8 @@ function SignUpForm() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      errorMessage={form.formState.errors.username?.message}
-                      isInvalid={!!form.formState.errors.username}
+                      errorMessage={form.formState.errors.email?.message}
+                      isInvalid={!!form.formState.errors.email}
                       color="primary"
                       radius="full"
                       size="lg"
