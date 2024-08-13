@@ -26,15 +26,17 @@ export default auth((req) => {
   }
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return Response.redirect(
+        new URL(DEFAULT_LOGIN_REDIRECT, nextUrl.toString())
+      );
     }
     return;
   }
 
   // ! หากยังไม่ได้เข้าสู่ระบบจะ Redirect to sign-in page
-  // if (!isLoggedIn && !isPublicRoute) {
-  //   return Response.redirect(new URL("/auth/sign-in", nextUrl));
-  // }
+  if (!isLoggedIn && !isPublicRoute) {
+    return Response.redirect(new URL("/auth/sign-in", nextUrl.toString()));
+  }
 
   return;
 });
