@@ -34,9 +34,9 @@ export default auth((req) => {
   }
 
   // ! หากยังไม่ได้เข้าสู่ระบบจะ Redirect to sign-in page
-  if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/sign-in", nextUrl.toString()));
-  }
+  // if (!isLoggedIn && !isPublicRoute) {
+  //   return Response.redirect(new URL("/auth/sign-in", nextUrl.toString()));
+  // }
 
   return;
 });
