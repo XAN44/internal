@@ -23,6 +23,7 @@ import { motion } from "framer-motion";
 import SubSignIn from "./subBtnSignIn";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
+import { useRouter } from "next/navigation";
 function SignInForm() {
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -46,6 +47,8 @@ function SignInForm() {
 
   const toggleShowPassword = () => setShowPassword((v) => !v);
 
+  const route = useRouter();
+
   const onSubmit = (value: z.infer<typeof SignInSchema>) => {
     setError("");
     setSuccess("");
@@ -53,6 +56,9 @@ function SignInForm() {
       TEST(value).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
+        if (data.success) {
+          route.push("/aboutYourself");
+        }
       });
     });
   };

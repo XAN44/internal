@@ -24,6 +24,7 @@ import { ImMail4 } from "react-icons/im";
 import SubSignUp from "./subBtnSignUp";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
+import { useRouter } from "next/navigation";
 
 function SignUpForm() {
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -49,7 +50,7 @@ function SignUpForm() {
   const [isError, setIserror] = useState(false);
 
   const toggleShowPassword = () => setShowPassword((v) => !v);
-
+  const route = useRouter();
   const onSubmit = (value: z.infer<typeof SignUpSchema>) => {
     setError("");
     setSuccess("");
@@ -57,6 +58,9 @@ function SignUpForm() {
       TEST1(value).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
+        if (data.success) {
+          route.push("/auth/sign-in");
+        }
       });
     });
   };

@@ -12,7 +12,7 @@ export async function TEST(value: z.infer<typeof SignInSchema>) {
 
   const { password, username } = validate.data;
   console.log(username, password);
-  return { success: "Success" };
+  return { success: "Fake Success" };
 }
 
 export async function TEST1(value: z.infer<typeof SignUpSchema>) {
@@ -23,7 +23,7 @@ export async function TEST1(value: z.infer<typeof SignUpSchema>) {
 
   const { password, username, email } = validate.data;
   console.log(username, password, email);
-  return { success: "error" };
+  return { success: "Fake Success" };
 }
 
 export async function TEST2(value: z.infer<typeof AboutYourSelfSchema>) {
