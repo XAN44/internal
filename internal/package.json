@@ -1,7 +1,9 @@
 {
   "name": "internal",
   "version": "0.1.0",
-  "trustedDependencies": ["utf-8-validate"],
+  "trustedDependencies": [
+    "utf-8-validate"
+  ],
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -50,5 +52,8 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "lib": "lib"
+  }
 }
