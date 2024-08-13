@@ -21,7 +21,7 @@ export default function Home() {
           <p className="text-lg lg:text-xl mb-6 leading-relaxed">
             At our platform, we offer a wide range of courses designed to help
             employees enhance their skills and advance their careers. Whether
-            you're interested in improving your soft skills, mastering hard
+            you`re interested in improving your soft skills, mastering hard
             skills, or learning how to use new software tools, we have something
             for everyone.
           </p>
