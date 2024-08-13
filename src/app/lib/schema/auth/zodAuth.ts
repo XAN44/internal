@@ -17,7 +17,7 @@ export const ResetPasswordSchema = z.object({
 
 export const SignUpSchema = z
   .object({
-    username: z.string().min(6, { message: "Username is required" }),
+    username: z.string().min(3, { message: "Username is required" }),
     email: z.string().email({ message: "invalid email" }),
     password: z
       .string()
