@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../../../components/ui/form";
-import { SignInSchema } from "../../../lib/schema/tsae";
+import { SignInSchema } from "../../../lib/schema/auth/zodAuth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,8 @@ import { SlLockOpen } from "react-icons/sl";
 import { SlLock } from "react-icons/sl";
 import { motion } from "framer-motion";
 import SubSignIn from "./subBtnSignIn";
+import FormError from "../../stateForm/form-error";
+import FormSuccess from "../../stateForm/form-success";
 function SignInForm() {
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -38,13 +40,20 @@ function SignInForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+
   const [isError, setIserror] = useState(false);
 
   const toggleShowPassword = () => setShowPassword((v) => !v);
 
   const onSubmit = (value: z.infer<typeof SignInSchema>) => {
+    setError("");
+    setSuccess("");
     startTransition(() => {
-      TEST(value).then((data) => setError(data?.error));
+      TEST(value).then((data) => {
+        setError(data?.error);
+        setSuccess(data?.success);
+      });
     });
   };
 
@@ -63,7 +72,6 @@ function SignInForm() {
                     <Input
                       errorMessage={form.formState.errors.username?.message}
                       isInvalid={!!form.formState.errors.username}
-                      placeholder="Enter your username"
                       color="primary"
                       radius="full"
                       size="lg"
@@ -153,10 +161,12 @@ function SignInForm() {
               )}
             />
           </div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
 
           <div className="flex flex-col items-center justify-center w-full">
             {isPending ? (
-              <Button isLoading>TEST</Button>
+              <Button isLoading> </Button>
             ) : (
               <Button
                 type="submit"

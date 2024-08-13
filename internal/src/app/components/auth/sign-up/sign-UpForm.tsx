@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../../../components/ui/form";
-import { SignInSchema, SignUpSchema } from "../../../lib/schema/tsae";
+import { SignInSchema, SignUpSchema } from "../../../lib/schema/auth/zodAuth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +22,8 @@ import { SlLock } from "react-icons/sl";
 import { motion } from "framer-motion";
 import { ImMail4 } from "react-icons/im";
 import SubSignUp from "./subBtnSignUp";
+import FormError from "../../stateForm/form-error";
+import FormSuccess from "../../stateForm/form-success";
 
 function SignUpForm() {
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -42,13 +44,20 @@ function SignUpForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+
   const [isError, setIserror] = useState(false);
 
   const toggleShowPassword = () => setShowPassword((v) => !v);
 
   const onSubmit = (value: z.infer<typeof SignUpSchema>) => {
+    setError("");
+    setSuccess("");
     startTransition(() => {
-      TEST1(value).then((data) => setError(data?.error));
+      TEST1(value).then((data) => {
+        setError(data?.error);
+        setSuccess(data?.success);
+      });
     });
   };
 
@@ -57,7 +66,7 @@ function SignUpForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="xsm:max-w-md  xl:max-w-xs 3xl:max-w-md">
+          className="xsm:max-w-md  xl:max-w-xs 3xl:max-w-md lg:max-w-xs">
           <div className="space-y-4 ">
             <FormField
               control={form.control}
@@ -69,7 +78,6 @@ function SignUpForm() {
                     <Input
                       errorMessage={form.formState.errors.username?.message}
                       isInvalid={!!form.formState.errors.username}
-                      placeholder="Enter your username"
                       color="primary"
                       radius="full"
                       size="lg"
@@ -93,7 +101,6 @@ function SignUpForm() {
                     <Input
                       errorMessage={form.formState.errors.username?.message}
                       isInvalid={!!form.formState.errors.username}
-                      placeholder="Enter your username"
                       color="primary"
                       radius="full"
                       size="lg"
@@ -218,6 +225,7 @@ function SignUpForm() {
               />
             </div>
           </div>
+
           <div
             className="
                         
@@ -241,6 +249,8 @@ function SignUpForm() {
               Forgot your password ?
             </Link>
           </div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <div className="flex flex-col items-center justify-center w-full">
             <div>
               {isPending ? (

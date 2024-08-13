@@ -16,7 +16,7 @@ import {
 } from "../../../../components/ui/form";
 import { startTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInSchema } from "../../lib/schema/tsae";
+import { SignInSchema } from "../../lib/schema/auth/zodAuth";
 import { z } from "zod";
 import { TEST } from "../../../../server/test";
 import SignInForm from "../../components/auth/sign-in/sign-InForm";

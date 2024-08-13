@@ -30,9 +30,12 @@ export default auth((req) => {
     }
     return;
   }
-  if (!isLoggedIn && !publicRoutes) {
-    return Response.redirect(new URL("/auth/sign-in", nextUrl));
-  }
+
+  // ! หากยังไม่ได้เข้าสู่ระบบจะ Redirect to sign-in page
+  // if (!isLoggedIn && !isPublicRoute) {
+  //   return Response.redirect(new URL("/auth/sign-in", nextUrl));
+  // }
+
   return;
 });
 

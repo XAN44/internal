@@ -74,7 +74,7 @@ export default function CardWrapper({ children, headerImg }: Props) {
       4xl:-translate-x-[600px]
     
     
-      xsm:from-sky-300/90 xsm:to-purple-900/60
+      xsm:from-sky-500  xsm:to-purple-500
 
       xsm:bg-gradient-to-r
       lg:bg-gradient-to-t
@@ -201,7 +201,7 @@ export default function CardWrapper({ children, headerImg }: Props) {
           "
         />
         <div className="flex flex-col items-center justify-center font-bold ">
-          {path === "/auth/sign-in" && (
+          {path === "/auth/sign-in" ? (
             <div className="flex flex-row items-center justify-center">
               <div className="flex flex-col text-start  ">
                 <p className="text-4xl">WELCOME TO</p>
@@ -219,8 +219,9 @@ export default function CardWrapper({ children, headerImg }: Props) {
                 className="xsm:hidden lg:flex w-20 h-20 object-cover"
               />
             </div>
-          )}
-          {path === "/auth/sign-up" && (
+          ) : null}
+
+          {path === "/auth/sign-up" ? (
             <div className="flex flex-row items-center justify-center">
               <div className="flex flex-col text-start  ">
                 <p className="text-3xl">
@@ -241,7 +242,15 @@ export default function CardWrapper({ children, headerImg }: Props) {
                 className="xsm:hidden lg:flex w-20 h-20 object-cover"
               />
             </div>
-          )}
+          ) : null}
+          {path === "/aboutYourself" ? (
+            <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-col text-center  ">
+                <p className="text-3xl">ALMOST FINISH!</p>
+                <p className="text-2xl">Tell us more about yourself</p>
+              </div>
+            </div>
+          ) : null}
           <div className="flex flex-col">{children}</div>
         </div>
       </div>
