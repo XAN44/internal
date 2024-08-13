@@ -26,6 +26,9 @@ import { DepartMent, Role } from "../../lib/modal/abYourself";
 import FormError from "../stateForm/form-error";
 import FormSuccess from "../stateForm/form-success";
 import { FaUser, FaUsers } from "react-icons/fa";
+import { IoSearchSharp } from "react-icons/io5";
+import { MdOutlinePersonSearch } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 function AboutYourself() {
   const form = useForm<z.infer<typeof AboutYourSelfSchema>>({
@@ -48,8 +51,10 @@ function AboutYourself() {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDepartMent, setIsOpenDepartMent] = useState(false);
+  const [isOpenRole, setIsOpenRole] = useState(false);
 
+  const router = useRouter();
   const onSubmit = (value: z.infer<typeof AboutYourSelfSchema>) => {
     setError("");
     setSuccess("");
@@ -57,6 +62,9 @@ function AboutYourself() {
       TEST2(value).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
+        if (data.success) {
+          router.push("/aboutYourself/Interests");
+        }
       });
     });
   };
@@ -139,10 +147,10 @@ function AboutYourself() {
                         }}
                         disableSelectorIconRotation
                         onOpenChange={(open) =>
-                          open !== isOpen && setIsOpen(open)
+                          open !== isOpenDepartMent && setIsOpenDepartMent(open)
                         }
                         selectorIcon={
-                          isOpen ? (
+                          isOpenDepartMent ? (
                             <FaUsers color="white" />
                           ) : (
                             <FaUser color="white" />
@@ -160,7 +168,7 @@ function AboutYourself() {
               />
               <FormField
                 control={form.control}
-                name="department"
+                name="role"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -179,7 +187,18 @@ function AboutYourself() {
                           value: "text-black flex items-center justify-center",
                           trigger:
                             "bg-gradient-to-r from-blue-300/90 to-blue-500 ring-2 ",
-                        }}>
+                        }}
+                        disableSelectorIconRotation
+                        onOpenChange={(open) =>
+                          open !== isOpenRole && setIsOpenRole(open)
+                        }
+                        selectorIcon={
+                          isOpenRole ? (
+                            <MdOutlinePersonSearch color="white" />
+                          ) : (
+                            <IoSearchSharp color="white" />
+                          )
+                        }>
                         {Role.map((item) => (
                           <SelectItem key={item.value} value={item.value}>
                             {item.label}

@@ -34,7 +34,7 @@ export async function TEST2(value: z.infer<typeof AboutYourSelfSchema>) {
 
   try {
     const { firstName, lastName, department, role } = validate.data;
-    console.log(firstName, lastName, department);
+    console.log(firstName, lastName, department, role);
 
     return { success: "Success" };
   } catch (error) {
