@@ -1,6 +1,7 @@
 {
   "name": "internal",
   "version": "0.1.0",
+  "trustedDependencies": ["utf-8-validate"],
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -30,6 +31,7 @@
     "react-hook-form": "^7.52.2",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "utf-8-validate": "^6.0.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
