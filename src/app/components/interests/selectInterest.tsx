@@ -1,4 +1,3 @@
-"use client";
 import {
   Button,
   Card,
@@ -15,53 +14,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useCallback, useEffect, useTransition } from "react";
 import { TEST3 } from "@/server/test";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { InterestSchema } from "../../lib/schema/interest/interestSchema";
 import { list } from "../../lib/modal/interest";
 import toast from "react-hot-toast";
 
 interface SelectInterestProps {
   form: ReturnType<typeof useForm<z.infer<typeof InterestSchema>>>;
+  onSubmit: (data: z.infer<typeof InterestSchema>) => void;
 }
 
-export default function SelectInterest({ form }: SelectInterestProps) {
-  const {
-    formState: { isDirty, isValid, errors },
-  } = form;
-
-  const [isPending, startTransition] = useTransition();
-
-  const showErrorToast = useCallback(() => {
-    if (errors.interest) {
-      toast.custom((t) => (
-        <div
-          className={`bg-white px-6 py-4 shadow-md rounded-full ${
-            t.visible ? "animate-enter" : "animate-leave"
-          }`}>
-          {errors.interest?.message}
-        </div>
-      ));
-    }
-  }, [errors.interest]);
-
-  useEffect(() => {
-    showErrorToast();
-  }, [showErrorToast]);
-
-  const onSubmit = (value: z.infer<typeof InterestSchema>) => {
-    console.log("Form Submitted with value: ", value); // เพิ่มบรรทัดนี้
-
-    startTransition(() => {
-      TEST3(value);
-    });
-  };
-
+export default function SelectInterest({
+  form,
+  onSubmit,
+}: SelectInterestProps) {
   return (
     <div
       className="
@@ -135,7 +101,6 @@ export default function SelectInterest({ form }: SelectInterestProps) {
                             color="success"
                             radius="full"
                             className="absolute ssm:top-[20px] ssm:right-[15px] top-[38px] right-[20px]"
-                            data-invalid={errors.interest ? true : undefined}
                             classNames={{ wrapper: "bg-white" }}
                           />
                         </CardBody>
