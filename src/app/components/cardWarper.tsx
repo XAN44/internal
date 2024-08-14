@@ -52,9 +52,6 @@ export default function CardWrapper({ children, headerImg }: Props) {
       xsm:-translate-y-[270px]
       mmd:-translate-y-[650px]
       mlg:-translate-y-[700px]
-
-
-
     
       lg:absolute
       lg:top-1/2
@@ -64,13 +61,9 @@ export default function CardWrapper({ children, headerImg }: Props) {
       lg:transform
       lg:-translate-y-1/2
       lg:-translate-x-[800px]
-      
       xl:-translate-x-[700px]
-
       2xl:-translate-x-[700px]
-
       3xl:-translate-x-[600px]
-
       4xl:-translate-x-[600px]
     
     

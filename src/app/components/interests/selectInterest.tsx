@@ -13,26 +13,46 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTransition } from "react";
+import { useCallback, useEffect, useTransition } from "react";
 import { TEST3 } from "@/server/test";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { InterestSchema } from "../../lib/schema/interest/interestSchema";
 import { list } from "../../lib/modal/interest";
+import toast from "react-hot-toast";
 
-export default function SelectInterest() {
-  const form = useForm<z.infer<typeof InterestSchema>>({
-    resolver: zodResolver(InterestSchema),
-    defaultValues: {
-      interest: [],
-    },
-  });
+interface SelectInterestProps {
+  form: ReturnType<typeof useForm<z.infer<typeof InterestSchema>>>;
+}
 
+export default function SelectInterest({ form }: SelectInterestProps) {
   const {
-    control,
-    formState: { isDirty, isValid },
+    formState: { isDirty, isValid, errors },
   } = form;
 
   const [isPending, startTransition] = useTransition();
+
+  const showErrorToast = useCallback(() => {
+    if (errors.interest) {
+      toast.custom((t) => (
+        <div
+          className={`bg-white px-6 py-4 shadow-md rounded-full ${
+            t.visible ? "animate-enter" : "animate-leave"
+          }`}>
+          {errors.interest?.message}
+        </div>
+      ));
+    }
+  }, [errors.interest]);
+
+  useEffect(() => {
+    showErrorToast();
+  }, [showErrorToast]);
 
   const onSubmit = (value: z.infer<typeof InterestSchema>) => {
     console.log("Form Submitted with value: ", value); // เพิ่มบรรทัดนี้
@@ -47,7 +67,9 @@ export default function SelectInterest() {
       className="
     bg-white  
     rounded-[calc(1.5rem-1px)] 
-    w-full h-full overflow-y-auto  space-x-6 items-start justify-center p-0">
+    w-full h-full 
+    overflow-y-auto  
+    space-x-6 items-start justify-center p-0">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <FormField
@@ -57,7 +79,8 @@ export default function SelectInterest() {
               <FormItem>
                 <FormControl>
                   <div
-                    className="   grid 
+                    className="   
+                        grid 
                         p-4
                         ssm:grid-cols-1
                         smd:grid-cols-2
@@ -107,10 +130,12 @@ export default function SelectInterest() {
                                   );
                               field.onChange(newValue);
                             }}
+                            isRequired={true}
                             size="lg"
                             color="success"
                             radius="full"
                             className="absolute ssm:top-[20px] ssm:right-[15px] top-[38px] right-[20px]"
+                            data-invalid={errors.interest ? true : undefined}
                             classNames={{ wrapper: "bg-white" }}
                           />
                         </CardBody>
@@ -120,7 +145,6 @@ export default function SelectInterest() {
                 </FormControl>
               </FormItem>
             )}></FormField>
-          <Button type="submit">OK</Button>
         </form>
       </Form>
     </div>
