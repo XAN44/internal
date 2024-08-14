@@ -14,13 +14,13 @@ const config = {
     screens: {
       xxsm: "100px",
       xsm: "100px", //300
-      ssm: "360",
+      ssm: "260px",
       sm: "360px",
       md: "375px",
-      smd: "410",
-      mmd: "508",
-      slg: "591",
-      mlg: "608",
+      smd: "410px",
+      mmd: "508px",
+      slg: "591px",
+      mlg: "608px",
       lg: "768px",
       xl: "1024px",
       "2xl": "1280px",

@@ -10,12 +10,13 @@ export default function CardWarperForInter({ children }: Props) {
       className=" 
       relative 
       w-screen h-screen 
-      xsm:overflow-y-auto
+      
       xsm:overflow-hidden
       lg:overflow-hidden 
       flex 
       lg:flex-row
       xsm:flex-col
+ 
    ">
       {/* Left Card */}
       <div
@@ -68,7 +69,7 @@ export default function CardWarperForInter({ children }: Props) {
             xsm:absolute
             xsm:right-16
             xsm:top-[300px] 
-            smd:top-[280px]
+            smd:top-[300px]
             lg:top-1/2
             xsm:z-10 
             xsm:-translate-x-[240px] 
@@ -127,7 +128,18 @@ export default function CardWarperForInter({ children }: Props) {
           top-2 right-10
           "
         />
-        <div className="flex flex-col">{children}</div>
+        <div
+          className="
+        absolute 
+        xxsm:top-36 
+        ssm:-top-[70px]
+        sm:-top-[45px]
+        smd:top-[40px]
+        mmd:top-[50px]
+        lg:top-0 
+        w-full h-full flex flex-col ">
+          {children}
+        </div>
       </div>
     </div>
   );

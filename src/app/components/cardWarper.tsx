@@ -206,7 +206,7 @@ export default function CardWrapper({ children, headerImg }: Props) {
               <div className="flex flex-col text-start  ">
                 <p className="text-4xl">WELCOME TO</p>
                 <p className="text-3xl text-blue-800">Training Sessions</p>
-                <p className="text-blue-800/50">
+                <p className="text-blue-800/65">
                   Have you boosted your skills today?
                 </p>
               </div>
@@ -229,7 +229,7 @@ export default function CardWrapper({ children, headerImg }: Props) {
                   <span>TO BEGIN</span>
                 </p>
                 <p className="text-2xl text-black">Your Training Journey</p>
-                <p className="text-blue-800/50">
+                <p className="text-blue-800/65">
                   Do you want to create an account?
                 </p>
               </div>
