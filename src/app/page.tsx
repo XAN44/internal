@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="hero h-screen w-screen bg-gradient-to-r from-blue-500 to-blue-400 text-white overflow-hidden flex items-center justify-center">
+    <div className="hero h-screen w-screen bg-gradient-to-r from-blue-500 to-blue-400 text-white overflow-hidden overflow-y-auto flex items-center justify-center">
       <div className="hero-content flex flex-col lg:flex-row-reverse w-full lg:w-4/5 p-6 lg:p-12">
         <div className="w-full lg:w-1/2">
           <Image

@@ -15,7 +15,7 @@ export default function CardWrapper({ children, headerImg }: Props) {
   return (
     <div
       className=" 
-      relative 
+       relative 
       w-screen h-screen 
       xsm:overflow-y-auto
       xsm:overflow-hidden
@@ -40,18 +40,28 @@ export default function CardWrapper({ children, headerImg }: Props) {
       xsm:rounded-b-full
       xsm:top-0
       xsm:transform
-      xsm:w-[760px]
-      xsm:h-[500px]
-      smd:w-[860px]
-      smd:h-[600px]
-      mmd:w-[960px]
-      mmd:h-[900px]
-      mlg:w-[1000px]
-      mlg:h-[950px]
-      smd:-translate-y-[360px]
+      xsm:w-[660px]
+      xsm:h-[450px]
       xsm:-translate-y-[270px]
-      mmd:-translate-y-[650px]
-      mlg:-translate-y-[700px]
+
+      
+      xms:w-[1000px]
+      xms:h-[850px]
+      xms:-translate-y-[690px]
+
+
+
+      md:w-[1600px]
+      md:h-[990px]
+      md:-translate-y-[750px]
+      
+      sm:top-0
+      sm:w-[1200px]
+      sm:h-[910px]
+      sm:-translate-y-[650px]
+
+       
+
     
       lg:absolute
       lg:top-1/2
@@ -60,12 +70,13 @@ export default function CardWrapper({ children, headerImg }: Props) {
       lg:h-[2000px]
       lg:transform
       lg:-translate-y-1/2
-      lg:-translate-x-[800px]
+      lg:-translate-x-[730px]
       xl:-translate-x-[700px]
       2xl:-translate-x-[700px]
       3xl:-translate-x-[600px]
       4xl:-translate-x-[600px]
-    
+      max:-translate-x-[600px]
+
     
       xsm:from-sky-500  xsm:to-purple-500
 
@@ -82,29 +93,30 @@ export default function CardWrapper({ children, headerImg }: Props) {
             height={100}
             className="
             object-contain
-          xsm:absolute
-          xsm:right-16
-          xsm:top-[200px] 
-          smd:top-[280px]
-          lg:top-1/2
-          xsm:z-10 
-          xsm:-translate-x-[240px] 
-          sm:-translate-x-[150px]
-          md:-translate-x-[150px]
-          smd:-translate-x-[180px]
-          mmd:-translate-x-[180px]
-          slg:-translate-x-[140px]
-          xsm:w-20
-          mmd:w-24 mmd:h-24
-          ssm:-translate-x-[220px]
-          xsm:translate-y-[100px] 
-          mmd:translate-y-[400px] 
-          mlg:translate-y-[450px] 
+            lg:top-1/2
+            xsm:absolute
+            xsm:right-16
+            xs:right-0
+            xsm:z-10 
+            xsm:w-20
+            xsm:translate-y-[100px] 
+            xsm:transform xsm:brightness-0 xsm:invert xsm:filter
+            xsm:top-[190px] 
+            xsm:-translate-x-[170px] 
 
+            xms:top-[600px] 
+            xms:z-10 
+            xms:-translate-x-[240px] 
+            
 
-          xsm:transform xsm:brightness-0 xsm:invert xsm:filter
+             lg:hidden
+            sm:right-36
+            sm:top-[600px]
+            sm:-translate-x-[150px]
 
-          lg:hidden
+            md:right-[300px]
+            md:top-[700px]
+            md:-translate-x-[150px]
           
           "
           />
@@ -121,22 +133,23 @@ export default function CardWrapper({ children, headerImg }: Props) {
               xsm:top-[360px] 
               xsm:z-50 xsm:mx-auto 
               xsm:flex 
-              xsm:h-72 xsm:w-72 
-              mmd:h-80 mmd:w-80
-              slg:h-96 slg:w-96
-              mlg:w-[400px] mlg:h-[400px]
+              xsm:h-72  
+             
 
-              xsm:-translate-y-[10px] 
+              xsm:-translate-y-[90px] 
               xsm:transform
-              smd:transform
-              smd:translate-y-[80px]
-              mmd:translate-y-[350px]
-              slg:translate-y-[300px]
-              mlg:translate-y-[330px]
 
+              xms:translate-y-[300px]
+              
+              sm:translate-y-[410px]
+              md:translate-y-[390px]
               lg:absolute
-              lg:w-[400px]
-              lg:h-[400px]
+              xsm:w-[300px]
+              xms:w-[350px]
+              md:w-[400px]
+              md:h-[400px]
+              lg:w-[500px]
+              lg:h-[500px]
               xl:w-[500px]
               xl:h-[500px]
               2xl:w-[600px]
@@ -148,11 +161,12 @@ export default function CardWrapper({ children, headerImg }: Props) {
 
               lg:top-1/2
               lg:transform
-              lg:translate-x-[800px]
+              lg:translate-x-[730px]
               xl:translate-x-[700px]
               2xl:translate-x-[680px]
               3xl:translate-x-[600px]
               4xl:translate-x-[580px]
+              
               lg:-translate-y-1/2
               animate-myAnimation
            "
@@ -189,11 +203,25 @@ export default function CardWrapper({ children, headerImg }: Props) {
           xsm:hidden
           lg:w-36 
           lg:h-36 
+          xl:w-20
+          xl:h-20
           absolute 
           top-2 right-10
           "
         />
-        <div className="flex flex-col items-center justify-center font-bold ">
+        <div
+          className="
+        flex 
+        flex-col 
+        items-center 
+        justify-center 
+        font-bold 
+        xsm:absolute
+        xsm:top-[250px]
+        md:top-[400px]
+        xl:static
+        xl:top-auto
+        ">
           {path === "/auth/sign-in" ? (
             <div className="flex flex-row items-center justify-center">
               <div className="flex flex-col text-start  ">

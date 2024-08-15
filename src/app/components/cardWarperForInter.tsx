@@ -21,29 +21,43 @@ export default function CardWarperForInter({ children }: Props) {
       {/* Left Card */}
       <div
         className="
-    flex items-center justify-center
+    flex 
+    items-center 
+    justify-center
  
      ">
         <div
           className="
-     
-      relative
+     relative
       xsm:absolute
       xsm:rounded-b-full
       xsm:top-0
       xsm:transform
+  
       xsm:w-[760px]
       xsm:h-[500px]
-      smd:w-[860px]
-      smd:h-[600px]
-      mmd:w-[950px]
-      mmd:h-[900px]
-      mlg:w-[1000px]
-      mlg:h-[950px]
+      md:w-[1000px]
       xsm:-translate-y-[370px]
-      smd:-translate-y-[360px]
-      mmd:-translate-y-[650px]
-      mlg:-translate-y-[700px]
+      
+      sm:w-[1200px]
+      sm:h-[910px]
+      sm:-translate-y-[1050px]
+      
+
+    
+      lg:absolute
+       lg:top-1/2
+      lg:rounded-full
+      lg:w-[2000px]
+      lg:h-[2000px]
+      lg:transform
+      lg:-translate-y-1/2
+      lg:-translate-x-[800px]
+      xl:-translate-x-[700px]
+      2xl:-translate-x-[700px]
+      3xl:-translate-x-[600px]
+      4xl:-translate-x-[600px]
+      max:-translate-x-[600px]
 
 
 
@@ -72,24 +86,18 @@ export default function CardWarperForInter({ children }: Props) {
             smd:top-[300px]
             lg:top-1/2
             xsm:z-10 
-            xsm:-translate-x-[240px] 
+            xsm:-translate-x-[150px] 
             sm:-translate-x-[150px]
             md:-translate-x-[150px]
-            smd:-translate-x-[180px]
-            mmd:-translate-x-[180px]
-            slg:-translate-x-[140px]
-            xsm:w-20
-            mmd:w-24 mmd:h-24
-            ssm:-translate-x-[220px]
+            xsm:w-20 
             xsm:translate-y-[100px] 
-            mmd:translate-y-[400px] 
-            mlg:translate-y-[450px] 
+         
 
+            xsm:transform 
+            xsm:brightness-0 xsm:invert xsm:filter
 
-          xsm:transform xsm:brightness-0 xsm:invert xsm:filter
-
-          lg:hidden
-          
+            md:hidden
+            
           "
           />
         </div>
@@ -120,10 +128,12 @@ export default function CardWarperForInter({ children }: Props) {
           height={1000}
           className="
           object-contain
-          lg:flex
+          md:flex
           xsm:hidden
-          lg:w-36 
-          lg:h-36 
+          md:w-24
+          md:h-24 
+
+    
           absolute 
           top-2 right-10
           "
@@ -131,8 +141,9 @@ export default function CardWarperForInter({ children }: Props) {
         <div
           className="
         absolute 
-        xxsm:top-36 
-        ssm:-top-[70px]
+        xsm:top-[60px]
+        xsx:top-[10px]
+        xms:top-[20px]
         sm:-top-[45px]
         smd:top-[40px]
         mmd:top-[50px]

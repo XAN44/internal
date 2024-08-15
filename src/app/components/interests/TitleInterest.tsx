@@ -20,21 +20,21 @@ function TitleInterest() {
   const [isPending, startTransition] = useTransition();
 
   const {
-    formState: { errors },
+    formState: { errors, isValid },
   } = form;
 
   const showErrorToast = useCallback(() => {
-    if (errors.interest) {
+    if (errors.interest && !isValid) {
       toast.custom((t) => (
         <div
-          className={`bg-white px-6 py-4 shadow-md rounded-full ${
+          className={`bg-white px-6 py-4 shadow-md rounded-full text-destructive ${
             t.visible ? "animate-enter" : "animate-leave"
           }`}>
           {errors.interest?.message}
         </div>
       ));
     }
-  }, [errors.interest]);
+  }, [errors.interest, isValid]);
 
   useEffect(() => {
     showErrorToast();
@@ -48,7 +48,7 @@ function TitleInterest() {
 
   return (
     <div className="w-full h-full  flex flex-col items-center justify-center">
-      <div className="flex flex-col items-center justify-center mb-6">
+      <div className="flex flex-col items-center justify-center mb-6 mt-6">
         <div className="text-start ">
           <p className="space-x-1 flex xsm:flex-col lg:flex-row">
             <span className="text-3xl">SELECT YOUR</span>
@@ -61,18 +61,33 @@ function TitleInterest() {
       </div>
       <div
         className="
+    
       xl:w-11/12
-      lg:w-[750px]   
-      lg:h-[600px] 
-      ssm:h-[360px]
-      sm:h-[460px]
-      smd:h-[400px]
+
+      xssx:w-[380px]
+      xssx:h-[360px]
+
+      xsm:transform
+      xsm:translate-y-0
+ 
       xsm:w-[300px]
-      ssm:w-[250px]
-      sm:w-[350px]
-      smd:w-[400px]
-      mmd:w-[450px]
-      slg:w-[550px]
+      xsm:h-[300px]
+      
+      xs:w-[300px]
+      xs:h-[300px]
+
+      xms:w-[500px]
+      xms:h-[300px]
+
+      md:w-[800px]
+      md:h-[800px]
+
+      2xl:w-[1000px]
+      2xl:h-[800px]
+
+      4xl:w-[1500px]
+      4xl:h-[800px]
+
       flex 
       items-center 
       justify-center 
@@ -85,15 +100,19 @@ function TitleInterest() {
       </div>
       <Button
         className="
-        rounded-2xl w-40
         bg-yellow-300/90 text-black
-        absolute 
-        ssm:bottom-36 
-        sm:bottom-28
-        smd:bottom-32
-        mlg:bottom-36
-        lg:bottom-20
-        xl:bottom-16
+        rounded-2xl 
+        xsm:absolute 
+        xsx:bottom-16
+        xssx:bottom-[40px]
+        xsm:bottom-24
+        xms:static
+        xms:mt-6
+        w-40 
+        xms:h-10
+        xl:h-32
+        2xl:h-[70px]
+        xsm:mb-6
          "
         onClick={() => form.handleSubmit(onSubmit)()}>
         Completed

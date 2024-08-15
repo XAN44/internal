@@ -48,10 +48,10 @@ export default function SelectInterest({
                     className="   
                         grid 
                         p-4
-                        ssm:grid-cols-1
-                        smd:grid-cols-2
+                        xsm:grid-cols-1
+                        md:grid-cols-2
                         lg:grid-cols-4 
-                        xsm:grid-cols-2 
+                        2xl:grid-cols-3
                         gap-5  ">
                     {list.map((item, index) => (
                       <Card
