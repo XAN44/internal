@@ -8,6 +8,7 @@ import { InterestSchema } from "../../lib/schema/interest/interestSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TEST3 } from "../../../../server/test";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function TitleInterest() {
   const form = useForm<z.infer<typeof InterestSchema>>({
@@ -19,6 +20,7 @@ function TitleInterest() {
 
   const [isPending, startTransition] = useTransition();
 
+  const router = useRouter();
   const {
     formState: { errors, isValid },
   } = form;
@@ -42,7 +44,11 @@ function TitleInterest() {
 
   const onSubmit = (value: z.infer<typeof InterestSchema>) => {
     startTransition(() => {
-      TEST3(value);
+      TEST3(value).then((data) => {
+        if (data.success) {
+          router.push("/home");
+        }
+      });
     });
   };
 
@@ -98,25 +104,39 @@ function TitleInterest() {
       ">
         <SelectInterest form={form} onSubmit={onSubmit} />
       </div>
-      <Button
-        className="
+
+      {isPending ? (
+        <Button isLoading></Button>
+      ) : (
+        <Button
+          disabled={isPending}
+          className="
         bg-yellow-300/90 text-black
         rounded-2xl 
         xsm:absolute 
         xsx:bottom-16
         xssx:bottom-[40px]
         xsm:bottom-24
-        xms:static
+    
+        lg:relative 
+        lg:mb-5 lg:bottom-auto
+      
+        
+       
         xms:mt-6
         w-40 
+        md:h-[50px]
         xms:h-10
         xl:h-32
-        2xl:h-[70px]
+        2xl:h-[73px]
+        4xl:h-[56px]
         xsm:mb-6
+        
          "
-        onClick={() => form.handleSubmit(onSubmit)()}>
-        Completed
-      </Button>
+          onClick={() => form.handleSubmit(onSubmit)()}>
+          Completed
+        </Button>
+      )}
     </div>
   );
 }
