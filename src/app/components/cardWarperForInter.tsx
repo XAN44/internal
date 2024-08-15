@@ -41,12 +41,12 @@ export default function CardWarperForInter({ children }: Props) {
       
       sm:w-[1200px]
       sm:h-[910px]
-      sm:-translate-y-[1050px]
+      sm:-translate-y-[800px]
       
 
     
       lg:absolute
-       lg:top-1/2
+      lg:top-1/2
       lg:rounded-full
       lg:w-[2000px]
       lg:h-[2000px]
@@ -62,7 +62,7 @@ export default function CardWarperForInter({ children }: Props) {
 
 
     
-      lg:hidden
+      md:hidden
       
     
       xsm:from-sky-500  xsm:to-purple-500
@@ -87,7 +87,8 @@ export default function CardWarperForInter({ children }: Props) {
             lg:top-1/2
             xsm:z-10 
             xsm:-translate-x-[150px] 
-            sm:-translate-x-[150px]
+            sm:-translate-x-[300px]
+            sm:translate-y-[500px]
             md:-translate-x-[150px]
             xsm:w-20 
             xsm:translate-y-[100px] 
@@ -144,7 +145,7 @@ export default function CardWarperForInter({ children }: Props) {
         xsm:top-[60px]
         xsx:top-[10px]
         xms:top-[20px]
-        sm:-top-[45px]
+        sm:-top-[10px]
         smd:top-[40px]
         mmd:top-[50px]
         lg:top-0 

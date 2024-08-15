@@ -156,7 +156,7 @@ function SignInForm() {
                       Show Password
                     </Checkbox>
                     <Link
-                      href="/"
+                      href="/auth/reset"
                       underline="always"
                       className="text-xs flex items-end justify-end ">
                       Forgot your password ?

@@ -57,8 +57,10 @@ function TitleInterest() {
       <div className="flex flex-col items-center justify-center mb-6 mt-6">
         <div className="text-start ">
           <p className="space-x-1 flex xsm:flex-col lg:flex-row">
-            <span className="text-3xl">SELECT YOUR</span>
-            <span className="text-blue-800 text-3xl">INTERESTS</span>
+            <span className="text-3xl xsm:text-2xl">SELECT YOUR</span>
+            <span className="text-blue-800 text-3xl xsm:text-2xl">
+              INTERESTS
+            </span>
           </p>
           <p className=" text-blue-800/65">
             to Personalize Your Training Experience
@@ -76,8 +78,9 @@ function TitleInterest() {
       xsm:transform
       xsm:translate-y-0
  
-      xsm:w-[300px]
-      xsm:h-[300px]
+      xsm:w-[200px]
+      xsm:h-[200px]
+     
       
       xs:w-[300px]
       xs:h-[300px]
@@ -85,8 +88,12 @@ function TitleInterest() {
       xms:w-[500px]
       xms:h-[300px]
 
+      sm:w-[600px]
+      sm:h-[400px]
+      
+
       md:w-[800px]
-      md:h-[800px]
+      md:h-[500px]
 
       2xl:w-[1000px]
       2xl:h-[800px]
@@ -116,7 +123,9 @@ function TitleInterest() {
         xsm:absolute 
         xsx:bottom-16
         xssx:bottom-[40px]
-        xsm:bottom-24
+        xsm:bottom-10
+        sm:bottom-[30px]
+        md:-bottom-[50px]
     
         lg:relative 
         lg:mb-5 lg:bottom-auto
@@ -127,7 +136,7 @@ function TitleInterest() {
         w-40 
         md:h-[50px]
         xms:h-10
-        xl:h-32
+        xl:h-16
         2xl:h-[73px]
         4xl:h-[56px]
         xsm:mb-6
