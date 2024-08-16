@@ -117,36 +117,28 @@ function TitleInterest() {
       {isPending ? (
         <Spinner />
       ) : (
-        <Button
-          disabled={isPending}
-          className="
-        bg-yellow-300/90 text-black
-        rounded-2xl 
-        xsm:absolute 
-        xsx:bottom-16
-        xssx:bottom-[40px]
-        xsm:bottom-10
-        sm:bottom-[30px]
-        md:-bottom-[50px]
-    
-        lg:relative 
-        lg:mb-5 lg:bottom-auto
-      
-        
-       
-        xms:mt-6
-        w-40 
-        md:h-[50px]
-        xms:h-10
-        xl:h-16
-        2xl:h-[73px]
-        4xl:h-[56px]
-        xsm:mb-6
-        
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 200, damping: 17 }}>
+          <Button
+            disabled={isPending}
+            className="
+             bg-yellow-300/90 text-black
+              rounded-2xl
+              mt-2
+              w-40
+              md:h-[50px]
+              xssx:h-[40px]
+              xms:h-10
+              xl:h-16
+              2xl:h-[73px]
+              4xl:h-[56px]
          "
-          onClick={() => form.handleSubmit(onSubmit)()}>
-          Completed
-        </Button>
+            onClick={() => form.handleSubmit(onSubmit)()}>
+            Completed
+          </Button>
+        </motion.div>
       )}
     </div>
   );
