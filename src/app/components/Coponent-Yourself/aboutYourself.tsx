@@ -63,7 +63,7 @@ function AboutYourself() {
         setError(data?.error);
         setSuccess(data?.success);
         if (data.success) {
-          router.push("/aboutYourself/Interests");
+          router.push("/auth/aboutYourself/Interests");
         }
       });
     });

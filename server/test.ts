@@ -1,9 +1,14 @@
 "use server";
 
 import { z } from "zod";
-import { SignInSchema, SignUpSchema } from "../src/app/lib/schema/auth/zodAuth";
+import {
+  ResetSchema,
+  SignInSchema,
+  SignUpSchema,
+} from "../src/app/lib/schema/auth/zodAuth";
 import { AboutYourSelfSchema } from "../src/app/lib/schema/aboutYourself/zodSelf";
 import { InterestSchema } from "../src/app/lib/schema/interest/interestSchema";
+import ResetPassword from "../src/app/components/auth/reset/resetPassword";
 
 export async function TEST(value: z.infer<typeof SignInSchema>) {
   const validate = SignInSchema.safeParse(value);
@@ -54,6 +59,22 @@ export async function TEST3(value: z.infer<typeof InterestSchema>) {
     console.log(interest);
 
     return { success: "Success" };
+  } catch (error) {
+    return { error: "ERROR" };
+  }
+}
+
+export async function TEST4(value: z.infer<typeof ResetSchema>) {
+  const validate = ResetSchema.safeParse(value);
+  if (!validate.success) {
+    return { error: "error" };
+  }
+
+  try {
+    const { email } = validate.data;
+    console.log(email);
+
+    return { success: "Fake Send mail for reset password" };
   } catch (error) {
     return { error: "ERROR" };
   }

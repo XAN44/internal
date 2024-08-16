@@ -9,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TEST3 } from "../../../../server/test";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Spinner } from "@nextui-org/react";
 
 function TitleInterest() {
   const form = useForm<z.infer<typeof InterestSchema>>({
@@ -113,11 +115,15 @@ function TitleInterest() {
       </div>
 
       {isPending ? (
-        <Button isLoading></Button>
+        <Spinner />
       ) : (
-        <Button
-          disabled={isPending}
-          className="
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 200, damping: 17 }}>
+          <Button
+            disabled={isPending}
+            className="
         bg-yellow-300/90 text-black
         rounded-2xl 
         xsm:absolute 
@@ -142,9 +148,10 @@ function TitleInterest() {
         xsm:mb-6
         
          "
-          onClick={() => form.handleSubmit(onSubmit)()}>
-          Completed
-        </Button>
+            onClick={() => form.handleSubmit(onSubmit)()}>
+            Completed
+          </Button>
+        </motion.div>
       )}
     </div>
   );

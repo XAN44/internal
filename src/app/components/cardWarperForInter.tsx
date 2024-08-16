@@ -144,7 +144,7 @@ export default function CardWarperForInter({ children }: Props) {
         absolute 
         xsm:top-[60px]
         xsx:top-[10px]
-        xms:top-[20px]
+        xms:top-[0px]
         sm:-top-[10px]
         smd:top-[40px]
         mmd:top-[50px]

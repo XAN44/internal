@@ -16,7 +16,7 @@ import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { TEST, TEST1 } from "../../../../../server/test";
 import { RxAvatar } from "react-icons/rx";
-import { Checkbox, Link } from "@nextui-org/react";
+import { Checkbox, Link, Spinner } from "@nextui-org/react";
 import { SlLockOpen } from "react-icons/sl";
 import { SlLock } from "react-icons/sl";
 import { motion } from "framer-motion";
@@ -256,7 +256,7 @@ function SignUpForm() {
           <div className="flex flex-col items-center justify-center w-full">
             <div>
               {isPending ? (
-                <Button isLoading></Button>
+                <Spinner />
               ) : (
                 <Button
                   type="submit"

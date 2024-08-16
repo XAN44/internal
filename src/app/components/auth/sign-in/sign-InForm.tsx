@@ -16,7 +16,7 @@ import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { TEST } from "../../../../../server/test";
 import { RxAvatar } from "react-icons/rx";
-import { Checkbox, Link } from "@nextui-org/react";
+import { Checkbox, Link, Spinner } from "@nextui-org/react";
 import { SlLockOpen } from "react-icons/sl";
 import { SlLock } from "react-icons/sl";
 import { motion } from "framer-motion";
@@ -57,7 +57,7 @@ function SignInForm() {
         setError(data?.error);
         setSuccess(data?.success);
         if (data.success) {
-          route.push("/aboutYourself");
+          route.push("/auth/aboutYourself");
         }
       });
     });
@@ -171,7 +171,7 @@ function SignInForm() {
 
           <div className="flex flex-col items-center justify-center w-full">
             {isPending ? (
-              <Button isLoading> </Button>
+              <Spinner />
             ) : (
               <Button
                 type="submit"
