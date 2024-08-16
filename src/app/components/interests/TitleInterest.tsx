@@ -117,13 +117,9 @@ function TitleInterest() {
       {isPending ? (
         <Spinner />
       ) : (
-        <motion.div
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 200, damping: 17 }}>
-          <Button
-            disabled={isPending}
-            className="
+        <Button
+          disabled={isPending}
+          className="
         bg-yellow-300/90 text-black
         rounded-2xl 
         xsm:absolute 
@@ -148,10 +144,9 @@ function TitleInterest() {
         xsm:mb-6
         
          "
-            onClick={() => form.handleSubmit(onSubmit)()}>
-            Completed
-          </Button>
-        </motion.div>
+          onClick={() => form.handleSubmit(onSubmit)()}>
+          Completed
+        </Button>
       )}
     </div>
   );
