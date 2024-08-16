@@ -1,6 +1,6 @@
-import Footer from "../components/nav/footer";
-import NavbarProtect from "../components/nav/navbar";
-import SideBar from "../components/nav/sidebar";
+import Footer from "../components/navForDeskTop/footer";
+import NavbarProtect from "../components/navForDeskTop/navbar";
+import SideBar from "../components/navForDeskTop/sidebar";
 
 export default function ProtectLayout({
   children,

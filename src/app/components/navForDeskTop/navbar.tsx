@@ -11,16 +11,21 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 import SideBar from "./sidebar";
+import { FiAlignJustify, FiMenu } from "react-icons/fi";
+import SidebarClose from "./sidebar-Close";
+import { IoIosArrowBack } from "react-icons/io";
+import SidebarOpen from "./sidebar-Open";
 
 function NavbarProtect() {
   return (
     <>
       <Navbar shouldHideOnScroll isBordered>
-        <NavbarContent className="sm:hidden xsm:flex" justify="start">
-          ForClick
-        </NavbarContent>
+        <NavbarContent
+          className="sm:hidden xsm:flex"
+          justify="start"></NavbarContent>
+
         <NavbarContent justify="end">
           <Image
             src="/vannessLogo.png"

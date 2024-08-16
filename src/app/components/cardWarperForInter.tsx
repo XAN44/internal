@@ -81,7 +81,7 @@ export default function CardWarperForInter({ children }: Props) {
             className="
             object-contain
             xsm:absolute
-            xsm:right-16
+            xsm:right-36
             xsm:top-[300px] 
             smd:top-[300px]
             lg:top-1/2

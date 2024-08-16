@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Spinner } from "@nextui-org/react";
+import clsx from "clsx";
 
 function TitleInterest() {
   const form = useForm<z.infer<typeof InterestSchema>>({
@@ -24,30 +25,21 @@ function TitleInterest() {
 
   const router = useRouter();
   const {
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = form;
-
-  const showErrorToast = useCallback(() => {
-    if (errors.interest && !isValid) {
-      toast.custom((t) => (
-        <div
-          className={`bg-white px-6 py-4 shadow-md rounded-full text-destructive ${
-            t.visible ? "animate-enter" : "animate-leave"
-          }`}>
-          {errors.interest?.message}
-        </div>
-      ));
-    }
-  }, [errors.interest, isValid]);
-
-  useEffect(() => {
-    showErrorToast();
-  }, [showErrorToast]);
 
   const onSubmit = (value: z.infer<typeof InterestSchema>) => {
     startTransition(() => {
       TEST3(value).then((data) => {
         if (data.success) {
+          toast.custom((t) => (
+            <div
+              className={`bg-white px-6 py-4 shadow-md rounded-full text-emerald-500 ${
+                t.visible ? "animate-enter" : "animate-leave"
+              }`}>
+              {data.success}
+            </div>
+          ));
           router.push("/home");
         }
       });
@@ -69,10 +61,13 @@ function TitleInterest() {
           </p>
         </div>
       </div>
+
       <div
         className="
     
       xl:w-11/12
+      
+    
 
       xssx:w-[380px]
       xssx:h-[360px]
@@ -81,7 +76,7 @@ function TitleInterest() {
       xsm:translate-y-0
  
       xsm:w-[200px]
-      xsm:h-[200px]
+      xsm:h-[400px]
      
       
       xs:w-[300px]
@@ -117,14 +112,12 @@ function TitleInterest() {
       {isPending ? (
         <Spinner />
       ) : (
-        <motion.div
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 200, damping: 17 }}>
-          <Button
-            disabled={isPending}
-            className="
-             bg-yellow-300/90 text-black
+        <Button
+          type="submit"
+          disabled={isPending || !isValid || !isDirty}
+          className={clsx(
+            `
+              text-black
               rounded-2xl
               mt-2
               w-40
@@ -134,11 +127,12 @@ function TitleInterest() {
               xl:h-16
               2xl:h-[73px]
               4xl:h-[56px]
-         "
-            onClick={() => form.handleSubmit(onSubmit)()}>
-            Completed
-          </Button>
-        </motion.div>
+            `,
+            isDirty ? "bg-yellow-300/90" : "bg-gray-400"
+          )}
+          onClick={() => form.handleSubmit(onSubmit)()}>
+          {isDirty ? <>Completed</> : <>Pless Select</>}
+        </Button>
       )}
     </div>
   );
