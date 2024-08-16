@@ -27,6 +27,7 @@ function SidebarContent() {
         rounded-tr-[90px]
         rounded-br-[90px]
 
+ 
          `,
         isOpen
           ? "bg-gradient-to-br from-blue-500 to-blue-700 "

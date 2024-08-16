@@ -58,7 +58,10 @@ function DesktopItem({
         )}>
         <Icon
           className="
-       
+    
+        w-6 
+        h-6 
+        
         shrink-0"
         />
         <motion.span

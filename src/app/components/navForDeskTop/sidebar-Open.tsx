@@ -20,21 +20,27 @@ function SidebarOpen({ isOpen }: Props) {
         initial={{ opacity: 0, x: 0 }}
         animate={{ opacity: 100 }}
         className="
+        xsm:top-0
+        xsm:-space-y-0
+        sm:space-y-0
+        sm:top-0
         flex 
         flex-col text-center
         tems-center 
-        justify-center">
+        justify-center
+         ">
         <p className="font-sans text-2xl">Hello!</p>
         <p className="">Username</p>
         <Avatar
+          radius="full"
           className="
           object-contain 
           mt-6 
           xl:w-28
           xl:h-28
            
-          w-36 
-          h-36 
+          sm:w-36 
+          sm:h-36 
           text-2xl
           
           // Mobile Responsive
@@ -58,10 +64,8 @@ function SidebarOpen({ isOpen }: Props) {
                 mt-14
                 space-y-6
                 w-full
-                sm:space-y-6
-                md:space-y-8
-                lg:space-y-0
-                2xl:space-y-3
+              
+             
                 md:overflow-y-auto
                 // Responsive Mobile
                 xsm:hidden
@@ -88,7 +92,7 @@ function SidebarOpen({ isOpen }: Props) {
       flex 
       items-center 
       justify-center
-      xsm:mb-16
+      xsm:mb-36
       ">
         <MobileCalendar />
       </div>
