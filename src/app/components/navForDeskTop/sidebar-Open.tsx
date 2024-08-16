@@ -6,6 +6,7 @@ import SignOutButton from "../auth/sign-out/signOut";
 import { IoSparklesOutline } from "react-icons/io5";
 import { Avatar, Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import MobileCalendar from "../navForMobile/MobileCalendar";
 interface Props {
   isOpen?: boolean;
 }
@@ -18,7 +19,11 @@ function SidebarOpen({ isOpen }: Props) {
       <motion.div
         initial={{ opacity: 0, x: 0 }}
         animate={{ opacity: 100 }}
-        className="flex flex-col items-center justify-center">
+        className="
+        flex 
+        flex-col text-center
+        tems-center 
+        justify-center">
         <p className="font-sans text-2xl">Hello!</p>
         <p className="">Username</p>
         <Avatar
@@ -30,7 +35,13 @@ function SidebarOpen({ isOpen }: Props) {
            
           w-36 
           h-36 
-          text-2xl"
+          text-2xl
+          
+          // Mobile Responsive
+
+          xsm:w-20 xsm:h-20
+
+          "
           fallback="Avatar"
           src="/Avatar.png"
           name="User"
@@ -40,8 +51,7 @@ function SidebarOpen({ isOpen }: Props) {
         role="list"
         className="
                 overflow-hidden
-                flex
-                flex-col
+                 flex-col
                 flex-grow
                 items-start 
                 justify-start
@@ -53,10 +63,12 @@ function SidebarOpen({ isOpen }: Props) {
                 lg:space-y-0
                 2xl:space-y-3
                 md:overflow-y-auto
-                
+                // Responsive Mobile
+                xsm:hidden
+                sm:flex
                 ">
         {route.map((item, index) => (
-          <div className="w-full ml-[10%]">
+          <div className="w-full ml-[10%]" key={index}>
             <DesktopItem
               key={index}
               icon={item.Icon}
@@ -68,7 +80,18 @@ function SidebarOpen({ isOpen }: Props) {
           </div>
         ))}
       </ul>
-
+      <div
+        className="
+      sm:hidden 
+      w-full 
+      h-full 
+      flex 
+      items-center 
+      justify-center
+      xsm:mb-16
+      ">
+        <MobileCalendar />
+      </div>
       <div
         className="
           flex flex-col mt-auto

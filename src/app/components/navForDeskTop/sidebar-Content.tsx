@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { Children, useRef, useState } from "react";
 import { FiAlignJustify } from "react-icons/fi";
 
 import { motion } from "framer-motion";
@@ -19,22 +19,21 @@ function SidebarContent() {
     <motion.div
       className={clsx(
         `
-        fixed 
-        xsm:hidden  
+        xsm:fixed
         sm:block
         z-50 
-       bg-gradient-to-br 
-    from-blue-500 
-    to-blue-700
         h-screen
-       
+        
+        rounded-tr-[90px]
+        rounded-br-[90px]
+
          `,
         isOpen
-          ? " rounded-tr-[90px] rounded-br-[90px] "
-          : " rounded-tr-[90px] rounded-br-[90px]  "
+          ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+          : "xsm:bg-transparent sm:bg-gradient-to-br from-blue-500 to-blue-700"
       )}
       initial={{ width: "6rem" }}
-      animate={{ width: isOpen ? "14rem" : "6rem" }}
+      animate={{ width: isOpen ? "17rem" : "6rem" }}
       transition={{ duration: 0.6 }}>
       <div
         className="
@@ -56,7 +55,11 @@ function SidebarContent() {
             right-0 
             transform 
             md:translate-y-16
-            translate-x-3">
+            
+            // Mobile Responsive
+            xsm:translate-y-16
+            translate-x-3
+             ">
               <IoIosArrowBack
                 className="
                 w-6 
@@ -75,14 +78,36 @@ function SidebarContent() {
         )}
         {!isOpen && (
           <>
-            <FiAlignJustify
+            <div
               className="
+              xsm:border-2
+              xsm:border-blue-500
+              xsm:rounded-full
+              xsm:w-6 xsm:h-6
+              xsm:p-4
+              xsm:absolute xsm:top-4
+              xsm:flex xsm:items-center xsm:justify-center
+              sm:border-none
+            ">
+              <FiAlignJustify
+                className="
               w-12 h-12 
+              
               absolute
-              top-6
-              cursor-pointer"
-              onClick={toggleOpen}
-            />
+              sm:w-9 sm:h-9
+              sm:top-6
+              cursor-pointer
+              sm:text-white
+              
+              // Responsive Mobile
+              xsm:text-blue-500
+              xsm:w-6 xsm:h-6
+           
+   
+              "
+                onClick={toggleOpen}
+              />
+            </div>
             <SidebarCLose />
           </>
         )}

@@ -17,9 +17,10 @@ function SignOutButton({ isOpen }: Props) {
       <div
         className="
       flex 
-      items-center justify-center
-   
+      items-center 
+      justify-center
       leading-6 
+      
     ">
         <RiLogoutBoxRLine
           className="
@@ -28,6 +29,7 @@ function SignOutButton({ isOpen }: Props) {
         flex
         md:w-6 
         md:h-6
+        
         "
         />
         <span className={clsx(isOpen ? "" : "sr-only")}>Sign-Out</span>

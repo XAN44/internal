@@ -14,12 +14,13 @@ export default function ProtectLayout({
       <main className="overflow-x-hidden h-screen">
         <div
           className="
-          overflow-y-auto 
-          pl-36 pr-36 m-0 mx-auto ">
+          overflow-y-auto
+          xsm:p-5
+          sm:pl-36 sm:pr-36 m-0 mx-auto ">
           {children}
         </div>
       </main>
-      <div className="xsm:flex sm:hidden">
+      <div className="xsm:flex sm:hidden ">
         <Footer />
       </div>
     </div>

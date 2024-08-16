@@ -39,36 +39,26 @@ function DesktopItem({
         text-sm
         font-semibold
         leading-6
-        text-white
-        flex
+        sm:text-white
+        xsm:text-black
+ 
         rounded-md
         hover:text-balance
         hover:bg-white/50
         
+        // Mobile 
+        sm:flex
         `,
           {
             "  text-black rounded-l-3xl ": active && isOpen,
           },
           {
-            "bg-white/50 text-white ": active,
+            "sm:bg-white/50 sm:text-white xsm:bg-gray-300": active,
           }
         )}>
         <Icon
           className="
-        md:w-5 
-        md:h-5
-        
-        md:m-3
-
-        xl:w-5
-        xl:h-5
-
-        xl:m-2
-
-
-        w-6 
-        h-6 
-        
+       
         shrink-0"
         />
         <motion.span

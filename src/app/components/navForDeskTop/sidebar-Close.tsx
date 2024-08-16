@@ -13,7 +13,7 @@ function SidebarClose() {
         role="list"
         className="
          
-                flex
+       
                 flex-col
                 flex-grow
                 items-start 
@@ -23,8 +23,9 @@ function SidebarClose() {
                 md:space-y-8
                 lg:space-y-0
                 2xl:space-y-3
-
-                ">
+                xsm:hidden
+                sm:flex
+                 ">
         {route.map((item, index) => (
           <DesktopItem
             key={index}
@@ -39,7 +40,7 @@ function SidebarClose() {
       <div
         className="
           flex flex-col mt-auto
-    
+          xsm:hidden
           leading-6
           rounded-md
           hover:text-gray-500
