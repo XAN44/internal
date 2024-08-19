@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SideBarModal } from "../../lib/sr/sideBar";
 import { FiAlignJustify } from "react-icons/fi";
 import DesktopItem from "./item/desktopItem";
@@ -13,7 +13,16 @@ interface Props {
 
 function SidebarOpen({ isOpen }: Props) {
   const route = SideBarModal();
+  const [showCalendar, setShowCalendar] = useState(false);
 
+  useEffect(() => {
+    // Delay the appearance of the MobileCalendar after the sidebar is shown
+    const timer = setTimeout(() => {
+      setShowCalendar(true);
+    }, 500); // Adjust the delay time as needed
+
+    return () => clearTimeout(timer); // Cleanup the timer
+  }, []);
   return (
     <>
       <motion.div
@@ -94,7 +103,7 @@ function SidebarOpen({ isOpen }: Props) {
       justify-center
       xsm:mb-36
       ">
-        <MobileCalendar />
+        {showCalendar && <MobileCalendar />}
       </div>
       <div
         className="

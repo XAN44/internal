@@ -26,22 +26,19 @@ function DesktopItem({
     }
   };
   return (
-    <li onClick={onClick}>
+    <li onClick={handleClick}>
       <Link
         href={href}
         className={clsx(
           `
         group
-     
         gap-x-3
         p-3
-       
         text-sm
         font-semibold
         leading-6
         sm:text-white
-        xsm:text-black
- 
+        xsm:text-blue-900/50
         rounded-md
         hover:text-balance
         hover:bg-white/50
@@ -50,20 +47,26 @@ function DesktopItem({
         sm:flex
         `,
           {
-            "  text-black rounded-l-3xl ": active && isOpen,
+            "xsm:text-blue-800 sm:text-black sm:rounded-l-3xl":
+              active && isOpen,
           },
           {
-            "sm:bg-white/50 sm:text-white xsm:bg-gray-300": active,
+            "xsm:text-blue-900/50  sm:bg-white/50 sm:text-white  ": active,
           }
         )}>
-        <Icon
-          className="
-    
-        w-6 
-        h-6 
-        
-        shrink-0"
-        />
+        <div className="relative">
+          <Icon
+            className="
+            w-6 
+            h-6 
+            shrink-0"
+          />
+          {active && (
+            <div className="absolute bottom-[-6px] left-[50%] transform -translate-x-1/2 xsm:block sm:hidden">
+              <span className="block w-1.5 h-1.5 bg-blue-900/50 rounded-full"></span>
+            </div>
+          )}
+        </div>
         <motion.span
           initial={{ opacity: 0, x: 0 }}
           animate={{ opacity: 100, x: -1 }}
