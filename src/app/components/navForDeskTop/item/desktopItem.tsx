@@ -1,6 +1,6 @@
 import React from "react";
 import { SideBarModal } from "../../../lib/sr/sideBar";
-import { Link } from "@nextui-org/react";
+import { Badge, Link } from "@nextui-org/react";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 interface Props {
@@ -55,12 +55,14 @@ function DesktopItem({
           }
         )}>
         <div className="relative">
+          {/* <Badge> */}
           <Icon
             className="
             w-6 
-            h-6 
+            h-6   
             shrink-0"
           />
+          {/* </Badge> */}
           {active && (
             <div className="absolute bottom-[-6px] left-[50%] transform -translate-x-1/2 xsm:block sm:hidden">
               <span className="block w-1.5 h-1.5 bg-blue-900/50 rounded-full"></span>

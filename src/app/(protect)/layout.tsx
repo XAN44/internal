@@ -1,6 +1,7 @@
 import Footer from "../components/navForDeskTop/footer";
 import NavbarProtect from "../components/navForDeskTop/navbar";
 import SideBar from "../components/navForDeskTop/sidebar";
+import { CalendarProvider } from "../lib/context/calendarContext";
 
 export default function ProtectLayout({
   children,
@@ -8,21 +9,27 @@ export default function ProtectLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col h-screen">
-      <NavbarProtect />
-      <SideBar />
-      <main className="overflow-x-hidden h-screen">
-        <div
+    <CalendarProvider>
+      <div className="flex flex-col h-screen min-h-screen">
+        <NavbarProtect />
+        <SideBar />
+        <main
           className="
-          overflow-y-auto
-          xsm:p-5
-          sm:pl-36 sm:pr-36 m-0 mx-auto ">
+        overflow-x-hidden 
+        h-full    
+        xsm:m-0 
+        xsm:pt-3 
+        xsm:pb-3  
+        xsm:pr-1 
+        xsm:pl-1
+        sm:pl-24 
+        ">
           {children}
+        </main>
+        <div className="xsm:flex sm:hidden ">
+          <Footer />
         </div>
-      </main>
-      <div className="xsm:flex sm:hidden ">
-        <Footer />
       </div>
-    </div>
+    </CalendarProvider>
   );
 }

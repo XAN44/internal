@@ -6,7 +6,7 @@ import SignOutButton from "../auth/sign-out/signOut";
 import { IoSparklesOutline } from "react-icons/io5";
 import { Avatar, Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import MobileCalendar from "../navForMobile/MobileCalendar";
+import MobileCalendar from "../navFor/MobileCalendar";
 interface Props {
   isOpen?: boolean;
 }
@@ -16,12 +16,10 @@ function SidebarOpen({ isOpen }: Props) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
-    // Delay the appearance of the MobileCalendar after the sidebar is shown
     const timer = setTimeout(() => {
       setShowCalendar(true);
-    }, 500); // Adjust the delay time as needed
-
-    return () => clearTimeout(timer); // Cleanup the timer
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
   return (
     <>

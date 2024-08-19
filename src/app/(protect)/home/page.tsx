@@ -1,5 +1,14 @@
+import CardCouse from "../../components/home/cardCourse";
+
 function page() {
-  return <div className="max-w-full">asdasdasd</div>;
+  return (
+    <div
+      className="
+      w-full
+     ">
+      <CardCouse />
+    </div>
+  );
 }
 
 export default page;
