@@ -42,12 +42,7 @@ function SidebarOpen({ isOpen }: Props) {
           radius="full"
           className="
           object-contain 
-          mt-6 
-          xl:w-28
-          xl:h-28
-           
-          sm:w-36 
-          sm:h-36 
+     
           text-2xl
           
           // Mobile Responsive
@@ -60,7 +55,7 @@ function SidebarOpen({ isOpen }: Props) {
           name="User"
         />
       </motion.div>
-      <ul
+      {/* <ul
         role="list"
         className="
                 overflow-hidden
@@ -78,7 +73,7 @@ function SidebarOpen({ isOpen }: Props) {
                 xsm:hidden
                 sm:flex
                 ">
-        {route.map((item, index) => (
+          {route.map((item, index) => (
           <div className="w-full ml-[10%]" key={index}>
             <DesktopItem
               key={index}
@@ -89,11 +84,10 @@ function SidebarOpen({ isOpen }: Props) {
               isOpen={isOpen}
             />
           </div>
-        ))}
-      </ul>
+        ))} 
+      </ul> */}
       <div
         className="
-      sm:hidden 
       w-full 
       h-full 
       flex 

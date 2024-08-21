@@ -47,8 +47,7 @@ function DeskTopCalendar() {
         exit={{ opacity: 0, height: "0rem" }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
         className={clsx(
-          "bg-gradient-to-l from-emerald-600/30 to-purple-400/60 rounded-2xl h-full p-[4.5px]",
-          showCalendar && "absolute -top-0  "
+          "bg-gradient-to-l from-emerald-600/30 to-purple-400/60 rounded-2xl h-full md:w-[266px] sm:w-[250px] p-[4.5px]"
         )}>
         <Button
           onClick={() => setShowCalendar(!showCalendar)}

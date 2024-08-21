@@ -21,7 +21,7 @@ function SidebarClose() {
                
                 sm:space-y-6
                 md:space-y-8
-                lg:space-y-0
+        
                 2xl:space-y-3
                 xsm:hidden
                 sm:flex
