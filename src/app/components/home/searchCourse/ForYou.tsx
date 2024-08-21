@@ -44,7 +44,9 @@ function ForYou({ filteredCourses }: CoursesProps) {
         </div>
       </div>
       {filteredCourses.map((i, index) => (
-        <Card className="h-24 flex flex-col gap-3 mt-1 overflow-hidden">
+        <Card
+          key={i.id}
+          className="h-24 flex flex-col gap-3 mt-1 overflow-hidden">
           <CardBody>
             <div className="flex items-center justify-start">
               <Image

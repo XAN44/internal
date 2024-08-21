@@ -31,8 +31,9 @@ function ContinueLearning({ filteredCourses }: CoursesProps) {
     xsm:text-center 
     sm:text-start">
       {/* Continue Learning */}
-      {filteredCourses.map((course) => (
+      {filteredCourses.map((course, i) => (
         <Card
+          key={course.id}
           isBlurred
           className="
           xsm:w-full

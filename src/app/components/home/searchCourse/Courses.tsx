@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   Button,
@@ -27,7 +28,7 @@ interface CoursesProps {
 
 function Courses({ filteredCourses }: CoursesProps) {
   const [likedCourses, setLikedCourses] = useState<Record<string, boolean>>({});
-  const useTruncate = (text: string, maxWords: number) => {
+  const truncate = (text: string, maxWords: number) => {
     const truncate = () => {
       const words = text.split(" ");
       if (words.length <= maxWords) {
@@ -99,6 +100,7 @@ function Courses({ filteredCourses }: CoursesProps) {
                     items-center 
                     justify-center">
               <Image
+                alt={course.name}
                 shadow="sm"
                 radius="lg"
                 src={course.thumnel}
@@ -135,7 +137,7 @@ function Courses({ filteredCourses }: CoursesProps) {
                   </div>
                 </div>
                 <p className="text-xs mt-3">
-                  {useTruncate(course.description, 8)}
+                  {truncate(course.description, 8)}
                 </p>
               </div>
             </CardBody>
