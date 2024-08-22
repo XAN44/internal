@@ -47,6 +47,7 @@ export default function SelectInterest({
       opacity: 1,
     },
   };
+
   return (
     <div
       className="

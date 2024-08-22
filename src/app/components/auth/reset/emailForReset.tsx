@@ -17,6 +17,7 @@ import { Button } from "@nextui-org/button";
 import { Spinner } from "@nextui-org/react";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
+import { ImMail4 } from "react-icons/im";
 
 function EmailForReset() {
   const form = useForm<z.infer<typeof ResetSchema>>({
@@ -69,6 +70,7 @@ function EmailForReset() {
                     }}
                     errorMessage={form.formState.errors.email?.message}
                     isInvalid={!!form.formState.errors.email}
+                    startContent={<ImMail4 size={30} />}
                   />
                 </FormControl>
               </FormItem>

@@ -23,7 +23,7 @@ export default function ResetPassword() {
             bg-gradient-to-l
             from-emerald-600/30
             to-purple-400/60
-            w-[500px] h-full rounded-2xl
+           h-full rounded-2xl
             p-[3.5px]
         ">
             <div

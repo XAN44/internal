@@ -1,66 +1,167 @@
- "use client";
-import React, { useEffect, useState } from "react";
-import { IoMdArrowDown } from "react-icons/io";
-import { MdKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
-import ModalSelectCourse from "./onClickSelect/modalSelectCourse";
-import SearchBar from "./searchCourse/searchBar";
-import DeskTopCalendar from "../navFor/DeskTopCalendar";
-import ButtonCourse from "./searchCourse/ButtonCourse";
+"use client";
+import React, { useState } from "react";
+import { Video } from "../../lib/video";
+import { Button } from "@nextui-org/react";
+import clsx from "clsx";
+import Image from "next/image";
 
-function CardCouse() {
+interface Course {
+  id: string;
+  category: string;
+  title: string;
+  name: string;
+  role: string;
+  thumnel: string;
+  avatar: string;
+  description: string;
+}
+
+interface CoursesProps {
+  filteredCourses: Course[];
+}
+function CourseMain({ filteredCourses }: CoursesProps) {
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
+  const [showFullImage, setShowFullImage] = useState(false);
+
+  const togleShowImage = () => {
+    setShowFullImage((val) => !val);
+  };
+  const toggleDescription = () => {
+    setShowFullDescription((val) => !val);
+  };
+
+  const toggleShowFull = () => {
+    setShowDescription((val) => !val);
+  };
+
   return (
-    <div className="h-full w-full ">
-      <div
-        className="
-      flex 
-      xsm:items-start 
-      xsm:justify-between 
-      xsm:flex-col
-      sm:flex-row
-      ">
-        <div
-          className="
-        flex 
-        w-full
-        sm:flex-row
-        xsm:flex-col
-        items-center 
-        justify-center">
-          <h1
-            className="
-          font-bold 
-          xsm:text-medium 
-          sm:text-2xl">
-            Courses
-          </h1>
-          <ModalSelectCourse />
-        </div>
-        <div
-          className=" 
-        xsm:mt-6
-        sm:mt-0
-        w-full
-        ">
-          <SearchBar />
-        </div>
-        <div className="ml-6 mr-6">
-          <ButtonCourse />
-        </div>
-        <div
-          className=" 
-        sm:block 
-        bottom-0
-        w-1/2
-        h-96
-        mb-32
-        xsm:hidden 
- 
-         ">
-          <DeskTopCalendar />
-        </div>
-      </div>
-    </div>
+    <>
+      {filteredCourses.map((item) => {
+        const isLongDescription = item.description.length > 500;
+        const description =
+          showFullDescription || !isLongDescription
+            ? item.description
+            : `${item.description.slice(0, 300)}... `;
+
+        return (
+          <div key={item.id} className="w-full">
+            <div
+              key={item.id}
+              className=" 
+                flex 
+                bg-gradient-to-r 
+                from-purple-500 
+                to-cyan-400 p-[2px] 
+                rounded-xl
+                ">
+              <div
+                className="
+                p-11
+                w-full
+                bg-white 
+                rounded-xl
+                ">
+                <div className="relative h-[600px] w-full flex flex-col items-center justify-center  ">
+                  <div
+                    onClick={togleShowImage}
+                    className="
+                      bg-center 
+                      bg-no-repeat 
+                      w-full 
+                      h-full
+                      cursor-pointer
+                      rounded-xl
+                    "
+                    style={{
+                      backgroundImage: `url(${item.thumnel})`,
+                    }}
+                  />
+                  <div className="w-full flex items-start justify-start  ">
+                    <Button
+                      variant="flat"
+                      className="text-blue-800"
+                      onClick={toggleShowFull}>
+                      {showDescription
+                        ? "Hide Description Course"
+                        : "Show Description Course"}
+                    </Button>
+                  </div>
+                  {showDescription && (
+                    <div
+                      className="
+                    fixed
+                    z-50
+                    inset-0
+                    flex items-center justify-center
+                    bg-opacity-85
+                    bg-black
+                    text-black
+                    ">
+                      <div className="sm:w-1/2 xsm:w-80 bg-white rounded-xl p-3 ">
+                        <div className="flex items-center justify-between">
+                          <div className="text-xl">Description</div>
+                          <div
+                            className="cursor-pointer text-black"
+                            onClick={toggleShowFull}>
+                            x
+                          </div>
+                        </div>
+                        <p
+                          className="
+                          font-serif 
+                          antialiased  
+                          text-justify
+                          mt-6 mb-6 sm:w-full
+                          indent-8
+                          
+                        ">
+                          {description}
+                        </p>
+                        {isLongDescription && (
+                          <Button
+                            size="md"
+                            className={clsx(
+                              showFullDescription ? "" : "bg-blue-500"
+                            )}
+                            onClick={toggleDescription}>
+                            {showFullDescription ? "Show Less" : "Show More"}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {showFullImage && (
+              <div
+                onClick={togleShowImage}
+                className="
+                    fixed 
+                    z-50 
+                    inset-0
+                    flex items-center justify-center
+                    bg-opacity-85
+                    bg-black
+               
+                    ">
+                <div className="bg-white p-10 relative rounded-3xl">
+                  <Image
+                    width={600}
+                    height={600}
+                    alt=""
+                    src={item.thumnel}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
   );
 }
 
-export default CardCouse;
+export default CourseMain;

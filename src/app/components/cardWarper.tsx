@@ -5,7 +5,6 @@ import React from "react";
 
 interface Props {
   headerImg: string;
-
   children: React.ReactNode;
 }
 
@@ -48,20 +47,9 @@ export default function CardWrapper({ children, headerImg }: Props) {
       xms:w-[1000px]
       xms:h-[850px]
       xms:-translate-y-[690px]
-
-
-
-      md:w-[1600px]
-      md:h-[990px]
-      md:-translate-y-[750px]
+ 
       
-      sm:top-0
-      sm:w-[1200px]
-      sm:h-[910px]
-      sm:-translate-y-[650px]
-
-       
-
+      
     
       lg:absolute
       lg:top-1/2
@@ -114,8 +102,8 @@ export default function CardWrapper({ children, headerImg }: Props) {
             sm:top-[600px]
             sm:-translate-x-[150px]
 
-            md:right-[300px]
-            md:top-[700px]
+            md:right-[80px]
+            md:top-[600px]
             md:-translate-x-[150px]
           
           "
@@ -141,13 +129,13 @@ export default function CardWrapper({ children, headerImg }: Props) {
 
               xms:translate-y-[300px]
               
-              sm:translate-y-[410px]
-              md:translate-y-[390px]
+              md:translate-y-[300px]
+              
               lg:absolute
               xsm:w-[300px]
               xms:w-[350px]
-              md:w-[400px]
-              md:h-[400px]
+              md:w-[300px]
+              md:h-[300px]
               lg:w-[500px]
               lg:h-[500px]
               xl:w-[500px]
@@ -201,10 +189,11 @@ export default function CardWrapper({ children, headerImg }: Props) {
           object-contain
           lg:flex
           xsm:hidden
-          lg:w-36 
-          lg:h-36 
+          lg:w-20 
+          lg:h-20 
           xl:w-20
           xl:h-20
+ 
           absolute 
           top-2 right-10
           "
@@ -218,7 +207,6 @@ export default function CardWrapper({ children, headerImg }: Props) {
         font-bold 
         xsm:absolute
         xsm:top-[250px]
-        md:top-[400px]
         xl:static
         xl:top-auto
         ">

@@ -7,16 +7,17 @@ import SearchBar from "./searchCourse/searchBar";
 import DeskTopCalendar from "../navFor/DeskTopCalendar";
 import ButtonCourse from "./searchCourse/ButtonCourse";
 import Courses from "./searchCourse/Courses";
-import { CardCourse, FakeCourse } from "../../lib/modal/fakeSelectCourse";
+import { FakeCourse } from "../../lib/modal/fakeSelectCourse";
 import ContinueLearning from "./searchCourse/ContinueLearning";
 import ForYou from "./searchCourse/ForYou";
+import { cardCourses } from "../../../../fakeMe";
 
 function CardCouse() {
   const [SelectCategory, setSelectCategory] = useState("All Course");
   const [currentPage, setCurrentPage] = useState(0);
   const [currentProcess, setCurrentProcess] = useState(0);
 
-  const itemPerPage = 3;
+  const itemPerPage = 4;
 
   const itemProcess = 1;
 
@@ -27,9 +28,9 @@ function CardCouse() {
     setCurrentPage(0);
   };
 
-  const courseProcess = CardCourse;
+  const courseProcess = cardCourses;
 
-  const getTwoCorse = CardCourse.slice(0, 2);
+  const getTwoCorse = cardCourses.slice(0, 2);
 
   const startIndexForProces = currentProcess * itemProcess;
 
@@ -40,8 +41,8 @@ function CardCouse() {
 
   const filteredCourses =
     SelectCategory === "All Course"
-      ? CardCourse
-      : CardCourse.filter((f) => f.category === SelectCategory);
+      ? cardCourses
+      : cardCourses.filter((f) => f.category === SelectCategory);
 
   const startIndex = currentPage * itemPerPage;
 
@@ -139,8 +140,6 @@ function CardCouse() {
         className="
         xsm:p-0 
         xsm:mt-6 
-        sm:pl-10 
-        sm:pr-10 
         w-full 
         flex 
         flex-col
@@ -152,28 +151,46 @@ function CardCouse() {
         <div className="mt-16 w-full border-black sm:hidden xsm:block " />
         <div
           className="
-          mt-16
+          mt-6
           flex
-          items-start
-          xsm:flex-col 
+          items-center
+          justify-center
+          sm:flex-col
           md:flex-row
+          xms:flex-row
+          xsm:flex-col 
+          flex-row
           gap-5
+          h-full
+
           ">
           <div
             className="
-            w-full
             flex
             xsm:flex-col
             sm:flex-row
-            relative
-        ">
-            <div className="">
-              <div className="flex items-center justify-between xsm:flex-col sm:flex-row pb-3 pt-3">
+            lg:w-full
+
+            ">
+            <div
+              className="
+              w-full  
+              flex 
+              flex-col">
+              <div
+                className="
+                flex 
+                items-center 
+                justify-between 
+                xsm:flex-col 
+                md:flex-row 
+                pb-3 pt-3
+                ">
                 <h1 className="text-2xl font-bold ">Continue Learning</h1>
                 <ButtonCourse
                   onBack={handlePrevPage2}
                   onNext={handleNextPage2}
-                  canGoBack={currentProcess > 0} // สามารถกลับได้ถ้าไม่ใช่หน้าแรก
+                  canGoBack={currentProcess > 0}
                   canGoNext={
                     (currentProcess + 1) * itemProcess < courseProcess.length
                   }
@@ -182,13 +199,18 @@ function CardCouse() {
               <ContinueLearning filteredCourses={ShowProcress} />
             </div>
           </div>
-
           <div
             className="
-              xsm:w-full
-              sm:w-[600px]
-              flex
-              mt-16
+              
+              xsm:w-[200px]
+              xssx:w-64
+              sm:w-80
+              sm:mt-0
+              xl:w-[480px]
+              lg:w-[480px]
+              md:mt-[85px]
+              lg:mt-[70px]
+              xms:mt-[95px]
             ">
             <ForYou filteredCourses={getTwoCorse} />
           </div>

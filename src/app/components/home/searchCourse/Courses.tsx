@@ -6,6 +6,7 @@ import {
   CardBody,
   CardHeader,
   Image,
+  Link,
 } from "@nextui-org/react";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -27,124 +28,170 @@ interface CoursesProps {
 }
 
 function Courses({ filteredCourses }: CoursesProps) {
-  const [likedCourses, setLikedCourses] = useState<Record<string, boolean>>({});
-  const truncate = (text: string, maxWords: number) => {
-    const truncate = () => {
-      const words = text.split(" ");
-      if (words.length <= maxWords) {
-        return text;
-      }
-      return `${words.slice(0, maxWords).join(" ")}...`;
-    };
+  function createSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, ""); // ลบอักขระที่ไม่ใช่ตัวอักษรหรือตัวเลข (ยกเว้นขีดกลางและขีดล่าง)
+  }
 
-    return truncate();
-  };
+  const [likedCourses, setLikedCourses] = useState<Record<string, boolean>>({});
+
   const handleLike = (courseId: string) => {
     setLikedCourses((prevLikes) => ({
       ...prevLikes,
       [courseId]: !prevLikes[courseId],
     }));
   };
-  if (filteredCourses.length === 0) {
-    return <p>No courses available</p>;
-  }
 
   return (
-    <motion.div
+    <div
       className=" 
   
-      xsm:flex
-      xsm:flex-col
-      xsm:space-y-3
-       
-      xms:grid 
-      xms:grid-cols-1
+      xsm:grid
+      xsm:grid-cols-1
+      xsm:gap-3
 
-        sm:grid
-        sm:grid-cols-1    
-        sm:gap-6
-        sm:space-y-0
+      xssx:grid-cols-2
+
+      xms:grid 
+      xms:grid-cols-2
+
+      sm:grid
+      sm:grid-cols-2    
+      sm:gap-6
+      sm:space-y-0
        
       md:grid 
-      md:grid-cols-1
+      md:grid-cols-2
       md:gap-6
 
-      lg:grid-cols-1
-
+      lg:grid-cols-2
       
-      2xl:grid
-      2xl:grid-cols-3
+      xl:grid
+      xl:grid-cols-2
 
-      max:grid-cols-3
+      2xl:grid
+      2xl:grid-cols-4
+
+      max:grid-cols-4
  
       ">
-      {filteredCourses.map((course, index) => (
-        <motion.div key={course.id}>
-          <Card
-            radius="lg"
-            shadow="lg"
-            className="
-                
+      <AnimatePresence>
+        {filteredCourses.map((course, index) => (
+          <motion.div
+            key={course.id}
+            className="w-full"
+            initial={{ opacity: 0, x: 0 }}
+            animate={{
+              opacity: 1,
+              x: 1,
+              transition: {
+                type: "just",
+                delay: index * 0.1,
+              },
+            }}>
+            <Link
+              className="h-full w-full"
+              key={course.id}
+              href={`/course/${createSlug(course.title)}`}>
+              <Card
+                radius="lg"
+                shadow="lg"
+                className="
                 bg-gradient-to-b 
                 from-blue-400/75 
                 to-blue-500 p-4
+
+                md:w-[300px]
                
-                w-[340px]    
-                h-96
+                sm:w-[250px]    
+                sm:h-full 
+            
+                xsm:w-[200px]
+                xsm:h-[350px]
+
+                xms:w-[250px]
+
+              
                 ">
-            <CardBody
-              className="
+                <CardBody
+                  className="
                     overflow-visible 
                     p-0 w-full 
                     flex 
                     items-center 
                     justify-center">
-              <Image
-                alt={course.name}
-                shadow="sm"
-                radius="lg"
-                src={course.thumnel}
-                className="object-cover h-52 w-80 "
-              />
-              <h1 className="font-bold sm:text-xl xsm:text-lg mt-3 mb-3">
-                {course.title}
-              </h1>
-              <div className="w-full flex flex-col relative">
-                <div className="flex flex-row gap-1">
-                  <Avatar
-                    src={course.avatar}
-                    className="object-cover w-9 h-9"
-                    radius="full"
-                    size="sm"
+                  <Image
+                    alt={course.name}
+                    shadow="sm"
+                    radius="lg"
+                    src={course.thumnel}
+                    className="
+                object-cover 
+                sm:h-52 sm:w-80
+                xsm:h-32 xsm:w-80
+                
+                "
                   />
-                  <div className="flex-col">
-                    <h1 className="font-bold">{course.name}</h1>
-                    <p className="text-xs ">{course.role}</p>
-                  </div>
-                  <div className=" absolute right-0">
-                    <Button
-                      onClick={() => handleLike(course.id)}
-                      isIconOnly
-                      className="bg-white">
-                      <FaHeart
-                        className={clsx(
-                          likedCourses[course.id]
-                            ? "text-red-800"
-                            : "text-black"
-                        )}
+                  <h1
+                    className="
+              font-bold 
+              sm:text-xl 
+              xsm:text-xs mt-3 mb-3">
+                    {course.title}
+                  </h1>
+                  <div className="w-full flex flex-col relative">
+                    <div className="flex flex-row gap-1 items-center justify-center">
+                      <Avatar
+                        src={course.avatar}
+                        className="
+                        object-cover 
+                        xsm:w-8 xsm:h-6
+                        sm:w-14 sm:h-11
+                        rounded-full
+                        "
+                        radius="full"
+                        size="sm"
                       />
-                    </Button>
+                      <div className="leading-normal flex justify-between items-center w-full">
+                        <div className="flex-col">
+                          <h1
+                            className="
+                          font-bold text-pretty  xsm:text-xs">
+                            {course.name}
+                          </h1>
+                          <p className="xsm:text-xs text-gray-600 ">
+                            {course.role}
+                          </p>
+                        </div>
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleLike(course.id);
+                          }}
+                          isIconOnly>
+                          <FaHeart
+                            className={clsx(
+                              likedCourses[course.id]
+                                ? "text-red-800"
+                                : "text-black"
+                            )}
+                          />
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="truncate text-xs mt-3 xsm:hidden xms:block">
+                      {course.description}
+                    </p>
                   </div>
-                </div>
-                <p className="text-xs mt-3">
-                  {truncate(course.description, 8)}
-                </p>
-              </div>
-            </CardBody>
-          </Card>
-        </motion.div>
-      ))}
-    </motion.div>
+                </CardBody>
+              </Card>
+            </Link>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
   );
 }
 

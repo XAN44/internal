@@ -24,11 +24,13 @@ interface CoursesProps {
 function ForYou({ filteredCourses }: CoursesProps) {
   return (
     <div
-      className="w-full h-64
-            rounded-xl 
-            bg-gradient-to-b       
-          from-purple-400/40 
-          to-purple-500/40 p-4
+      className="
+      w-full 
+      h-full
+      rounded-xl 
+      bg-gradient-to-b       
+      from-purple-400/40 
+      to-purple-500/40 p-4
     ">
       <div className="flex flex-col">
         <div
@@ -38,7 +40,8 @@ function ForYou({ filteredCourses }: CoursesProps) {
         rounded-xl 
         text-center
         font-bold
-        text-2xl
+        md:text-2xl
+        xsm:text-xl
          ">
           For you!
         </div>
@@ -46,19 +49,32 @@ function ForYou({ filteredCourses }: CoursesProps) {
       {filteredCourses.map((i, index) => (
         <Card
           key={i.id}
-          className="h-24 flex flex-col gap-3 mt-1 overflow-hidden">
+          className="
+          h-full
+          flex 
+          flex-col 
+          gap-3 
+          mt-1 
+          overflow-hidden">
           <CardBody>
-            <div className="flex items-center justify-start">
+            <div
+              className="
+              flex 
+              items-center 
+              justify-start">
               <Image
                 alt="Album cover"
-                className="object-cover"
-                height={70}
+                className="object-cover 
+                w-full h-full
+                
+                "
+                height={80}
                 shadow="md"
-                src="https://nextui.org/images/album-cover.png"
+                src={i.thumnel}
               />
-              <div className="flex flex-col ml-3">
+              <div className="w-full flex flex-col ml-3">
                 <h1 className="text-sm  font-bold"> {i.title}</h1>
-                <p className="text-sm">
+                <p className="text-sm xsm:hidden sm:block">
                   {i.name} | {i.role}
                 </p>
               </div>

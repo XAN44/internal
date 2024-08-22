@@ -1,27 +1,10 @@
 "use client";
-import {
-  Button,
-  Image,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle,
-} from "@nextui-org/react";
-import React, { useState } from "react";
+import { Image, Navbar, NavbarContent } from "@nextui-org/react";
 
 function NavbarProtect() {
   return (
-    <>
-      <Navbar shouldHideOnScroll isBordered>
-        <NavbarContent
-          className="sm:hidden xsm:flex"
-          justify="start"></NavbarContent>
-
-        <NavbarContent justify="end">
+    <Navbar shouldHideOnScroll isBordered>
+    <NavbarContent justify="end">
           <Image
             src="/vannessLogo.png"
             alt="LogoVannessPlus"
@@ -31,8 +14,7 @@ function NavbarProtect() {
             "
           />
         </NavbarContent>
-      </Navbar>
-    </>
+    </Navbar>
   );
 }
 

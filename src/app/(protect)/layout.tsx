@@ -1,6 +1,7 @@
 import Footer from "../components/navForDeskTop/footer";
 import NavbarProtect from "../components/navForDeskTop/navbar";
 import SideBar from "../components/navForDeskTop/sidebar";
+import { BasicMemo } from "../lib/basicMemo";
 import { CalendarProvider } from "../lib/context/calendarContext";
 
 export default function ProtectLayout({
