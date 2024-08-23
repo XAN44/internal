@@ -24,6 +24,9 @@ function ShowDsip({ showDescription, toggleShowFull, description }: Props) {
           <div
             className="flex flex-col
           bg-white w-1/2 h-96
+          xsm:w-64
+          xssx:w-80
+          sm:w-4/6
           p-6
           ">
             <div className="flex items-center justify-between ">

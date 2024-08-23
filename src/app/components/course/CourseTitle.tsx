@@ -57,8 +57,10 @@ function CourseTitle({ title }: Props) {
             </div>
           </div>
         </div>
-        <div className="flex w-full h-full items-center justify-center">
-          <CourseMain filteredCourses={data} />
+        <div className="mt-6 flex  h-full items-center justify-center ">
+          <div className="w-full bg-white p-1 rounded-lg">
+            <CourseMain filteredCourses={data} />
+          </div>
         </div>
       </div>
     </div>

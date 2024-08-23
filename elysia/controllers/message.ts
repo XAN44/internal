@@ -1,14 +1,15 @@
 import Elysia, { t } from "elysia";
+import { faker } from "@faker-js/faker";
 
-export const messageController = new Elysia({ prefix: "/message" }).get(
+export const messageController = new Elysia({ prefix: "/Course" }).get(
   "/test1",
   {
-    id: 1,
-    name: "Testss1",
+    id: faker.datatype.uuid(),
+    name: faker.name.fullName(),
   },
   {
     response: t.Object({
-      id: t.Number(),
+      id: t.String(),
       name: t.String(),
     }),
   }

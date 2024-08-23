@@ -2,44 +2,15 @@ import fs from "fs";
 import { faker } from "@faker-js/faker";
 import path from "path";
 
-// ฟังก์ชันสำหรับสร้างข้อมูลวิดีโอ
-const generateVideo = () => ({
-  id: faker.datatype.uuid(),
-  title: faker.lorem.sentence(),
-  url: faker.internet.url(),
-  type: "Video",
-});
-
-// ฟังก์ชันสำหรับสร้างข้อมูลควิซ
-const generateQuiz = () => ({
-  id: faker.datatype.uuid(),
-  title: faker.lorem.sentence(),
-  questions: Array.from({ length: 3 }, () => ({
-    question: faker.lorem.sentence(),
-    options: Array.from({ length: 4 }, () => faker.lorem.word()),
-    correctAnswer: faker.lorem.word(),
-  })),
-  type: "Quiz",
-});
-
 // ฟังก์ชันสำหรับสร้างข้อมูลชั้นเรียน (chapter)
 const generateChapter = () => {
-  // สร้างลำดับของวิดีโอและควิซ
-  const items = [
-    generateVideo(), // เรียน 1
-    generateVideo(), // เรียน 2
-    generateQuiz(), // ควิซ 1
-    generateVideo(), // เรียน 3
-    generateVideo(), // เรียน 4
-    generateQuiz(), // ควิซ 2
-  ];
-
   return {
     id: faker.datatype.uuid(),
     title: faker.lorem.words(),
     subChapter: faker.lorem.word(),
     description: faker.lorem.paragraph(),
-    items: items,
+    url: faker.internet.url(), // เพิ่ม url ของ chapter
+    type: "Chapter", // กำหนด type เป็น "Chapter"
   };
 };
 

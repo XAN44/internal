@@ -1,7 +1,8 @@
 import React from "react";
 import CourseTitle from "../../../../components/course/CourseTitle";
+import ChapterTitle from "../../../../components/chapter/Chapter";
 
-function CoursePage({ params }: { params: { chapter: string } }) {
+function Chapter({ params }: { params: { chapter: string } }) {
   // ฟังก์ชันแปลง slug กลับเป็นชื่อคอร์ส
   function formatTitle(slug: string): string {
     return slug
@@ -14,10 +15,10 @@ function CoursePage({ params }: { params: { chapter: string } }) {
   return (
     <div className="w-full h-full  ">
       <div className="flex flex-col">
-        <CourseTitle title={courseTitle} />
+        <ChapterTitle title={courseTitle} />
       </div>
     </div>
   );
 }
 
-export default CoursePage;
+export default Chapter;

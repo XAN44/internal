@@ -40,8 +40,8 @@ function ForYou({ filteredCourses }: CoursesProps) {
         rounded-xl 
         text-center
         font-bold
-        md:text-2xl
-        xsm:text-xl
+        md:text-lg
+        xsm:text-sm
          ">
           For you!
         </div>
