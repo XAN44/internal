@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import Userinfo from "../../components/dashboard/userinfo";
-import MainDashboard from "../../components/dashboard/MainDashboard";
 import { elysia } from "../../../../elysia/client";
 
 async function page() {
