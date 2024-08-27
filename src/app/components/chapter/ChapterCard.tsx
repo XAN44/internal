@@ -1,10 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Video } from "../../lib/video";
-import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
-import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import ShowDsip from "../course/ShowDsip";
+import { Link } from "@nextui-org/react";
 
 interface Course {
   id: string;
@@ -16,10 +13,11 @@ interface Course {
 }
 
 interface CoursesProps {
+  courseSlug: string;
   filteredCourses: Course[];
 }
-function ChapterCard({ filteredCourses }: CoursesProps) {
-  const [showDescription, setShowDescription] = useState(false);
+
+function ChapterCard({ courseSlug, filteredCourses }: CoursesProps) {
   const router = useRouter();
 
   function createSlug(title: string): string {
@@ -29,36 +27,57 @@ function ChapterCard({ filteredCourses }: CoursesProps) {
       .replace(/[^\w-]+/g, "");
   }
 
-  // ในโค้ดของคุณที่ใช้ฟังก์ชันนี้
-  const togleToCourse = (title: string, chapterTitle: string) => {
-    const titleSlug = createSlug(title);
+  const toggleToCourse = (chapterTitle: string) => {
     const chapterSlug = createSlug(chapterTitle);
-
-    router.push(`/course/${titleSlug}`);
+    router.push(`/course/${courseSlug}/${chapterSlug}`);
   };
+
   return (
-    <div
-      className="
-      xl:w-full
-      xl:h-full
-      flex
-      flex-col
-      justify-between
-      items-start
-      p-2
-    ">
-      {filteredCourses.map((item, index) => (
-        <div
-          key={item.id}
-          className="
+    <>
+      <div
+        className="
+        flex 
+        flex-col 
+        gap-3
+        overflow-y-auto 
+        w-full
+        h-full
+        ">
+        {filteredCourses.map((i, index) => (
+          <div
+            key={i.id}
+            className="
             flex
             flex-col
+            justify-start
+            h-full
           ">
-          <p className=" font-bold text-medium">{item.title}</p>
-          <p className="text-blue-500 font-bold text-sm">Chapter {index + 1}</p>
-        </div>
-      ))}
-    </div>
+            <Link
+              href={`/course/${courseSlug}/${createSlug(i.title)}`}
+              className=" 
+            flex 
+            flex-col 
+            items-start 
+            h-full w-full 
+            ">
+              <p
+                className="
+              xsm:text-sm 
+              sm:text-medium">
+                {i.title}
+              </p>
+              <p
+                className="
+              xsm:text-xs 
+              sm:text-sm 
+              text-blue-600">
+                Chapter {index + 1} : {i.subChapter}
+              </p>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

@@ -35,6 +35,7 @@ const config = {
     },
     extend: {
       colors: {
+        cardAvatar: "#9bb3e8",
         "blue-input": "#caddff",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

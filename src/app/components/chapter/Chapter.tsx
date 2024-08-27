@@ -28,6 +28,14 @@ function ChapterTitle({ title }: Props) {
   };
 
   const courseTitle = course ? course.title : "Course Not Found";
+
+  function toPath(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "");
+  }
+
   const selectedChapter = course?.chapter.find(
     (chapter) => chapter.title.toLowerCase() === title.toLowerCase()
   );
@@ -89,8 +97,7 @@ function ChapterTitle({ title }: Props) {
             flex 
             w-full 
             h-full
-            items-start 
-            justify-start
+         
             xsm:flex-col
             xl:flex-row
             gap-10
@@ -104,13 +111,15 @@ function ChapterTitle({ title }: Props) {
             bg-gradient-to-r 
             from-purple-500 
             to-sky-500 rounded-xl p-[1px]
-             
+            flex-grow
             ">
             <div
               className="
               w-full
-             bg-white sm:p-6 
-             xsm:p-2  rounded-xl">
+             bg-white 
+             sm:p-6 
+             xsm:p-2  
+             rounded-xl">
               {selectedChapter ? (
                 <ChapterMain
                   title={selectedChapter.title}
@@ -118,30 +127,48 @@ function ChapterTitle({ title }: Props) {
                   chapter={chapterNumber}
                 />
               ) : (
-                <p>ไม่พบเนื้อหาสำหรับ Chapter นี้</p>
+                <p className="sm:text-lg font-bold xsm:text-sm flex w-full items-center justify-center">
+                  Not found content chapter
+                </p>
               )}
             </div>
           </div>
           <div
             className="
             mt-6    
+            flex
             items-center 
             justify-center 
             bg-gradient-to-r 
             from-purple-500 
             to-sky-500 
             rounded-xl p-[1px]
-      
-
+       
+            flex-grow
             ">
             <div
               className="
               h-full
+              w-full
+              flex
              bg-white 
               p-4 
               rounded-xl
             ">
-              <ChapterCard filteredCourses={course?.chapter || []} />
+              {course?.chapter ? (
+                <>
+                  <ChapterCard
+                    filteredCourses={course?.chapter || []}
+                    courseSlug={toPath(courseTitle)}
+                  />
+                </>
+              ) : (
+                <div className="flex items-center justify-center w-full h-full">
+                  <p className="sm:text-lg font-bold xsm:text-sm">
+                    Not found chapter
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

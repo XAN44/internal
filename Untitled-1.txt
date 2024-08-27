@@ -1,167 +1,83 @@
 "use client";
-import React, { useState } from "react";
-import { Video } from "../../lib/video";
-import { Button } from "@nextui-org/react";
-import clsx from "clsx";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import UserAvatarAndEdit from "./UserContent/AvatarAndEdit";
+import UserBasicInfo from "./UserContent/UserBasicInfo";
+import { elysia } from "../../../../elysia/client";
 
-interface Course {
-  id: string;
-  category: string;
-  title: string;
-  name: string;
-  role: string;
-  thumnel: string;
-  avatar: string;
-  description: string;
+export async function GetAvatar() {
+  const { data, error } = await elysia.api.Course.ChangeAvatar.get();
+
+  if (!data?.success) {
+    return null;
+  }
+  return data;
 }
 
-interface CoursesProps {
-  filteredCourses: Course[];
-}
-function CourseMain({ filteredCourses }: CoursesProps) {
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const [showDescription, setShowDescription] = useState(false);
-  const [showFullImage, setShowFullImage] = useState(false);
+function Userinfo() {
+  const [CurrentAvatar, setCurretAvatar] = useState("");
+  const [name, setName] = useState("");
+  const [job, setJob] = useState("");
+  const [departMent, setDepartMent] = useState("");
 
-  const togleShowImage = () => {
-    setShowFullImage((val) => !val);
-  };
-  const toggleDescription = () => {
-    setShowFullDescription((val) => !val);
+  const [loading, setLoading] = useState(true);
+
+  const avatarUrl = async () => {
+    try {
+      const res = await GetAvatar();
+      if (res) {
+        setCurretAvatar(res.avatarUrl);
+        setName(res.name);
+        setJob(res.job);
+        setDepartMent(res.departMent);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const toggleShowFull = () => {
-    setShowDescription((val) => !val);
+  useEffect(() => {
+    avatarUrl();
+  });
+
+  const Isloading = () => {
+    return <>Loading</>;
   };
 
   return (
-    <>
-      {filteredCourses.map((item) => {
-        const isLongDescription = item.description.length > 500;
-        const description =
-          showFullDescription || !isLongDescription
-            ? item.description
-            : `${item.description.slice(0, 300)}... `;
-
-        return (
-          <div key={item.id} className="w-full">
-            <div
-              key={item.id}
-              className=" 
-                flex 
-                bg-gradient-to-r 
-                from-purple-500 
-                to-cyan-400 p-[2px] 
-                rounded-xl
-                ">
-              <div
-                className="
-                p-11
-                w-full
-                bg-white 
-                rounded-xl
-                ">
-                <div className="relative h-[600px] w-full flex flex-col items-center justify-center  ">
-                  <div
-                    onClick={togleShowImage}
-                    className="
-                      bg-center 
-                      bg-no-repeat 
-                      w-full 
-                      h-full
-                      cursor-pointer
-                      rounded-xl
-                    "
-                    style={{
-                      backgroundImage: `url(${item.thumnel})`,
-                    }}
-                  />
-                  <div className="w-full flex items-start justify-start  ">
-                    <Button
-                      variant="flat"
-                      className="text-blue-800"
-                      onClick={toggleShowFull}>
-                      {showDescription
-                        ? "Hide Description Course"
-                        : "Show Description Course"}
-                    </Button>
-                  </div>
-                  {showDescription && (
-                    <div
-                      className="
-                    fixed
-                    z-50
-                    inset-0
-                    flex items-center justify-center
-                    bg-opacity-85
-                    bg-black
-                    text-black
-                    ">
-                      <div className="sm:w-1/2 xsm:w-80 bg-white rounded-xl p-3 ">
-                        <div className="flex items-center justify-between">
-                          <div className="text-xl">Description</div>
-                          <div
-                            className="cursor-pointer text-black"
-                            onClick={toggleShowFull}>
-                            x
-                          </div>
-                        </div>
-                        <p
-                          className="
-                          font-serif 
-                          antialiased  
-                          text-justify
-                          mt-6 mb-6 sm:w-full
-                          indent-8
-                          
-                        ">
-                          {description}
-                        </p>
-                        {isLongDescription && (
-                          <Button
-                            size="md"
-                            className={clsx(
-                              showFullDescription ? "" : "bg-blue-500"
-                            )}
-                            onClick={toggleDescription}>
-                            {showFullDescription ? "Show Less" : "Show More"}
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            {showFullImage && (
-              <div
-                onClick={togleShowImage}
-                className="
-                    fixed 
-                    z-50 
-                    inset-0
-                    flex items-center justify-center
-                    bg-opacity-85
-                    bg-black
-               
-                    ">
-                <div className="bg-white p-10 relative rounded-3xl">
-                  <Image
-                    width={600}
-                    height={600}
-                    alt=""
-                    src={item.thumnel}
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </>
+    <div
+      className="
+        flex 
+        items-center 
+        justify-center
+        bg-gradient-to-l
+        from-blue-300
+        via-green-200
+        to-blue-300
+        rounded-2xl
+        p-[1px]
+    ">
+      <div
+        className="
+        flex
+        border-1 p-3 
+        rounded-2xl
+        w-full
+        bg-white
+        ">
+        <div className=" flex flex-col w-1/2 items-center justify-center gap-3">
+          <UserAvatarAndEdit avatar={CurrentAvatar} isLoading={loading} />
+        </div>
+        <UserBasicInfo
+          departMent={departMent}
+          job={job}
+          name={name}
+          isLoading={loading}
+        />
+      </div>
+    </div>
   );
 }
 
-export default CourseMain;
+export default Userinfo;

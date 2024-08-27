@@ -213,44 +213,7 @@ export const cardCourses = [
     description:
       "Arguo culpa dolor perspiciatis minima taedium provident. Culpa delectatio creptio vestrum adinventitias aeneus. Aetas theca concido amplitudo vorago spargo curo.",
     progress: 79,
-    chapter: [
-      {
-        id: "5c9f9e91-6d38-4cd4-b612-efb3edf8ad71",
-        title: "benigne defluo super",
-        subChapter: "studio",
-        description:
-          "Condico tero accusator officiis aveho cresco capio ulciscor verbera ventito. Ver fuga commodi comedo adfectus vinum antepono supplanto tui. Cursim stabilis clarus thesis tribuo ante ulciscor speciosus tabgo.",
-        url: "https://safe-toothpick.name/",
-        type: "Chapter",
-      },
-      {
-        id: "3ea2994b-993f-41fa-8022-0d166af2ba7c",
-        title: "alius pecus facere",
-        subChapter: "unde",
-        description:
-          "Eaque agnitio defaeco aut tum adsuesco veritas sapiente. Laborum templum crinis creta cometes blanditiis dapifer. Sit tertius debilito.",
-        url: "https://warm-tire.info",
-        type: "Chapter",
-      },
-      {
-        id: "f075e596-98b4-4162-b48f-7a6f6b16a5d7",
-        title: "solum comptus earum",
-        subChapter: "valetudo",
-        description:
-          "Viridis vehemens caelestis sollers. Eius laboriosam totidem. Charisma tero cui quae vapulus pax vesco conatus deinde.",
-        url: "https://loose-laparoscope.net/",
-        type: "Chapter",
-      },
-      {
-        id: "b1a0dcce-235c-4c4d-9812-c6e68e582bde",
-        title: "catena auxilium dens",
-        subChapter: "tactus",
-        description:
-          "Vulariter temeritas acidus. Aufero color totus vitium. Stipes cavus synagoga auditor dolore tenax vesica debitis bis decor.",
-        url: "https://grounded-digging.biz",
-        type: "Chapter",
-      },
-    ],
+    chapter: [],
   },
   {
     id: "82417c36-0ee2-41e0-94ec-50c7fd2fc577",
