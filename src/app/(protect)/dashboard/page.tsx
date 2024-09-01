@@ -45,7 +45,9 @@ async function page() {
     newBadgeAchievementsThisYear,
     totalBadgesSoFarThisYear,
   } = Course;
-
+  if (!initial || !initial.Course) {
+    return <div>Error: No data available.</div>;
+  }
   const AllCourse =
     Course?.AllCourse?.map((course) => ({
       ...course,
