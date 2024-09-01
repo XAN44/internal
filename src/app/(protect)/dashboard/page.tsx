@@ -32,10 +32,10 @@ async function page() {
 
   const { interest, ...DataInfo } = initial;
   const { Course } = DataInfo;
-
-  const AllcoursePercent = parseFloat(Course.allCoursePerCentage);
-
-  const requireCoursePerCentage = parseFloat(Course.requireCoursePerCentage);
+  const AllcoursePercent = parseFloat(Course.allCoursePerCentage || "0");
+  const requireCoursePerCentage = parseFloat(
+    Course.requireCoursePerCentage || "0"
+  );
 
   const {
     StatusCompleted,
