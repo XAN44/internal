@@ -21,7 +21,7 @@ async function page() {
     isLoading = false;
   }
 
-  if (!initial) {
+  if (!initial || !initial.Course) {
     return <div>No data available.</div>;
   }
 
