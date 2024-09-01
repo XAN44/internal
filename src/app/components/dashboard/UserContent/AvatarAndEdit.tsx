@@ -1,33 +1,32 @@
-import { Button, Image } from "@nextui-org/react";
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { Avatar, Button } from "@nextui-org/react";
 import { FiEdit } from "react-icons/fi";
+import { ImMail4 } from "react-icons/im";
+import { RxAvatar } from "react-icons/rx";
+import AvatarSkelton from "./AvatarSkelton";
+import AvatarAndName from "./AvatarAndName";
 
 interface UserProps {
-  avatar: string;
-  isLoading?: boolean;
+  initialState: {
+    userName: string;
+    email: string;
+    name: string;
+    job: string;
+    departMent: string;
+    avatar: string;
+  };
+  isLoading: boolean;
 }
 
-function UserAvatarAndEdit({ avatar, isLoading }: UserProps) {
+function UserAvatarAndEdit({ initialState, isLoading }: UserProps) {
   return (
     <>
-      <Image
-        src={avatar}
-        alt="avatar"
-        radius="full"
-        removeWrapper
-        className="
-              w-28 h-28
-              bg-cardAvatar/70 
-              object-cover "
-      />
-      <Button
-        variant="bordered"
-        className="w-16 
-            border-cardAvatar
-          "
-        endContent={<FiEdit size={60} />}>
-        Edit
-      </Button>
+      {isLoading ? (
+        <AvatarSkelton />
+      ) : (
+        <AvatarAndName initialState={initialState} />
+      )}
     </>
   );
 }

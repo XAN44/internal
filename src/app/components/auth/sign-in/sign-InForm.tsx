@@ -85,7 +85,9 @@ function SignInForm() {
                         inputWrapper: "bg-blue-input/60 ring-2 ",
                       }}
                       {...field}
-                      startContent={<RxAvatar size={30} />}
+                      startContent={
+                        <RxAvatar size={30} className="text-sky-600/60" />
+                      }
                     />
                   </FormControl>
                 </FormItem>
@@ -131,10 +133,13 @@ function SignInForm() {
                                 type: "keyframes",
                                 ease: "easeInOut",
                               }}>
-                              <SlLockOpen size={25} />
+                              <SlLockOpen
+                                size={25}
+                                className="text-sky-600/60"
+                              />
                             </motion.div>
                           ) : (
-                            <SlLock size={25} />
+                            <SlLock size={25} className="text-sky-600/60" />
                           )}
                         </motion.div>
                       }
