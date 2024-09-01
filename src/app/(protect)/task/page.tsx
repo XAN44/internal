@@ -40,7 +40,6 @@ async function page() {
     completedTask,
     completionTaskPersentage,
     AllCourse,
-    LatestCourse,
   } = Course;
 
   const Task = AllCourse.flatMap((f) => f.chapters).flatMap((f) => f.tasks);

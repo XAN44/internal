@@ -46,11 +46,11 @@ async function page() {
     totalBadgesSoFarThisYear,
   } = Course;
 
-  const AllCourse = Course.AllCourse.map((course) => ({
-    ...course,
-    completionPercentage: parseFloat(course.completionPercentage),
-  }));
-
+  const AllCourse =
+    Course?.AllCourse?.map((course) => ({
+      ...course,
+      completionPercentage: parseFloat(course.completionPercentage),
+    })) || [];
   const bookMarkedCourses = Course.AllCourse.filter(
     (course) => course.isBookMark
   );
