@@ -24,6 +24,9 @@ export const SignUpController = async (request: {
       where: {
         email: email,
       },
+      select: {
+        email: true,
+      },
     });
 
     if (existingUser) {
