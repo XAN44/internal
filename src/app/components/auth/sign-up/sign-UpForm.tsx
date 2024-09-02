@@ -25,6 +25,7 @@ import SubSignUp from "./subBtnSignUp";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { useRouter } from "next/navigation";
+import { elysia } from "../../../../../elysia/client";
 
 function SignUpForm() {
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -54,14 +55,14 @@ function SignUpForm() {
   const onSubmit = (value: z.infer<typeof SignUpSchema>) => {
     setError("");
     setSuccess("");
-    startTransition(() => {
-      TEST1(value).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-        if (data.success) {
-          route.push("/auth/sign-in");
-        }
+
+    startTransition(async () => {
+      const response = await elysia.api.signUp.post({
+        initialsData: value,
       });
+      const data = response.data;
+      setError(data?.error);
+      setSuccess(data?.success);
     });
   };
 

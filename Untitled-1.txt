@@ -1,49 +1,51 @@
-import React from "react";
-import CardDashBoard from "../../components/dashboard/CardDashBoard";
-import TaskStatus from "../../components/task/TaskStatus";
-import { elysia } from "../../../../elysia/client";
+import { NextResponse } from "next/server";
+import authConfig from "../auth.config";
+import NextAuth from "next-auth";
+import {
+  apiAuthPrefix,
+  authRoutes,
+  DEFAULT_LOGIN_REDIRECT,
+  publicRoutes,
+} from "../routes";
 
-async function page() {
-  let initial = null;
-  let isLoading = true;
-  let error = null;
+export const { auth } = NextAuth(authConfig);
 
-  try {
-    const { data, status } = await elysia.api.Course.ChangeAvatar.get();
-    if (status === 200) {
-      initial = data;
-    } else {
-      error = "Failed to fetch data.";
+export default auth((req) => {
+  const isLoggend = !!req.auth;
+
+  const { nextUrl } = req;
+
+  const isLoggedIn = !!req.auth;
+
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
+  if (isApiAuthRoute) {
+    return;
+  }
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(
+        new URL(DEFAULT_LOGIN_REDIRECT, nextUrl.toString())
+      );
     }
-  } catch (err) {
-    error = "An error occurred: ";
-  } finally {
-    isLoading = false;
+    return;
   }
 
-  if (!initial) {
-    return <div>No data available.</div>;
-  }
+  // ! หากยังไม่ได้เข้าสู่ระบบจะ Redirect to sign-in page
+  // if (!isLoggedIn && !isPublicRoute) {
+  //   return Response.redirect(new URL("/auth/sign-in", nextUrl.toString()));
+  // }
 
-  const { ...DataInfo } = initial;
-  const { Course } = DataInfo;
+  return;
+});
 
-  const { totalTask, completedTask, completionTaskPersentage } = Course;
-
-  const initials = {
-    totalTask,
-    completedTask,
-    completionTaskPersentage,
-  };
-
-  return (
-    <div className="w-full min-h-screen p-6">
-      <p className="text-xl font-bold mb-6">Task</p>
-      <CardDashBoard>
-        <TaskStatus initial={initials} />
-      </CardDashBoard>
-    </div>
-  );
-}
-
-export default page;
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
