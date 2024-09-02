@@ -1,4 +1,3 @@
-"use server";
 import { Elysia, t } from "elysia";
 import { db } from "../../src/app/lib/db";
 import * as z from "zod";
