@@ -11,10 +11,17 @@ export const ResetSchema = z.object({
   email: z.string().email({ message: "Email is required" }),
 });
 
-export const ResetPasswordSchema = z.object({
-  password: z.string().min(6, { message: "Minimum of 6 characters required" }),
-});
-
+export const ResetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: "Minimum of 6 characters required" }),
+    confirmPassword: z.string().min(6),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Password don't match",
+    path: ["confirmPassword"],
+  });
 export const SignUpSchema = z
   .object({
     username: z

@@ -1,21 +1,15 @@
-import { Card, CardBody, CardHeader, Image, Input } from "@nextui-org/react";
-import React, { useState, useTransition } from "react";
-import EmailForReset from "./emailForReset";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ResetSchema } from "../../../lib/schema/auth/zodAuth";
-import { z } from "zod";
-import { reset } from "../../../../../server/reset";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../../../../../components/ui/form";
+"use client";
 
-export default function ResetPassword() {
+import { useSearchParams } from "next/navigation";
+import React, { useState, useTransition } from "react";
+import { ResetPasswordSchema } from "../../../lib/schema/auth/zodAuth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import NewPasswordForm from "./newPasswordForm";
+
+function NewPassword() {
   return (
     <div
       className="
@@ -69,13 +63,10 @@ export default function ResetPassword() {
               text-blue-800">
                   Reset Your Password
                 </h1>
-                <p className="text-sm">
-                  Please enter your email address. You will receive a link to
-                  create a new password via email.
-                </p>
+                <p className="text-sm">Enter your new password</p>
               </CardHeader>
               <CardBody>
-                <EmailForReset />
+                <NewPasswordForm />
               </CardBody>
             </div>
           </Card>
@@ -84,3 +75,5 @@ export default function ResetPassword() {
     </div>
   );
 }
+
+export default NewPassword;

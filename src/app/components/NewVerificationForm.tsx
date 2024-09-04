@@ -27,21 +27,26 @@ const NewVerificationForm = () => {
     }
     newVerification(token)
       .then((data) => {
-        if (data.success) {
-          setSuccess(data.success);
-          setColorSuccess("bg-gradient-to-b from-violet-600 to-indigo-600");
-          router.push("/auth/sign-in");
-          setError(""); // Clear error if success
-          setColorError("bg-gradient-to-b from-violet-600 to-indigo-600");
-        }
-        if (data.error) {
-          setError(data.error);
-          setColorError("bg-gradient-to-b from-red-700 to-rose-900");
-          setSuccess(""); // Clear success if error
+        if (data) {
+          if ("success" in data && typeof data.success === "string") {
+            setSuccess(data.success);
+            setColorSuccess("bg-gradient-to-b from-violet-600 to-indigo-600");
+
+            setTimeout(() => {
+              router.push("/auth/sign-in");
+            }, 3000);
+
+            setError(""); // Clear error if success
+            setColorError("bg-gradient-to-b from-violet-600 to-indigo-600");
+          } else if ("error" in data && typeof data.error === "string") {
+            setError(data.error);
+            setColorError("bg-gradient-to-b from-red-700 to-rose-900");
+            setSuccess(""); // Clear success if error
+          }
         }
       })
       .catch(() => {
-        setError("Somthing went wrong");
+        setError("Something went wrong");
         setSuccess(""); // Clear success if error
         setColorError("bg-gradient-to-b from-red-700 to-rose-900");
       });
@@ -69,8 +74,9 @@ const NewVerificationForm = () => {
           </div>
         )}
         {error && (
-          <div className="flex flex-col items-center justify-center text-center">
+          <div className=" text-red-900 flex flex-col items-center justify-center text-center">
             <p className="text-xl text-red-900">VERIFY FAIL</p>
+            <p>Please sign-in and try again.</p>
           </div>
         )}
       </div>

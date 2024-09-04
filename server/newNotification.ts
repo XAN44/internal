@@ -3,7 +3,6 @@
 import { db } from "../src/app/lib/db";
 import { getUserByEmail } from "./getUser";
 import { getVerificationTokenByToken } from "./verify_token";
-
 export const newVerification = async (token: string) => {
   const existingToken = await getVerificationTokenByToken(token);
 
@@ -32,7 +31,8 @@ export const newVerification = async (token: string) => {
     };
   }
 
-  await db.user.update({
+  // Update user verification status
+  const update = await db.user.update({
     where: {
       id: existingUser.id,
     },
@@ -42,14 +42,19 @@ export const newVerification = async (token: string) => {
     },
   });
 
-  // await db.verificationToken.delete({
-  //   where: {
-  //     id: existingToken.id,
-  //   },
-  // });
-
-  return {
+  // Return success message first
+  const successResponse = {
     success:
       "Your email has been successfully verified. You can now proceed to sign in.",
   };
+
+  setTimeout(async () => {
+    await db.verificationToken.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+  }, 5000);
+
+  return successResponse;
 };

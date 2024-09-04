@@ -15,7 +15,7 @@ export const SideBarModal = () => {
       {
         label: "Create Course",
         Icon: HiOutlineDocumentAdd,
-        href: "/Course",
+        href: "/createcourse",
         active: pathName === "/Course",
       },
       {

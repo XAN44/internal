@@ -20,5 +20,12 @@ export async function middleware(request: any) {
 
 // กำหนด matcher ให้ middleware ทำงานเฉพาะหน้าที่อยู่ในโฟลเดอร์ (protect)
 export const config = {
-  matcher: ["/setting", "/home", "/dashboard", "/task", "/notification"],
+  matcher: [
+    "/setting",
+    "/home",
+    "/dashboard",
+    "/task",
+    "/notification",
+    "/createcourse",
+  ],
 };

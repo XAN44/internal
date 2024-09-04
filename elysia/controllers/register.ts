@@ -32,7 +32,7 @@ export const SignUpController = async (request: {
     });
 
     if (existingUser) {
-      return { error: "Existing user" };
+      return { error: "This account is already registered." };
     }
 
     const hashPw = await bcrypt.hash(password, 10);
@@ -51,7 +51,7 @@ export const SignUpController = async (request: {
       verificationToken.token
     );
     return {
-      success: "Send Mail ",
+      success: "Register Success , Check the email you used to register ",
     };
   } catch (error) {
     return {

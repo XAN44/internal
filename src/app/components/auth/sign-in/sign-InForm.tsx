@@ -64,7 +64,7 @@ function SignInForm() {
         setError(result.error);
       }
       if (result?.ok) {
-        route.push("/fake");
+        route.push("/home");
       }
     });
   };

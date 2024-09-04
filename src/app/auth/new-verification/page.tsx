@@ -14,7 +14,7 @@ export default function page() {
     justify-center 
     left-0 right-0
     fixed opacity-50 bg-black ">
-      <div className="w-1/2 ">
+      <div className="w-96 ">
         <CardDashBoard>
           <NewVerificationForm />
         </CardDashBoard>

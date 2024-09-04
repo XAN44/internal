@@ -2,10 +2,13 @@
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ResetSchema } from "../../../lib/schema/auth/zodAuth";
+import {
+  ResetPasswordSchema,
+  ResetSchema,
+} from "../../../lib/schema/auth/zodAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TEST, TEST4 } from "../../../../../server/test";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -19,49 +22,82 @@ import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { ImMail4 } from "react-icons/im";
 import { reset } from "../../../../../server/reset";
-
-function EmailForReset() {
+import { newPassword } from "../../../../../server/changePassword";
+import { MdPassword } from "react-icons/md";
+function NewPasswordForm() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const router = useRouter();
   const [isPending, startTranstion] = useTransition();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof ResetSchema>>({
-    resolver: zodResolver(ResetSchema),
+  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
-      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = (value: z.infer<typeof ResetSchema>) => {
+  const onSubmit = (value: z.infer<typeof ResetPasswordSchema>) => {
     setError("");
     setSuccess("");
     startTranstion(() => {
-      reset(value).then((data) => {
+      newPassword(value, token).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
+        if (data.success) {
+          router.push("/auth/sign-in");
+        }
       });
     });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col  items-center justify-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-3">
           <FormField
             control={form.control}
-            name="email"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
+                    type="password"
                     {...field}
                     classNames={{
                       inputWrapper: "bg-white",
                     }}
-                    errorMessage={form.formState.errors.email?.message}
-                    isInvalid={!!form.formState.errors.email}
-                    startContent={<ImMail4 size={30} />}
+                    errorMessage={form.formState.errors.password?.message}
+                    isInvalid={!!form.formState.errors.password}
+                    startContent={<MdPassword size={30} />}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="password"
+                    {...field}
+                    classNames={{
+                      inputWrapper: "bg-white",
+                    }}
+                    errorMessage={
+                      form.formState.errors.confirmPassword?.message
+                    }
+                    isInvalid={!!form.formState.errors.confirmPassword}
+                    startContent={<MdPassword size={30} />}
                   />
                 </FormControl>
               </FormItem>
@@ -86,7 +122,7 @@ function EmailForReset() {
                 bg-gradient-to-l
             from-indigo-500/50 
             to-blue-400">
-                Send Mail
+                Reset Password
               </Button>
             )}
           </div>
@@ -96,4 +132,4 @@ function EmailForReset() {
   );
 }
 
-export default EmailForReset;
+export default NewPasswordForm;
