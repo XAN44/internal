@@ -1,4 +1,4 @@
-import Image from "next/image";
+"use client";
 import React from "react";
 import NewVerificationForm from "../../components/NewVerificationForm";
 import CardDashBoard from "../../components/dashboard/CardDashBoard";
