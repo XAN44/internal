@@ -6,11 +6,18 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaChartBar } from "react-icons/fa";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
+import { HiOutlineDocumentAdd } from "react-icons/hi";
 
 export const SideBarModal = () => {
   const pathName = usePathname();
   const useRouter = useMemo(
     () => [
+      {
+        label: "Create Course",
+        Icon: HiOutlineDocumentAdd,
+        href: "/Course",
+        active: pathName === "/Course",
+      },
       {
         label: "Home",
         Icon: IoHomeOutline,

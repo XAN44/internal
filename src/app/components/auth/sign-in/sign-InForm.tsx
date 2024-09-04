@@ -24,11 +24,13 @@ import SubSignIn from "./subBtnSignIn";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { useRouter } from "next/navigation";
+import { elysia } from "../../../../../elysia/client";
+import { signIn } from "next-auth/react";
 function SignInForm() {
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -52,14 +54,18 @@ function SignInForm() {
   const onSubmit = (value: z.infer<typeof SignInSchema>) => {
     setError("");
     setSuccess("");
-    startTransition(() => {
-      TEST(value).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-        if (data.success) {
-          route.push("/auth/aboutYourself");
-        }
+    startTransition(async () => {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: value.email,
+        password: value.password,
       });
+      if (result?.error) {
+        setError(result.error);
+      }
+      if (result?.ok) {
+        route.push("/fake");
+      }
     });
   };
 
@@ -70,14 +76,14 @@ function SignInForm() {
           <div className="space-y-4 ">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>email</FormLabel>
                   <FormControl>
                     <Input
-                      errorMessage={form.formState.errors.username?.message}
-                      isInvalid={!!form.formState.errors.username}
+                      errorMessage={form.formState.errors.email?.message}
+                      isInvalid={!!form.formState.errors.email}
                       color="primary"
                       radius="full"
                       size="lg"

@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "../../lib/utils";
 import { Providers } from "./lib/nextuiProvider";
 import toast, { Toaster } from "react-hot-toast";
+import Provider from "./lib/auth/sessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(`min-h-screen w-screen`, inter.className)}>
-        <Providers>
-          {children}
-          <Toaster />
-        </Providers>
+        <Provider>
+          <Providers>
+            {children}
+            <Toaster />
+          </Providers>
+        </Provider>
       </body>
     </html>
   );

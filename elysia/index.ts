@@ -3,11 +3,26 @@ import { messageController } from "./controllers/message";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { SignUpController } from "./controllers/register";
+import { getUserByEmail } from "./controllers/getUser";
+import { Login } from "./controllers/login";
 
 export const elysiaApp = new Elysia({ prefix: "/api" })
   .use(cors())
   .use(swagger())
   .use(messageController)
+  .get("/getUserByEmail", getUserByEmail, {
+    body: t.Object({
+      email: t.String(),
+    }),
+  })
+  .post("/signIn", Login, {
+    body: t.Object({
+      initialsData: t.Object({
+        email: t.String(),
+        password: t.String(),
+      }),
+    }),
+  })
   .post("/signUp", SignUpController, {
     body: t.Object({
       initialsData: t.Object({
@@ -16,10 +31,6 @@ export const elysiaApp = new Elysia({ prefix: "/api" })
         password: t.String(),
         confirmPassword: t.String(),
       }),
-    }),
-    response: t.Object({
-      success: t.Optional(t.String()),
-      error: t.Optional(t.String()),
     }),
   })
   .onError(({ code, error }) => {

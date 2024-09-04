@@ -1,7 +1,7 @@
 import React from "react";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import { SignOut } from "../../../../../server/signOut";
 import clsx from "clsx";
+import { signOut } from "next-auth/react";
 
 interface Props {
   isOpen?: boolean;
@@ -9,7 +9,7 @@ interface Props {
 
 function SignOutButton({ isOpen }: Props) {
   const handleSigOut = () => {
-    SignOut();
+    signOut();
   };
 
   return (
