@@ -19,7 +19,7 @@ export const ResetPasswordSchema = z
     confirmPassword: z.string().min(6),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password don't match",
+    message: "password do not match ",
     path: ["confirmPassword"],
   });
 export const SignUpSchema = z
@@ -34,6 +34,6 @@ export const SignUpSchema = z
     confirmPassword: z.string().min(6),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password don't match",
+    message: "password do not match ",
     path: ["confirmPassword"],
   });
