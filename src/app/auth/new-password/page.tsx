@@ -4,9 +4,11 @@ import NewPassword from "../../components/auth/new-password/newPassword";
 
 function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <NewPassword />;
-    </Suspense>
+    <div className="w-full h-full">
+      <Suspense fallback={<div>Loading...</div>}>
+        <NewPassword />
+      </Suspense>
+    </div>
   );
 }
 
