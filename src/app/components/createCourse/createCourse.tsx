@@ -37,7 +37,7 @@ function CreateCourse() {
     setSuccess("");
     startTransition(async () => {
       try {
-        const response = await axios.post("/api/createcourse", value);
+        const response = await axios.post("/api/course", value);
         if (response.data.success) {
           toast.success(response.data.success);
           router.push(`/createcourse/${response.data.data.id}`);
