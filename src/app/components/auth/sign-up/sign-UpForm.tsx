@@ -25,7 +25,6 @@ import SubSignUp from "./subBtnSignUp";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { useRouter } from "next/navigation";
-import { elysia } from "../../../../../elysia/client";
 import axios from "axios";
 
 function SignUpForm() {

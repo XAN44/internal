@@ -66,6 +66,10 @@ function AttachmentsForm({ initials, courseId }: AttachmentsFormProps) {
     }
   };
 
+  function openNewTab(url: string) {
+    window.open(url, "_blank");
+  }
+
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="flex items-center justify-between  ">
@@ -88,7 +92,7 @@ function AttachmentsForm({ initials, courseId }: AttachmentsFormProps) {
             </p>
           )}
           {initials.attachments.length > 0 && (
-            <div className="space-y-2">
+            <div className="space-y-2 mt-6">
               {initials.attachments.map((attachment) => (
                 <div
                   className="
@@ -103,7 +107,11 @@ function AttachmentsForm({ initials, courseId }: AttachmentsFormProps) {
                   rounded-md"
                   key={attachment.id}>
                   <RiFilePaperFill className="h-4 w-4 mr-2 flex-shrink-0" />
-                  <p className="text-xs line-clamp-1">{attachment.name}</p>
+                  <p
+                    className="text-xs line-clamp-1 hover:cursor-pointer"
+                    onClick={() => openNewTab(attachment.url)}>
+                    {attachment.name}
+                  </p>
                   {deletingId === attachment.id && (
                     <div className="absolute right-3">
                       <RiLoader2Fill className="h-4 w-4 animate-spin" />

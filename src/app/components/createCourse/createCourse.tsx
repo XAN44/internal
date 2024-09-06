@@ -14,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
-import { elysia } from "../../../../elysia/client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";

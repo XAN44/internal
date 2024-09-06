@@ -2,11 +2,9 @@ import React, { useCallback } from "react";
 import { getCurrentUser } from "../../../lib/auth/getSession";
 import { redirect } from "next/navigation";
 import { db } from "../../../lib/db";
-import { boolean } from "zod";
-import SetupCourse from "../../../components/createCourse/setupCourse";
+
 import { MdDashboardCustomize } from "react-icons/md";
 import TitleForm from "../../../components/createCourse/cardCourseCustom/TitleForm";
-import { elysia } from "../../../../../elysia/client";
 import DescriptionForm from "../../../components/createCourse/cardCourseCustom/DescriptionForm";
 import ImageForm from "../../../components/createCourse/cardCourseCustom/ImageForm";
 import CategoryForm from "../../../components/createCourse/cardCourseCustom/CategoryForm";

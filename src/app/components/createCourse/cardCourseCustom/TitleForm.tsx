@@ -12,7 +12,6 @@ import {
   FormItem,
 } from "../../../../../components/ui/form";
 import { Input, Textarea } from "@nextui-org/input";
-import { elysia } from "../../../../../elysia/client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios, { isAxiosError } from "axios";

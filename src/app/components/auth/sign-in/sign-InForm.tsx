@@ -24,7 +24,6 @@ import SubSignIn from "./subBtnSignIn";
 import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { useRouter } from "next/navigation";
-import { elysia } from "../../../../../elysia/client";
 import { signIn } from "next-auth/react";
 function SignInForm() {
   const form = useForm<z.infer<typeof SignInSchema>>({
