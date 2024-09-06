@@ -6,7 +6,6 @@ export const CreateCourseSchema = z.object({
 
 export const TitleFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  descriptions: z.string().min(1, "Description is required"),
 });
 
 export const DescriptionFormSchema = z.object({

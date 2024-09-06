@@ -31,16 +31,13 @@ function CreateCourse() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const onSubmit = async (value: z.infer<typeof CreateCourseSchema>) => {
-    console.log("Submitting form with value:", value); // เพิ่มเพื่อดูค่า
     startTransition(async () => {
       try {
         const response = await axios.post("/api/course", value);
-        console.log("Response Data:", response.data); // เพิ่มเพื่อดูข้อมูลที่ตอบกลับ
         if (response.data.success) {
           toast.success(response.data.success);
           const courseId = response.data.id;
           if (courseId) {
-            console.log("Navigating to:", `/createcourse/${courseId}`); // เพิ่มเพื่อดู URL ที่จะนำทางไป
             router.push(`/createcourse/${courseId}`);
           } else {
             toast.error("Course ID is missing");
