@@ -22,15 +22,14 @@ function SidebarContent() {
         xsm:fixed
         sm:block
         z-50 
-        h-screen
-        
+        sm:h-screen
         rounded-tr-[90px]
         rounded-br-[90px]
-
- 
-         `,
+        transition-all duration-300
+        ${!isOpen ? "overflow-hidden h-16 hover:cursor-pointer" : "h-screen"}
+        `,
         isOpen
-          ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+          ? "bg-gradient-to-br from-blue-500 to-blue-700"
           : "xsm:bg-transparent sm:bg-gradient-to-br from-blue-500 to-blue-700"
       )}
       initial={{ width: "6rem" }}

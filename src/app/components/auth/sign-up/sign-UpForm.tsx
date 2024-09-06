@@ -26,6 +26,7 @@ import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { useRouter } from "next/navigation";
 import { elysia } from "../../../../../elysia/client";
+import axios from "axios";
 
 function SignUpForm() {
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -57,12 +58,19 @@ function SignUpForm() {
     setSuccess("");
 
     startTransition(async () => {
-      const response = await elysia.api.signUp.post({
-        initialsData: value,
-      });
-      const data = response.data;
-      setError(data?.error);
-      setSuccess(data?.success);
+      try {
+        const response = await axios.post("/api/auth/sign-up", value);
+        if (response.data.success) {
+          setSuccess(response.data.success);
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const message = error.response?.data?.error;
+          setError(message);
+        } else {
+          setError("An unexpected error occurred.");
+        }
+      }
     });
   };
 

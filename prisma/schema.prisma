@@ -3,9 +3,62 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  directUrl    = env("DIRECT_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  last          String?
+  username      String
+  password      String?   @db.Text
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@index([email], name: "idx_email")
+  @@map("users")
+}
+
+model Category {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  course Course[]
+}
+
+model Course {
+  id           String  @id @default(cuid())
+  userId       String
+  title        String  @db.VarChar(255)
+  descriptions String? @db.VarChar(255)
+  imageURL     String? @db.VarChar(255)
+  isPublished  Boolean @default(false)
+
+  categoryId String?
+  Category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  attachments Attachments[]
+  createAt    DateTime      @default(now())
+  updateAt    DateTime      @updatedAt
+
+  @@index([categoryId])
+}
+
+model Attachments {
+  id       String   @id @default(cuid())
+  name     String
+  url      String   @db.VarChar(255)
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  Course   Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String?
+
+  @@index([courseId])
 }
 
 model Account {
@@ -25,23 +78,8 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
   @@map("accounts")
-}
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  last          String?
-  username      String
-  password      String?   @db.Text
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-
-  @@index([email], name: "idx_email")
-  @@map("users")
 }
 
 model Session {
@@ -51,6 +89,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("sessions")
 }
 

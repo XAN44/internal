@@ -1,4 +1,6 @@
-@tailwind base;
+
+
+ @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -73,3 +75,7 @@
     @apply scroll-smooth
   }
 }
+
+
+@import "@uploadthing/react/styles.css"
+ 

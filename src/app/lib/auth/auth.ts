@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { getUserByEmail } from "../../../../server/getUser";
 import { generateVerificationToken } from "../../../../server/token";
 import { sendVerificationEmailByNodemailer } from "../Mailer/reg";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { db } from "../db";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -56,12 +58,13 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, session }) {
       if (user) {
         return {
           ...token,

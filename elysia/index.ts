@@ -5,9 +5,16 @@ import { swagger } from "@elysiajs/swagger";
 import { SignUpController } from "./controllers/register";
 import { getUserByEmail } from "./controllers/getUser";
 import { Login } from "./controllers/login";
+import { createCourse } from "./controllers/forCreate/createcourse";
+import { getCourse } from "./controllers/forCreate/getCourse";
+import { customizeCourse } from "./controllers/forCreate/customize";
 
 export const elysiaApp = new Elysia({ prefix: "/api" })
-  .use(cors())
+  .use(
+    cors({
+      methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
+    })
+  )
   .use(swagger())
   .use(messageController)
   .get("/getUserByEmail", getUserByEmail, {
@@ -21,6 +28,28 @@ export const elysiaApp = new Elysia({ prefix: "/api" })
         email: t.String(),
         password: t.String(),
       }),
+    }),
+  })
+  .post("/createcourse", createCourse, {
+    body: t.Object({
+      title: t.String(),
+    }),
+  })
+  .patch(
+    "/updatecourse/:courseId",
+    async ({ params, request }) => {
+      const body = await request.json();
+      return customizeCourse({ params, body });
+    },
+    {
+      params: t.Object({
+        courseId: t.String(),
+      }),
+    }
+  )
+  .get("/getcreatecourse/:courseId", ({ params }) => getCourse(params), {
+    params: t.Object({
+      courseId: t.String(),
     }),
   })
   .post("/signUp", SignUpController, {

@@ -6,7 +6,6 @@ import { startOfDay, format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
 import { useCalendar } from "../../lib/context/calendarContext";
-import { usePathname } from "next/navigation";
 
 function DeskTopCalendar() {
   const {

@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils";
 import { Providers } from "./lib/nextuiProvider";
 import toast, { Toaster } from "react-hot-toast";
 import Provider from "./lib/auth/sessionProvider";
+import "@uploadthing/react/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

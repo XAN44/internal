@@ -15,7 +15,6 @@ export const SignUpController = async (request: {
   };
 }) => {
   const validateField = SignUpSchema.safeParse(request.body.initialsData);
-  console.log(validateField.data);
   if (!validateField.success) {
     return { error: "Invalid field!" };
   }
