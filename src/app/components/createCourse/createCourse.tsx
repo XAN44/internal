@@ -20,8 +20,6 @@ import axios from "axios";
 import { Spinner } from "@nextui-org/react";
 
 function CreateCourse() {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const form = useForm<z.infer<typeof CreateCourseSchema>>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -32,15 +30,21 @@ function CreateCourse() {
   const { isSubmitting, isValid } = form.formState;
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const onSubmit = (value: z.infer<typeof CreateCourseSchema>) => {
-    setError("");
-    setSuccess("");
+  const onSubmit = async (value: z.infer<typeof CreateCourseSchema>) => {
+    console.log("Submitting form with value:", value); // เพิ่มเพื่อดูค่า
     startTransition(async () => {
       try {
         const response = await axios.post("/api/course", value);
+        console.log("Response Data:", response.data); // เพิ่มเพื่อดูข้อมูลที่ตอบกลับ
         if (response.data.success) {
           toast.success(response.data.success);
-          router.push(`/createcourse/${response.data.data.id}`);
+          const courseId = response.data.id;
+          if (courseId) {
+            console.log("Navigating to:", `/createcourse/${courseId}`); // เพิ่มเพื่อดู URL ที่จะนำทางไป
+            router.push(`/createcourse/${courseId}`);
+          } else {
+            toast.error("Course ID is missing");
+          }
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
