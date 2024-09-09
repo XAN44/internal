@@ -19,7 +19,11 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Spinner } from "@nextui-org/react";
 
-function CreateCourse() {
+interface Props {
+  handleCreateCourse: () => void;
+}
+
+function CreateCourse({ handleCreateCourse }: Props) {
   const form = useForm<z.infer<typeof CreateCourseSchema>>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -53,7 +57,7 @@ function CreateCourse() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto flex md:items-center md:justify-center p-6 flex-col ">
+    <div className="max-w-5xl mx-auto flex md:items-center md:justify-start p-6 flex-col relative bg-white rounded-md">
       <p className="text-xl font-bold text-blue-500">Name your course</p>
       <p className="text-blue-500 text-sm">
         Create new course , You can change this later.
@@ -80,17 +84,15 @@ function CreateCourse() {
                   />
                 </FormControl>
                 <FormDescription>
-                  what will you tech in this course ?
+                  what will you teach in this course ?
                 </FormDescription>
               </FormItem>
             )}
           />
           <div className="flex items-center justify-center gap-3">
-            <Link href="/home">
-              <Button type="button" variant="ghost">
-                Cancel
-              </Button>
-            </Link>
+            <Button type="button" variant="ghost" onClick={handleCreateCourse}>
+              Cancel
+            </Button>
             <Button
               className="bg-blue-500/50"
               type="submit"

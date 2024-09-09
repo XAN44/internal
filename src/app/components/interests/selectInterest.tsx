@@ -22,11 +22,17 @@ import { motion } from "framer-motion";
 interface SelectInterestProps {
   form: ReturnType<typeof useForm<z.infer<typeof InterestSchema>>>;
   onSubmit: (data: z.infer<typeof InterestSchema>) => void;
+  initials: {
+    name: string;
+    id: string;
+    description: string;
+  }[];
 }
 
 export default function SelectInterest({
   form,
   onSubmit,
+  initials,
 }: SelectInterestProps) {
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -76,7 +82,7 @@ export default function SelectInterest({
                         lg:grid-cols-4 
                         2xl:grid-cols-3
                         gap-5  ">
-                    {list.map((item, index) => (
+                    {initials.map((item, index) => (
                       <motion.div key={index} variants={items}>
                         <Card
                           shadow="sm"
@@ -104,18 +110,18 @@ export default function SelectInterest({
                               slg:text-2xl
                               xl:text-3xl
                               font-bold text-xl ">
-                                {item.title}
+                                {item.name}
                               </p>
                               <p className="text-xs">{item.description}</p>
                             </div>
                             <Checkbox
-                              isSelected={field.value.includes(item.title)}
+                              isSelected={field.value.includes(item.name)}
                               onChange={(e) => {
                                 // TODO ใช้สำหรับเช็คค่าที่ถูกเลือกหรือยกเลิก
                                 const newValue = e.target.checked
-                                  ? [...field.value, item.title]
+                                  ? [...field.value, item.name]
                                   : field.value.filter(
-                                      (val) => val !== item.title
+                                      (val) => val !== item.name
                                     );
                                 field.onChange(newValue);
                               }}

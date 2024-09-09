@@ -25,6 +25,7 @@ import FormError from "../../stateForm/form-error";
 import FormSuccess from "../../stateForm/form-success";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import axios from "axios";
 function SignInForm() {
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -63,7 +64,7 @@ function SignInForm() {
         setError(result.error);
       }
       if (result?.ok) {
-        route.push("/home");
+        route.push("/auth/aboutYourself");
       }
     });
   };

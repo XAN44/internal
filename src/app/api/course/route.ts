@@ -32,6 +32,9 @@ export async function POST(req: Request) {
       id: newCourse.id,
     });
   } catch (error) {
-    return NextResponse.json({ error: "Error Something went wrong" });
+    return NextResponse.json(
+      { error: "Error Something went wrong" },
+      { status: 500 }
+    );
   }
 }

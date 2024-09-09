@@ -55,37 +55,7 @@ function SidebarOpen({ isOpen }: Props) {
           name="User"
         />
       </motion.div>
-      {/* <ul
-        role="list"
-        className="
-                overflow-hidden
-                 flex-col
-                flex-grow
-                items-start 
-                justify-start
-                mt-14
-                space-y-6
-                w-full
-              
-             
-                md:overflow-y-auto
-                // Responsive Mobile
-                xsm:hidden
-                sm:flex
-                ">
-          {route.map((item, index) => (
-          <div className="w-full ml-[10%]" key={index}>
-            <DesktopItem
-              key={index}
-              icon={item.Icon}
-              href={item.href}
-              label={item.label}
-              active={item.active}
-              isOpen={isOpen}
-            />
-          </div>
-        ))} 
-      </ul> */}
+
       <div
         className="
       w-full 

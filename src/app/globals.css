@@ -1,6 +1,6 @@
 
 
- @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -63,6 +63,9 @@
 
 
  
+ 
+
+
 
 @layer base {
   * {
@@ -74,6 +77,10 @@
   html {
     @apply scroll-smooth
   }
+}
+
+.ql-container {
+ font-size:16px !important
 }
 
 

@@ -12,8 +12,20 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Spinner } from "@nextui-org/react";
 import clsx from "clsx";
+import { Category } from "@prisma/client";
+import axios from "axios";
+import { useConfettiStore } from "../../../../hooks/use-confitti-store";
 
-function TitleInterest() {
+interface categories {
+  categories: {
+    id: string;
+    name: string;
+    description: string;
+  }[];
+}
+
+function TitleInterest({ categories }: categories) {
+  const confetti = useConfettiStore();
   const form = useForm<z.infer<typeof InterestSchema>>({
     resolver: zodResolver(InterestSchema),
     defaultValues: {
@@ -29,20 +41,15 @@ function TitleInterest() {
   } = form;
 
   const onSubmit = (value: z.infer<typeof InterestSchema>) => {
-    startTransition(() => {
-      TEST3(value).then((data) => {
-        if (data.success) {
-          toast.custom((t) => (
-            <div
-              className={`bg-white px-6 py-4 shadow-md rounded-full text-emerald-500 ${
-                t.visible ? "animate-enter" : "animate-leave"
-              }`}>
-              {data.success}
-            </div>
-          ));
-          router.push("/home");
-        }
-      });
+    startTransition(async () => {
+      try {
+        await axios.post("/api/auth/interest", { interests: value.interest });
+        toast.success("Select success");
+        router.push("/home");
+        confetti.onOpen();
+      } catch (error) {
+        toast.error("Something went wrong");
+      }
     });
   };
 
@@ -106,7 +113,7 @@ function TitleInterest() {
       p-[2px]  bg-gradient-to-b from-purple-300 to-purple-300
       rounded-3xl
       ">
-        <SelectInterest form={form} onSubmit={onSubmit} />
+        <SelectInterest initials={categories} form={form} onSubmit={onSubmit} />
       </div>
 
       {isPending ? (

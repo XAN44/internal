@@ -6,6 +6,7 @@ import { Providers } from "./lib/nextuiProvider";
 import toast, { Toaster } from "react-hot-toast";
 import Provider from "./lib/auth/sessionProvider";
 import "@uploadthing/react/styles.css";
+import { ConfettiProvider } from "./components/provider/confeti-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={cn(`min-h-screen w-screen`, inter.className)}>
         <Provider>
           <Providers>
+            <ConfettiProvider />
             {children}
             <Toaster />
           </Providers>

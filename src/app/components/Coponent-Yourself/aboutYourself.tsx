@@ -22,15 +22,20 @@ import {
 import { TEST1, TEST2 } from "../../../../server/test";
 import SubSignUp from "../auth/sign-up/subBtnSignUp";
 import { AboutYourSelfSchema } from "../../lib/schema/aboutYourself/zodSelf";
-import { DepartMent, Role } from "../../lib/modal/abYourself";
+import { Role } from "../../lib/modal/abYourself";
 import FormError from "../stateForm/form-error";
 import FormSuccess from "../stateForm/form-success";
 import { FaUser, FaUsers } from "react-icons/fa";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlinePersonSearch } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
-function AboutYourself() {
+interface Props {
+  departnames: { id: number; departname: string }[];
+}
+
+function AboutYourself({ departnames }: Props) {
   const form = useForm<z.infer<typeof AboutYourSelfSchema>>({
     resolver: zodResolver(AboutYourSelfSchema),
     defaultValues: {
@@ -56,21 +61,23 @@ function AboutYourself() {
 
   const router = useRouter();
   const onSubmit = (value: z.infer<typeof AboutYourSelfSchema>) => {
-    setError("");
-    setSuccess("");
-    startTransition(() => {
-      TEST2(value).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-        if (data.success) {
-          router.push("/auth/aboutYourself/Interests");
-        }
-      });
+    startTransition(async () => {
+      try {
+        await axios.post("/api/auth/user", value);
+        setSuccess("Your profile has been updated successfully.");
+        router.push("/auth/aboutYourself/Interests");
+      } catch (error) {
+        setError("An error occurred while updating your profile.");
+      }
     });
   };
 
   return (
     <div className="w-full h-full items-center justify-center mt-3">
+      <div className="flex flex-col items-center justify-center">
+        <h2 className="text-xl">Almost finish! </h2>
+        <h1>Tell us more about yourself</h1>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -132,7 +139,7 @@ function AboutYourself() {
                       <Select
                         {...field}
                         aria-labelledby="DepartMent Select"
-                        items={DepartMent}
+                        items={departnames}
                         selectionMode="single"
                         placeholder="Select DepartMent"
                         errorMessage={form.formState.errors.department?.message}
@@ -156,9 +163,9 @@ function AboutYourself() {
                             <FaUser color="white" />
                           )
                         }>
-                        {DepartMent.map((item) => (
-                          <SelectItem key={item.value} value={item.value}>
-                            {item.label}
+                        {departnames.map((item, index) => (
+                          <SelectItem key={item.id} value={item.departname}>
+                            {item.departname}
                           </SelectItem>
                         ))}
                       </Select>

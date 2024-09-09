@@ -34,7 +34,10 @@ function SidebarContent() {
       )}
       initial={{ width: "6rem" }}
       animate={{ width: isOpen ? "17rem" : "6rem" }}
-      transition={{ duration: 0.6 }}>
+      transition={{
+        duration: 0.1, // เพิ่มเวลาการเคลื่อนไหวให้ช้าลง
+        ease: [0.22, 1, 0.36, 1], // เพิ่ม easing curve เพื่อให้การเคลื่อนไหวสมูทขึ้น
+      }}>
       <div
         className="
         h-full 

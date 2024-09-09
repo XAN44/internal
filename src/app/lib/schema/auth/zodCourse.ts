@@ -23,3 +23,11 @@ export const CategoryFormSchema = z.object({
 export const AttachmentsSchema = z.object({
   url: z.string().min(1),
 });
+
+export const TitleChapterShema = z.object({
+  title: z.string().min(1, "Title is required"),
+});
+
+export const TitleChapterQuizShema = z.object({
+  title: z.string().min(1, "Title is required"),
+});

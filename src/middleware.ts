@@ -8,9 +8,22 @@ export async function middleware(request: any) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  // ถ้าไม่มี token แสดงว่าผู้ใช้ยังไม่ได้เข้าสู่ระบบ
-  if (!token) {
-    // Redirect ไปที่หน้า login หรือหน้าที่คุณต้องการ
+  const { pathname } = request.nextUrl;
+  console.log(pathname);
+
+  if (token && (pathname === "/auth/sign-in" || pathname === "/auth/sign-up")) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
+
+  if (
+    !token &&
+    (pathname === "/setting" ||
+      pathname === "/home" ||
+      pathname === "/dashboard" ||
+      pathname === "/task" ||
+      pathname === "/notification" ||
+      pathname === "/createcourse")
+  ) {
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
 
@@ -18,7 +31,16 @@ export async function middleware(request: any) {
   return NextResponse.next();
 }
 
-// กำหนด matcher ให้ middleware ทำงานเฉพาะหน้าที่อยู่ในโฟลเดอร์ (protect)
+// กำหนด matcher ให้ middleware ทำงานเฉพาะหน้าที่อยู่ในโฟลเดอร์ (protect) และ auth
 export const config = {
-  matcher: ["/setting", "/home", "/dashboard", "/task", "/notification"],
+  matcher: [
+    "/createcourse",
+    "/setting",
+    "/home",
+    "/dashboard",
+    "/task",
+    "/notification",
+    "/auth/sign-in",
+    "/auth/sign-up",
+  ],
 };

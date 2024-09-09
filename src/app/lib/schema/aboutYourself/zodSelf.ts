@@ -1,9 +1,6 @@
 import * as z from "zod";
 import { DepartMent, Role } from "../../modal/abYourself";
 
-const validDepartments = DepartMent.map((d) => d.value);
-const validRole = Role.map((d) => d.value);
-
 export const AboutYourSelfSchema = z.object({
   firstName: z
     .string()
