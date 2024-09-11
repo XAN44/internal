@@ -10,14 +10,15 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import { Chapter, MuxData } from "@prisma/client";
+import { Chapter, Lesson, MuxData } from "@prisma/client";
 import { FaPlusCircle } from "react-icons/fa";
 import { FileUpload } from "../../fileUpload";
 import Image from "next/image";
 import { VideoUrl } from "../../../lib/schema/auth/zodChapter";
 import { RiVideoFill } from "react-icons/ri";
+
 interface ChapterVideoFormProps {
-  initials: Chapter & { muxData?: MuxData | null };
+  initials: Lesson;
   courseId: string;
   chapterId: string;
 }
@@ -51,7 +52,7 @@ function ChapterVideoForm({
         );
         togleEdit();
         router.refresh();
-        toast.success("Chapter videor update");
+        toast.success("Chapter video update");
       } catch (error) {
         toast.error("Something went wrong");
       }
@@ -85,7 +86,9 @@ function ChapterVideoForm({
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
-            <MuxPlayer playbackId={initials.muxData?.playbackId || ""} />
+            <video width="1800" height="1200" controls>
+              <source src={initials.videoUrl} type="video/mp4" />
+            </video>
           </div>
         ))}
       {isEditing && (

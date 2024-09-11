@@ -28,6 +28,7 @@ async function Page() {
       id: user.id,
     },
     select: {
+      username: true,
       departmentId: true,
     },
   });
@@ -38,7 +39,10 @@ async function Page() {
 
   return (
     <CardWrapper headerImg="/headImg2.png">
-      <AboutYourself departnames={departnames} />
+      <AboutYourself
+        departnames={departnames}
+        user={userData?.username || ""}
+      />
     </CardWrapper>
   );
 }

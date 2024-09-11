@@ -33,12 +33,14 @@ import axios from "axios";
 
 interface Props {
   departnames: { id: number; departname: string }[];
+  user?: string;
 }
 
-function AboutYourself({ departnames }: Props) {
+function AboutYourself({ departnames, user }: Props) {
   const form = useForm<z.infer<typeof AboutYourSelfSchema>>({
     resolver: zodResolver(AboutYourSelfSchema),
     defaultValues: {
+      username: user || "", // Set default value if user exists
       firstName: "",
       lastName: "",
       department: "",
@@ -83,6 +85,31 @@ function AboutYourself({ departnames }: Props) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="xsm:max-w-md  xl:max-w-xs 3xl:max-w-md">
           <div className="space-y-4 ">
+            {!user && (
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        errorMessage={form.formState.errors.username?.message}
+                        isInvalid={!!form.formState.errors.username}
+                        color="primary"
+                        radius="full"
+                        size="lg"
+                        classNames={{
+                          inputWrapper: "bg-blue-input/60 ring-2 ",
+                        }}
+                        {...field}
+                        startContent={<RxAvatar size={30} />}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="firstName"

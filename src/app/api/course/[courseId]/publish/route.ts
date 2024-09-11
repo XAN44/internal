@@ -18,11 +18,7 @@ export async function PATCH(
         userId: user.id,
       },
       include: {
-        Chapter: {
-          include: {
-            muxData: true,
-          },
-        },
+        Chapter: true,
       },
     });
 
@@ -55,6 +51,8 @@ export async function PATCH(
     });
     return NextResponse.json(publishedChapter);
   } catch (error) {
+    console.log(error);
+
     return new NextResponse("Initials Error", { status: 401 });
   }
 }

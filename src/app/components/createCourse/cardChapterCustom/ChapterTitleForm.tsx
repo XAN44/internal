@@ -62,14 +62,14 @@ function ChapterTitleForm({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="flex items-center justify-between font-medium">
-        <p className="text-gray-400">Course Title</p>
+        <p className="text-gray-400">Chapter Title</p>
         <Button variant="ghost" onClick={togleEdit}>
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <BiPencil className="h-4 w-4 mr-2" />
-              Edit Title
+              Edit Titless
             </>
           )}
         </Button>

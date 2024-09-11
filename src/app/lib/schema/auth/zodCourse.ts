@@ -31,3 +31,11 @@ export const TitleChapterShema = z.object({
 export const TitleChapterQuizShema = z.object({
   title: z.string().min(1, "Title is required"),
 });
+
+export const QuestionSchema = z.object({
+  question: z.string().min(1, "Question is required"),
+  options: z
+    .array(z.string().min(1, "Answer is required"))
+    .min(1, "At least one option is required"),
+  correctAnswer: z.string().min(1, "Correct answer is required"),
+});

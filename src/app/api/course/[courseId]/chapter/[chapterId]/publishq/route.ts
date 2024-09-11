@@ -30,18 +30,16 @@ export async function PATCH(
       },
     });
 
-    const lesson = await db.lesson.findFirst({
+    const quiz = await db.quiz.findFirst({
       where: {
         chapterId: params.chapterId,
       },
+      include: {
+        questions: true,
+      },
     });
 
-    if (
-      !chapter ||
-      !chapter.title ||
-      !chapter.description ||
-      !lesson?.videoUrl
-    ) {
+    if (!quiz?.id || !quiz?.questions) {
       return new NextResponse("Missing required fields", { status: 400 });
     }
 

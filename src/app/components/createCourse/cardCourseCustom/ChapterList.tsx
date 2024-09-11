@@ -91,6 +91,13 @@ function ChapterList({ items, onEdit, onReoder }: ChapterProps) {
                         )}>
                         {chapter.isPublished ? "Published" : "Draft"}
                       </div>
+                      <div
+                        className={cn(
+                          "badge bg-slate-500",
+                          chapter.isPublished && "bg-sky-700"
+                        )}>
+                        {chapter.type}
+                      </div>
                       <BiPencil
                         onClick={() => onEdit(chapter.id)}
                         className="w-4 h-4 cursor-pointer hover:opacity-75 transition"

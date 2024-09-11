@@ -17,13 +17,6 @@ export async function PATCH(
         id: params.courseId,
         userId: user.id,
       },
-      include: {
-        Chapter: {
-          include: {
-            muxData: true,
-          },
-        },
-      },
     });
 
     if (!course) {

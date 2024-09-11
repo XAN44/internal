@@ -71,7 +71,7 @@ function TitleForm({ initials, courseId }: TitleProps) {
           )}
         </Button>
       </div>
-      {!isEditing && <p className="mt-2 text-gray-500">{initials.title}</p>}
+      {!isEditing && <p className="mt-2 text-blue-500">{initials.title}</p>}
       {isEditing && (
         <Form {...form}>
           <form

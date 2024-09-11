@@ -1,11 +1,19 @@
+"use client";
 import { Input } from "@nextui-org/input";
 import React from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 
-function SearchBar() {
+interface Props {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function SearchBar({ onChange, value }: Props) {
   return (
     <div className="w-full">
       <Input
+        value={value}
+        onChange={onChange}
         placeholder="Explore courses..."
         classNames={{
           inputWrapper: "ring-1 ring-purple-300 rounded-full",
@@ -13,13 +21,13 @@ function SearchBar() {
         startContent={
           <div
             className="
-        bg-purple-300/50
-        rounded-full 
-        p-1 
-        flex 
-        items-center 
-        justify-center 
-        text-center">
+          bg-purple-300/50
+          rounded-full 
+          p-1 
+          flex 
+          items-center 
+          justify-center 
+          text-center">
             <BiSearchAlt2 />
           </div>
         }

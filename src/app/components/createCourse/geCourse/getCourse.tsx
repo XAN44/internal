@@ -71,8 +71,7 @@ function GetCourse() {
   }, []);
 
   const columns = [
-    { label: "Thumbnail" },
-    // { label: "Title" },
+    { label: "Course Name" },
     { label: "Published" },
     { label: "Chapter Count" },
     { label: "Action" },
@@ -160,7 +159,7 @@ function GetCourse() {
                       "badge bg-slate-500 text-gray-700",
                       row.isPublished && "text-gray-200 bg-sky-700"
                     )}>
-                    {row.chapterCount ? "Published" : "Draft"}
+                    {row.isPublished ? "Published" : "Draft"}
                   </div>
                 </TableCell>
                 <TableCell>{row.chapterCount}</TableCell>

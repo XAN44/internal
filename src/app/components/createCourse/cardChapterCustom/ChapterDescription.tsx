@@ -83,7 +83,7 @@ function ChapterDescriptionForm({
             "text-sm mt-2",
             !initials.description && "text-slate-500 italic"
           )}>
-          {initials.description && "No descriptions"}
+          {!initials.description && "No descriptions"}
           {initials.description && <Preview value={initials.description} />}
         </div>
       )}

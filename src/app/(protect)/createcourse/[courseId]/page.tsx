@@ -52,19 +52,24 @@ async function page({ params }: { params: { courseId: string } }) {
     return redirect("/home");
   }
 
-  const requiredfield = [
+  const requiredFields = [
     course.title,
     course.descriptions,
     course.imageURL,
     course.categoryId,
-    course.Chapter.some((Chapter) => Chapter.isPublished),
   ];
 
-  const totalfield = requiredfield.length;
-  const completedField = requiredfield.filter(Boolean).length;
-  const completedText = `(${completedField}/ ${totalfield})`;
+  // ตรวจสอบว่า Chapter ทั้งหมดมีการเผยแพร่หรือไม่
+  const allChaptersPublished = course.Chapter.every(
+    (chapter) => chapter.isPublished
+  );
 
-  const isCompleted = requiredfield.every(Boolean);
+  const totalFields = requiredFields.length + 1; // รวมช่องทางที่ตรวจสอบ Chapter
+  const completedFields =
+    requiredFields.filter(Boolean).length + (allChaptersPublished ? 1 : 0);
+  const completedText = `(${completedFields}/${totalFields})`;
+
+  const isCompleted = requiredFields.every(Boolean) && allChaptersPublished;
   return (
     <>
       {!course.isPublished && (

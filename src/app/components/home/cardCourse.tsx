@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { IoMdArrowDown } from "react-icons/io";
 import { MdKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import ModalSelectCourse from "./onClickSelect/modalSelectCourse";
@@ -11,9 +11,27 @@ import { FakeCourse } from "../../lib/modal/fakeSelectCourse";
 import ContinueLearning from "./searchCourse/ContinueLearning";
 import ForYou from "./searchCourse/ForYou";
 import { cardCourses } from "../../../../fakeMe";
+import { Category } from "@prisma/client";
 
-function CardCouse() {
-  const [SelectCategory, setSelectCategory] = useState("All Course");
+interface Props {
+  category: {
+    id: string;
+    name: string;
+    course: {
+      id: string;
+      title: string;
+      imageURL: string | null;
+      descriptions: string | null;
+      User: {
+        username: string | null;
+        image: string | null;
+        role: string | null;
+      };
+    }[];
+  }[];
+}
+function CardCouse({ category }: Props) {
+  const [SelectCategory, setSelectCategory] = useState<string>("All_Course_ID");
   const [currentPage, setCurrentPage] = useState(0);
   const [currentProcess, setCurrentProcess] = useState(0);
 
@@ -21,29 +39,39 @@ function CardCouse() {
 
   const itemProcess = 1;
 
-  const ShowCategories = FakeCourse.map((val) => val);
+  const ShowCategories = [
+    { id: "All_Course_ID", label: "All Course" },
+    ...category.map((val) => ({ id: val.id, label: val.name })),
+  ];
 
   const handleCategoryChange = (key: string) => {
     setSelectCategory(key);
     setCurrentPage(0);
   };
 
-  const courseProcess = cardCourses;
-
   const getTwoCorse = cardCourses.slice(0, 2);
 
   const startIndexForProces = currentProcess * itemProcess;
+  const [filterValue, setFilterValue] = useState("");
 
-  const ShowProcress = courseProcess.slice(
+  const filteredCourses = useMemo(() => {
+    let courses =
+      SelectCategory === "All_Course_ID"
+        ? category.flatMap((cat) => cat.course)
+        : category.find((cat) => cat.id === SelectCategory)?.course || [];
+
+    if (filterValue) {
+      return courses.filter((course) =>
+        course.title.toLowerCase().includes(filterValue.toLowerCase())
+      );
+    }
+    return courses;
+  }, [SelectCategory, category, filterValue]);
+
+  const ShowProcress = filteredCourses.slice(
     startIndexForProces,
     startIndexForProces + itemProcess
   );
-
-  const filteredCourses =
-    SelectCategory === "All Course"
-      ? cardCourses
-      : cardCourses.filter((f) => f.category === SelectCategory);
-
   const startIndex = currentPage * itemPerPage;
 
   const ShowCourses = filteredCourses.slice(
@@ -52,7 +80,7 @@ function CardCouse() {
   );
 
   const handleNextPage2 = () => {
-    if (startIndexForProces + itemProcess < courseProcess.length)
+    if (startIndexForProces + itemProcess < filteredCourses.length)
       setCurrentProcess(currentProcess + 1);
   };
 
@@ -124,7 +152,10 @@ function CardCouse() {
           items-center justify-center
           sm:pt-3 sm:pb-3
           ">
-          <SearchBar />
+          <SearchBar
+            value={filterValue}
+            onChange={(e) => setFilterValue(e.target.value)}
+          />
         </div>
         <div className="xsm:mt-3 sm:mt-0">
           <ButtonCourse
@@ -192,11 +223,11 @@ function CardCouse() {
                   onNext={handleNextPage2}
                   canGoBack={currentProcess > 0}
                   canGoNext={
-                    (currentProcess + 1) * itemProcess < courseProcess.length
+                    (currentProcess + 1) * itemProcess < filteredCourses.length
                   }
                 />
               </div>
-              <ContinueLearning filteredCourses={ShowProcress} />
+              {/* <ContinueLearning filteredCourses={ShowProcress} /> */}
             </div>
           </div>
           <div

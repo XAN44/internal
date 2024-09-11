@@ -39,7 +39,6 @@ function CreateCourse({ handleCreateCourse }: Props) {
       try {
         const response = await axios.post("/api/course", value);
         if (response.data.success) {
-          toast.success(response.data.success);
           const courseId = response.data.id;
           if (courseId) {
             router.push(`/createcourse/${courseId}`);

@@ -17,13 +17,14 @@ import { IoIosArrowBack } from "react-icons/io";
 interface CoursesProps {
   filteredCourses: {
     id: string;
-    category: string;
     title: string;
-    name: string;
-    role: string;
-    thumnel: string;
-    avatar: string;
-    description: string;
+    imageURL: string | null;
+    descriptions: string | null;
+    User: {
+      username: string | null;
+      image: string | null;
+      role: string | null;
+    };
   }[];
 }
 
@@ -36,7 +37,9 @@ function Courses({ filteredCourses }: CoursesProps) {
   }
 
   const [likedCourses, setLikedCourses] = useState<Record<string, boolean>>({});
-
+  if (!filteredCourses) {
+    return null;
+  }
   const handleLike = (courseId: string) => {
     setLikedCourses((prevLikes) => ({
       ...prevLikes,
@@ -123,16 +126,15 @@ function Courses({ filteredCourses }: CoursesProps) {
                     items-center 
                     justify-center">
                   <Image
-                    alt={course.name}
+                    alt={course.imageURL || ""}
                     shadow="sm"
                     radius="lg"
-                    src={course.thumnel}
+                    src={course?.imageURL || "/course.png"}
                     className="
-                object-cover 
-                sm:h-52 sm:w-80
-                xsm:h-32 xsm:w-80
-                
-                "
+                    object-cover 
+                    sm:h-52 sm:w-80
+                    xsm:h-32 xsm:w-80
+                    "
                   />
                   <h1
                     className="
@@ -144,7 +146,7 @@ function Courses({ filteredCourses }: CoursesProps) {
                   <div className="w-full flex flex-col relative">
                     <div className="flex flex-row gap-1 items-center justify-center">
                       <Avatar
-                        src={course.avatar}
+                        src={course.User.image || "/Avatar.png"}
                         className="
                         object-cover 
                         xsm:w-8 xsm:h-6
@@ -159,10 +161,10 @@ function Courses({ filteredCourses }: CoursesProps) {
                           <h1
                             className="
                           font-bold text-pretty  xsm:text-xs">
-                            {course.name}
+                            {course.User.username}
                           </h1>
                           <p className="xsm:text-xs text-gray-600 ">
-                            {course.role}
+                            {course.User.role}
                           </p>
                         </div>
                         <Button
@@ -182,7 +184,7 @@ function Courses({ filteredCourses }: CoursesProps) {
                       </div>
                     </div>
                     <p className="truncate text-xs mt-3 xsm:hidden xms:block">
-                      {course.description}
+                      {course.descriptions}
                     </p>
                   </div>
                 </CardBody>

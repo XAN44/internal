@@ -17,8 +17,11 @@ import { useRouter } from "next/navigation";
 import axios, { isAxiosError } from "axios";
 import { Spinner } from "@nextui-org/react";
 import { cn } from "../../../../../lib/utils";
-import { TitleChapterShema } from "../../../lib/schema/auth/zodCourse";
-import { Course, Chapter } from "@prisma/client";
+import {
+  TitleChapterQuizShema,
+  TitleChapterShema,
+} from "../../../lib/schema/auth/zodCourse";
+import { Course, Chapter, TypeChapter } from "@prisma/client";
 import ChapterList from "./ChapterList";
 interface ChapterProps {
   initials: Course & { Chapter: Chapter[] };
@@ -26,29 +29,55 @@ interface ChapterProps {
 }
 
 function ChapterForm({ initials, courseId }: ChapterProps) {
+  const router = useRouter();
   const [isUpdating, setIsUpdateing] = useState(false);
   const [isCreating, setCreating] = useState(false);
+  const [formType, setFormType] = useState<TypeChapter>(TypeChapter.Lesson);
 
-  const router = useRouter();
+  const [isCreateQuiz, setIsCreateQuiz] = useState(false);
+  const [isCreateLeason, setIsCreateLeason] = useState(false);
+
   const togleCreating = () => {
     setCreating((current) => !current);
   };
-  const form = useForm<z.infer<typeof TitleChapterShema>>({
+
+  const togleCreateQuiz = () => {
+    setIsCreateQuiz((current) => !current);
+    setFormType("Quiz");
+  };
+  const togleCreateLeason = () => {
+    setIsCreateLeason((current) => !current);
+    setFormType("Lesson");
+  };
+
+  const lessonForm = useForm<z.infer<typeof TitleChapterShema>>({
     resolver: zodResolver(TitleChapterShema),
     defaultValues: {
       title: "",
     },
   });
+  const quizForm = useForm<z.infer<typeof TitleChapterQuizShema>>({
+    resolver: zodResolver(TitleChapterQuizShema),
+    defaultValues: {
+      title: "",
+    },
+  });
 
-  const { isSubmitting, isValid } = form.formState;
+  const { isSubmitting, isValid } =
+    formType === "Lesson" ? lessonForm.formState : quizForm.formState;
+
   const [isPending, startTransition] = useTransition();
-  const onSubmit = (value: z.infer<typeof TitleChapterShema>) => {
+  const onSubmitLesson = async (
+    value:
+      | z.infer<typeof TitleChapterShema>
+      | z.infer<typeof TitleChapterQuizShema>
+  ) => {
     startTransition(async () => {
       try {
-        const response = await axios.post(
-          `/api/course/${courseId}/chapter`,
-          value
-        );
+        const response = await axios.post(`/api/course/${courseId}/chapter`, {
+          ...value,
+          type: formType,
+        });
         togleCreating();
         router.refresh();
         if (response.data.success) {
@@ -104,36 +133,88 @@ function ChapterForm({ initials, courseId }: ChapterProps) {
       </div>
 
       {isCreating && (
-        <Form {...form}>
-          <form
-            className="space-y-6 mt-4"
-            onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      isInvalid={!!form.formState.errors.title}
-                      errorMessage={form.formState.errors.title?.message}
-                      classNames={{
-                        inputWrapper: "bg-blue-input/60 ring-2 ",
-                      }}
-                      disabled={isSubmitting}
-                      placeholder="e.g ' Introduction to the course'"
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <Button disabled={!isValid || isSubmitting} type="submit">
-              {isPending ? <Spinner /> : "Create"}
+        <div>
+          <div className="mb-4 gap-6 flex mt-4 ">
+            <Button
+              onClick={togleCreateQuiz}
+              className={cn(formType === "Quiz" && "bg-black text-white")}>
+              Create Quiz
             </Button>
-          </form>
-        </Form>
+            <Button
+              onClick={togleCreateLeason}
+              className={cn(formType === "Lesson" && "bg-black text-white")}>
+              Create Lesson
+            </Button>
+          </div>
+          {formType === "Lesson" && (
+            <Form {...lessonForm}>
+              <form
+                className="space-y-6 mt-4"
+                onSubmit={lessonForm.handleSubmit(onSubmitLesson)}>
+                <FormField
+                  control={lessonForm.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          isInvalid={!!lessonForm.formState.errors.title}
+                          errorMessage={
+                            lessonForm.formState.errors.title?.message
+                          }
+                          classNames={{
+                            inputWrapper: "bg-blue-input/60 ring-2 ",
+                          }}
+                          disabled={isSubmitting}
+                          placeholder="e.g ' Introduction to the course'"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <Button disabled={!isValid || isSubmitting} type="submit">
+                  {isPending ? <Spinner /> : "Create"}
+                </Button>
+              </form>
+            </Form>
+          )}
+          {formType === "Quiz" && (
+            <Form {...quizForm}>
+              <form
+                className="space-y-6 mt-4"
+                onSubmit={quizForm.handleSubmit(onSubmitLesson)}>
+                <FormField
+                  control={quizForm.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          isInvalid={!!quizForm.formState.errors.title}
+                          errorMessage={
+                            quizForm.formState.errors.title?.message
+                          }
+                          classNames={{
+                            inputWrapper: "bg-blue-input/60 ring-2 ",
+                          }}
+                          disabled={isSubmitting}
+                          placeholder="e.g ' Introduction to the course'"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <Button disabled={!isValid || isSubmitting} type="submit">
+                  {isPending ? <Spinner /> : "Create"}
+                </Button>
+              </form>
+            </Form>
+          )}
+        </div>
       )}
+
       {!isCreating && (
         <div
           className={cn(
@@ -149,6 +230,7 @@ function ChapterForm({ initials, courseId }: ChapterProps) {
           />
         </div>
       )}
+
       {!isCreating && (
         <p className="text-sm text-muted-foreground mt-4">
           Drag and drop to reorder the chapter

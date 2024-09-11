@@ -24,22 +24,12 @@ export async function DELETE(
         userId: user.id,
       },
       include: {
-        Chapter: {
-          include: {
-            muxData: true,
-          },
-        },
+        Chapter: true,
       },
     });
 
     if (!course) {
       return new NextResponse("Not found", { status: 401 });
-    }
-
-    for (const chapter of course.Chapter) {
-      if (chapter.muxData?.assetId) {
-        await video.assets.delete(chapter.muxData.assetId);
-      }
     }
 
     const deletedCourse = await db.course.delete({
@@ -80,6 +70,7 @@ export async function PATCH(
       course,
     });
   } catch (error) {
+    console.log(error);
     return new NextResponse("Error something wrong", { status: 500 });
   }
 }

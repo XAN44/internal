@@ -78,7 +78,8 @@ function DescriptionForm({ initials, courseId }: DescriptionProps) {
         <p
           className={cn(
             "text-sm mt-2",
-            !initials.descriptions && "text-slate-500 italic"
+            !initials.descriptions && "text-slate-500 italic",
+            initials.descriptions && "text-blue-500"
           )}>
           {initials.descriptions || "No descriptions"}
         </p>

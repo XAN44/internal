@@ -5,10 +5,10 @@ import { FakeCourse } from "../../../lib/modal/fakeSelectCourse";
 
 interface SelectCategory {
   value: {
-    key: string;
+    id: string;
     label: string;
   }[];
-  onChange: (key: string) => void;
+  onChange: (id: string) => void;
 }
 
 function ModalSelectCourse({ value, onChange }: SelectCategory) {
@@ -28,10 +28,9 @@ function ModalSelectCourse({ value, onChange }: SelectCategory) {
           trigger: "bg-gradient-to-r from-purple-300/50 to-purple-300/50",
         }}
         onChange={handleCategoryChange}
-        defaultSelectedKeys={["All Course"]}
         placeholder="Select">
         {value.map((item) => (
-          <SelectItem key={item.key} value={item.key}>
+          <SelectItem key={item.id} value={item.id}>
             {item.label}
           </SelectItem>
         ))}

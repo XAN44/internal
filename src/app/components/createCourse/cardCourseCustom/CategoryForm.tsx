@@ -88,7 +88,8 @@ function CategoryForm({ initials, courseId, options }: CategoryProps) {
         <p
           className={cn(
             "text-sm mt-2",
-            !initials.categoryId && "text-slate-500 italic"
+            !initials.categoryId && "text-slate-500 italic",
+            selectedOptions?.label && "text-blue-500"
           )}>
           {selectedOptions?.label || "No category"}
         </p>

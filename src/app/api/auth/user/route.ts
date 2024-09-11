@@ -48,7 +48,8 @@ export async function POST(req: Request) {
       return new NextResponse("Invalid Field", { status: 400 });
     }
 
-    const { firstName, lastName, department, role } = validateField.data;
+    const { firstName, lastName, department, role, username } =
+      validateField.data;
     const departmentId = Number(department);
     if (!user?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -63,6 +64,7 @@ export async function POST(req: Request) {
         last: lastName,
         role,
         departmentId,
+        username,
       },
     });
 

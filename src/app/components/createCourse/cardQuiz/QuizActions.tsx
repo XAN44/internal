@@ -16,7 +16,7 @@ interface ChapterActionsProps {
   isPublished: boolean;
 }
 
-export const ChapterActions = ({
+export const QuizActions = ({
   chapterId,
   courseId,
   disabled,
@@ -38,11 +38,10 @@ export const ChapterActions = ({
         toast.success("Chapter unpublish");
       } else {
         await axios.patch(
-          `/api/course/${courseId}/chapter/${chapterId}/publish`
+          `/api/course/${courseId}/chapter/${chapterId}/publishq`
         );
-        confetti.onOpen();
-
         toast.success("Chapter Publish");
+        confetti.onOpen();
       }
       router.refresh();
     } catch (error) {
@@ -56,9 +55,7 @@ export const ChapterActions = ({
     try {
       setIsLoading(true);
 
-      const response = await axios.delete(
-        `/api/course/${courseId}/chapter/${chapterId}`
-      );
+      await axios.delete(`/api/course/${courseId}/chapter/${chapterId}`);
 
       toast.success("Chapter Deleted");
       router.refresh();

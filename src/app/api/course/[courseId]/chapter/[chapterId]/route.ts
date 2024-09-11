@@ -41,10 +41,16 @@ export async function DELETE(
       return new NextResponse("Not Found", { status: 404 });
     }
 
-    if (chapter.videoUrl) {
+    const lesson = await db.lesson.findFirst({
+      where: {
+        chapterId: params.chapterId,
+      },
+    });
+
+    if (lesson?.videoUrl) {
       const existringMuxData = await db.muxData.findFirst({
         where: {
-          chapterId: params.chapterId,
+          lessonId: params.chapterId,
         },
       });
       if (existringMuxData) {
@@ -97,7 +103,7 @@ export async function PATCH(
     if (!user?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const { isPublished, ...value } = await req.json();
+    const { isPublished, videoUrl, ...value } = await req.json();
 
     const courseOwner = await db.course.findUnique({
       where: {
@@ -120,38 +126,32 @@ export async function PATCH(
       },
     });
 
-    if (value.videoUrl) {
-      const existingMuxData = await db.muxData.findFirst({
+    const lesson = await db.lesson.findFirst({
+      where: {
+        chapterId: params.chapterId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!lesson) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+    if (videoUrl) {
+      await db.lesson.update({
         where: {
-          chapterId: params.chapterId,
+          id: lesson.id,
         },
-      });
-      if (existingMuxData) {
-        await video.assets.delete(existingMuxData.assetId);
-        await db.muxData.delete({
-          where: {
-            id: existingMuxData.id,
-          },
-        });
-      }
-
-      const asset = await video.assets.create({
-        input: value.videoUrl,
-        playback_policy: ["public"],
-        test: false,
-      });
-
-      await db.muxData.create({
         data: {
-          chapterId: params.chapterId,
-          assetId: asset.id,
-          playbackId: asset.playback_ids?.[0]?.id,
+          videoUrl: videoUrl,
         },
       });
     }
 
     return NextResponse.json(chapter);
   } catch (error) {
+    console.log(error);
     return new NextResponse("Error something wrong", { status: 500 });
   }
 }

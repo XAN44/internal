@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "../../../../lib/auth/getSession";
-import { redirect } from "next/navigation";
 import { db } from "../../../../lib/db";
 
 export async function POST(
@@ -8,7 +7,8 @@ export async function POST(
   { params }: { params: { courseId: string } }
 ) {
   try {
-    const { title } = await req.json();
+    const { title, type } = await req.json();
+    console.log("type", type);
     const user = await getCurrentUser();
     if (!user?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -41,11 +41,30 @@ export async function POST(
         title,
         courseId: params.courseId,
         position: newPosition,
+        type,
       },
     });
 
+    if (chapter.type === "Quiz") {
+      await db.quiz.create({
+        data: {
+          chapterId: chapter.id,
+          position: newPosition,
+        },
+      });
+    }
+
+    if (chapter.type === "Lesson") {
+      await db.lesson.create({
+        data: {
+          chapterId: chapter.id,
+        },
+      });
+    }
+
     return NextResponse.json(chapter);
   } catch (error) {
+    console.log(error);
     return new NextResponse("Error something wrong", { status: 500 });
   }
 }
