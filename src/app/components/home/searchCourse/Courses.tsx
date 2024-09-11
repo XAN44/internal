@@ -5,6 +5,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Code,
   Image,
   Link,
 } from "@nextui-org/react";
@@ -12,6 +13,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
+import { FcEmptyFilter } from "react-icons/fc";
 import { IoIosArrowBack } from "react-icons/io";
 
 interface CoursesProps {
@@ -48,8 +50,11 @@ function Courses({ filteredCourses }: CoursesProps) {
   };
 
   return (
-    <div
-      className=" 
+    <>
+      {filteredCourses.length >= 1 ? (
+        <>
+          <div
+            className=" 
   
       xsm:grid
       xsm:grid-cols-1
@@ -80,28 +85,28 @@ function Courses({ filteredCourses }: CoursesProps) {
       max:grid-cols-4
  
       ">
-      <AnimatePresence>
-        {filteredCourses.map((course, index) => (
-          <motion.div
-            key={course.id}
-            className="w-full"
-            initial={{ opacity: 0, x: 0 }}
-            animate={{
-              opacity: 1,
-              x: 1,
-              transition: {
-                type: "just",
-                delay: index * 0.1,
-              },
-            }}>
-            <Link
-              className="h-full w-full"
-              key={course.id}
-              href={`/course/${createSlug(course.title)}`}>
-              <Card
-                radius="lg"
-                shadow="lg"
-                className="
+            <AnimatePresence>
+              {filteredCourses.map((course, index) => (
+                <motion.div
+                  key={course.id}
+                  className="w-full"
+                  initial={{ opacity: 0, x: 0 }}
+                  animate={{
+                    opacity: 1,
+                    x: 1,
+                    transition: {
+                      type: "just",
+                      delay: index * 0.1,
+                    },
+                  }}>
+                  <Link
+                    className="h-full w-full"
+                    key={course.id}
+                    href={`/course/${createSlug(course.title)}`}>
+                    <Card
+                      radius="lg"
+                      shadow="lg"
+                      className="
                 bg-gradient-to-b 
                 from-blue-400/75 
                 to-blue-500 p-4
@@ -118,82 +123,93 @@ function Courses({ filteredCourses }: CoursesProps) {
 
               
                 ">
-                <CardBody
-                  className="
+                      <CardBody
+                        className="
                     overflow-visible 
                     p-0 w-full 
                     flex 
                     items-center 
                     justify-center">
-                  <Image
-                    alt={course.imageURL || ""}
-                    shadow="sm"
-                    radius="lg"
-                    src={course?.imageURL || "/course.png"}
-                    className="
+                        <Image
+                          alt={course.imageURL || ""}
+                          shadow="sm"
+                          radius="lg"
+                          src={course?.imageURL || "/course.png"}
+                          className="
                     object-cover 
                     sm:h-52 sm:w-80
                     xsm:h-32 xsm:w-80
                     "
-                  />
-                  <h1
-                    className="
+                        />
+                        <h1
+                          className="
               font-bold 
               sm:text-xl 
               xsm:text-xs mt-3 mb-3">
-                    {course.title}
-                  </h1>
-                  <div className="w-full flex flex-col relative">
-                    <div className="flex flex-row gap-1 items-center justify-center">
-                      <Avatar
-                        src={course.User.image || "/Avatar.png"}
-                        className="
+                          {course.title}
+                        </h1>
+                        <div className="w-full flex flex-col relative">
+                          <div className="flex flex-row gap-1 items-center justify-center">
+                            <Avatar
+                              src={course.User.image || "/Avatar.png"}
+                              className="
                         object-cover 
                         xsm:w-8 xsm:h-6
                         sm:w-14 sm:h-11
                         rounded-full
                         "
-                        radius="full"
-                        size="sm"
-                      />
-                      <div className="leading-normal flex justify-between items-center w-full">
-                        <div className="flex-col">
-                          <h1
-                            className="
+                              radius="full"
+                              size="sm"
+                            />
+                            <div className="leading-normal flex justify-between items-center w-full">
+                              <div className="flex-col">
+                                <h1
+                                  className="
                           font-bold text-pretty  xsm:text-xs">
-                            {course.User.username}
-                          </h1>
-                          <p className="xsm:text-xs text-gray-600 ">
-                            {course.User.role}
+                                  {course.User.username}
+                                </h1>
+                                <p className="xsm:text-xs text-gray-600 ">
+                                  {course.User.role}
+                                </p>
+                              </div>
+                              <Button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleLike(course.id);
+                                }}
+                                isIconOnly>
+                                <FaHeart
+                                  className={clsx(
+                                    likedCourses[course.id]
+                                      ? "text-red-800"
+                                      : "text-black"
+                                  )}
+                                />
+                              </Button>
+                            </div>
+                          </div>
+                          <p className="truncate text-xs mt-3 xsm:hidden xms:block">
+                            {course.descriptions}
                           </p>
                         </div>
-                        <Button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleLike(course.id);
-                          }}
-                          isIconOnly>
-                          <FaHeart
-                            className={clsx(
-                              likedCourses[course.id]
-                                ? "text-red-800"
-                                : "text-black"
-                            )}
-                          />
-                        </Button>
-                      </div>
-                    </div>
-                    <p className="truncate text-xs mt-3 xsm:hidden xms:block">
-                      {course.descriptions}
-                    </p>
-                  </div>
-                </CardBody>
-              </Card>
-            </Link>
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
+                      </CardBody>
+                    </Card>
+                  </Link>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="h-full w-full flex flex-col items-center justify-center space-y-6  ">
+            <Code className="text-xl animate-pulse">
+              Oops! We couldn&apos;t find any results.
+            </Code>
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

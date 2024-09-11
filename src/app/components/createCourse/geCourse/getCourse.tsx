@@ -51,7 +51,7 @@ async function GetCourseData() {
 }
 
 function GetCourse() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [course, getCourse] = useState<Course[]>([]);
   const [page, setPage] = useState(1);
@@ -59,11 +59,14 @@ function GetCourse() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const data = await GetCourseData();
         getCourse(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -79,9 +82,8 @@ function GetCourse() {
 
   const router = useRouter();
   const handleDelete = async (id: number) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-
       await axios.delete(`/api/course/${id}`);
       router.refresh();
       toast.success("Delete course success!");
@@ -149,7 +151,12 @@ function GetCourse() {
               <TableColumn key={column.label}>{column.label}</TableColumn>
             ))}
           </TableHeader>
-          <TableBody emptyContent="No rows to display" items={items}>
+          <TableBody
+            isLoading={isLoading}
+            loadingContent={
+              <div className="animate-pulse text-xl">Peep .. Peep ..</div>
+            }
+            items={items}>
             {(row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.title}</TableCell>
@@ -177,7 +184,7 @@ function GetCourse() {
                         </Link>
                       </span>
                     </Tooltip>
-                    <Tooltip color="danger" content="Delete user">
+                    <Tooltip color="danger" content="Delete Course">
                       <span className="text-lg text-danger cursor-pointer active:opacity-50">
                         <ActionsTable onConfirm={() => handleDelete(row.id)}>
                           <DeleteIcon />

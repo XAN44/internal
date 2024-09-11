@@ -55,17 +55,18 @@ function CardCouse({ category }: Props) {
   const [filterValue, setFilterValue] = useState("");
 
   const filteredCourses = useMemo(() => {
-    let courses =
+    let course =
       SelectCategory === "All_Course_ID"
-        ? category.flatMap((cat) => cat.course)
-        : category.find((cat) => cat.id === SelectCategory)?.course || [];
+        ? category.flatMap((course) => course.course)
+        : category.find((course) => course.id === SelectCategory)?.course || [];
 
     if (filterValue) {
-      return courses.filter((course) =>
+      return course.filter((course) =>
         course.title.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-    return courses;
+
+    return course;
   }, [SelectCategory, category, filterValue]);
 
   const ShowProcress = filteredCourses.slice(
@@ -179,6 +180,7 @@ function CardCouse({ category }: Props) {
         divide-y
       ">
         <Courses filteredCourses={ShowCourses} />
+
         <div className="mt-16 w-full border-black sm:hidden xsm:block " />
         <div
           className="
