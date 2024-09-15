@@ -32,7 +32,7 @@ function SignOutButton({ isOpen }: Props) {
         
         "
         />
-        <span className={clsx(isOpen ? "" : "sr-only")}>Sign-Out</span>
+        <span className={clsx(isOpen ? "" : "sr-only w-full")}>Sign-Out</span>
       </div>
     </div>
   );

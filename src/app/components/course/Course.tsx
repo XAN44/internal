@@ -5,53 +5,55 @@ import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import clsx from "clsx";
 import ShowDsip from "./ShowDsip";
 import { useRouter } from "next/navigation";
+import { FcReading } from "react-icons/fc";
 
 interface Course {
-  id: string;
-  category: string;
   title: string;
-  name: string;
-  role: string;
-  thumnel: string;
-  avatar: string;
-  description: string;
+  imageURL: string | null;
+  description: string | null;
+  id: string;
   chapter: {
+    id: string;
     title: string;
   }[];
+  category: {
+    categoryname: string;
+  };
+  User: {
+    username: string;
+    image: string | null;
+    role: string | null;
+  };
 }
 
-interface CoursesProps {
-  filteredCourses: Course[];
-}
-function CourseMain({ filteredCourses }: CoursesProps) {
+function CourseMain({
+  User,
+  description,
+  id,
+  imageURL,
+  title,
+  category,
+  chapter,
+}: Course) {
   const [showDescription, setShowDescription] = useState(false);
   const router = useRouter();
 
   const toggleShowFull = () => {
     setShowDescription((val) => !val);
   };
-  function createSlug(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, ""); // ลบอักขระที่ไม่ใช่ตัวอักษรหรือตัวเลข (ยกเว้นขีดกลางและขีดล่าง)
-  }
+  const firstChapterId = chapter.length > 0 ? chapter[0].id : "";
 
-  // ในโค้ดของคุณที่ใช้ฟังก์ชันนี้
-  const togleToCourse = (title: string, chapterTitle: string) => {
-    const titleSlug = createSlug(title);
-    const chapterSlug = createSlug(chapterTitle);
-
-    router.push(`/course/${titleSlug}/${chapterSlug}`);
+  const togleToCourse = (courseId: string, chapterId: string) => {
+    router.push(`/course/${courseId}/chapter/${chapterId}`);
   };
+
   return (
     <>
-      {filteredCourses.map((item) => (
-        <div key={item.id}>
-          <Card
-            isFooterBlurred
-            radius="lg"
-            className="
+      <div key={id}>
+        <Card
+          isFooterBlurred
+          radius="lg"
+          className="
             flex 
             flex-col 
             items-center 
@@ -59,14 +61,14 @@ function CourseMain({ filteredCourses }: CoursesProps) {
  
             
                 ">
-            <Image
-              isBlurred
-              src={item.thumnel}
-              alt="Picture of the author"
-              className="object-cover"
-            />
-            <CardFooter
-              className="
+          <Image
+            isBlurred
+            src={imageURL || ""}
+            alt="Picture of the author"
+            className="object-cover"
+          />
+          <CardFooter
+            className="
               flex 
               items-center 
               justify-between 
@@ -76,8 +78,8 @@ function CourseMain({ filteredCourses }: CoursesProps) {
               gap-3
               relative
               ">
-              <div
-                className="
+            <div
+              className="
               flex 
               gap-3
               items-center 
@@ -87,12 +89,12 @@ function CourseMain({ filteredCourses }: CoursesProps) {
               sm:flex-row
               w-full
               ">
-                <Image
-                  src="/avatar.png"
-                  alt="sd"
-                  fallbackSrc={item.name}
-                  radius="full"
-                  className="
+              <Image
+                src={User.image || "/Avatar.png"}
+                alt="sd"
+                fallbackSrc={title}
+                radius="full"
+                className="
                   rounded-full 
                   object-contain 
                   bg-black
@@ -101,62 +103,68 @@ function CourseMain({ filteredCourses }: CoursesProps) {
                   xsm:w-8
                   xsm:h-8
                   "
-                />
-                <div className="">
-                  <p
-                    className="
+              />
+              <div className="">
+                <p
+                  className="
                   font-bold
                   sm:text-lg
                   xsm:text-xs
                   ">
-                    {item.name}
-                  </p>
-                  <p className="text-xs">{item.role}</p>
-                </div>
+                  {User.username}
+                </p>
+                <p className="text-xs">{User.role}</p>
               </div>
-              <div
-                className="
+            </div>
+            <div
+              className="
                 text-xs badge 
                 sm:absolute 
                 sm:right-0 
                 badge-neutral 
                 sm:badge-lg 
                 xsm:badge-sm">
-                {item.category}
-              </div>
-            </CardFooter>
-            <p
-              className="
+              {category.categoryname}
+            </div>
+          </CardFooter>
+          <p
+            className="
             text-medium 
             mt-5
-            
             ">
-              {item.title}
-            </p>
-            <Button
-              variant="flat"
-              className="text-blue-800"
-              onClick={toggleShowFull}>
-              {showDescription ? "Reading . ." : " Description  "}
-            </Button>
-            <CardFooter>
-              <div className="w-full flex items-center justify-center">
-                <Button
-                  onClick={() =>
-                    togleToCourse(item.title, item.chapter[0].title)
-                  }>
-                  Enter to course
-                </Button>
-              </div>
-            </CardFooter>
-          </Card>
-          <ShowDsip
-            description={item.description}
-            showDescription={showDescription}
-            toggleShowFull={toggleShowFull}
-          />
-        </div>
-      ))}
+            {title}
+          </p>
+          <Button
+            variant="flat"
+            className="text-blue-800"
+            onClick={toggleShowFull}>
+            {showDescription ? "Reading . ." : " Read Description  "}
+          </Button>
+          <CardFooter>
+            <div className="w-full flex items-center justify-center">
+              <Button
+                variant="shadow"
+                className="bg-blue-500/50 hover:bg-blue-500"
+                startContent={<FcReading className="w-4 h-4 " />}
+                onClick={() => {
+                  console.log("Button clicked");
+                  if (firstChapterId) {
+                    togleToCourse(id, firstChapterId);
+                  } else {
+                    console.error("No firstChapterId available");
+                  }
+                }}>
+                Begin Course
+              </Button>
+            </div>
+          </CardFooter>
+        </Card>
+        <ShowDsip
+          description={description || ""}
+          showDescription={showDescription}
+          toggleShowFull={toggleShowFull}
+        />
+      </div>
     </>
   );
 }

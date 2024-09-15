@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import SearchBar from "../home/searchCourse/searchBar";
@@ -6,14 +7,31 @@ import { Link } from "@nextui-org/react";
 import { cardCourses } from "../../../../fakeMe";
 import CourseMain from "./Course";
 import SelectChapter from "./SelectChapter";
+import { db } from "../../lib/db";
 
 type Props = {
   title: string;
+  course: {
+    id: string;
+    title: string;
+    imageURL: string | null;
+    descriptions: string | null;
+    Chapter: {
+      id: string;
+      title: string;
+    }[];
+    Category: {
+      name: string;
+    };
+    User: {
+      username: string;
+      image: string | null;
+      role: string | null;
+    };
+  };
 };
 
-function CourseTitle({ title }: Props) {
-  const data = cardCourses.filter((val) => val.title === title);
-
+function CourseTitle({ title, course }: Props) {
   return (
     <div className="w-full h-full antialiased mx-auto">
       <div className="flex flex-col items-center justify-center p-6">
@@ -53,13 +71,28 @@ function CourseTitle({ title }: Props) {
                 lg:w-[290px]
                 xl:w-[400px]
                 ">
-              <SearchBar />
+              {/* รอทำ */}
+              {/* <SearchBar /> */}
             </div>
           </div>
         </div>
         <div className="mt-6 flex  h-full items-center justify-center ">
           <div className="w-full bg-white p-1 rounded-lg">
-            <CourseMain filteredCourses={data} />
+            <CourseMain
+              chapter={course?.Chapter || []} // ต้องเป็นอาเรย์
+              description={course?.descriptions || ""}
+              id={course?.id || ""}
+              imageURL={course?.imageURL || ""}
+              title={course?.title || ""}
+              User={{
+                image: course?.User.image || "",
+                username: course?.User?.username || "",
+                role: course?.User.role || "",
+              }}
+              category={{
+                categoryname: course?.Category?.name || "",
+              }}
+            />
           </div>
         </div>
       </div>

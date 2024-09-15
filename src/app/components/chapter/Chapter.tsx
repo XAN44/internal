@@ -88,7 +88,9 @@ function ChapterTitle({ title }: Props) {
                 lg:w-[290px]
                 xl:w-[400px]
                 ">
-              <SearchBar />
+              {/* รอทำ */}
+
+              {/* SearchBar */}
             </div>
           </div>
         </div>

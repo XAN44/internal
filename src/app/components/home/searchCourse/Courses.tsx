@@ -31,13 +31,6 @@ interface CoursesProps {
 }
 
 function Courses({ filteredCourses }: CoursesProps) {
-  function createSlug(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, ""); // ลบอักขระที่ไม่ใช่ตัวอักษรหรือตัวเลข (ยกเว้นขีดกลางและขีดล่าง)
-  }
-
   const [likedCourses, setLikedCourses] = useState<Record<string, boolean>>({});
   if (!filteredCourses) {
     return null;
@@ -102,7 +95,7 @@ function Courses({ filteredCourses }: CoursesProps) {
                   <Link
                     className="h-full w-full"
                     key={course.id}
-                    href={`/course/${createSlug(course.title)}`}>
+                    href={`/course/${course.id}`}>
                     <Card
                       radius="lg"
                       shadow="lg"

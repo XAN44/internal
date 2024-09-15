@@ -1,8 +1,7 @@
 import React from "react";
-import CourseTitle from "../../../../components/course/CourseTitle";
-import ChapterTitle from "../../../../components/chapter/Chapter";
+import ChapterTitle from "../../../../../components/chapter/Chapter";
 
-function Chapter({ params }: { params: { chapter: string } }) {
+function Chapter({ params }: { params: { chapterId: string } }) {
   // ฟังก์ชันแปลง slug กลับเป็นชื่อคอร์ส
   function formatTitle(slug: string): string {
     return slug
@@ -10,7 +9,7 @@ function Chapter({ params }: { params: { chapter: string } }) {
       .replace(/\b\w/g, (char) => char.toUpperCase()); // แปลงตัวอักษรตัวแรกของแต่ละคำเป็นพิมพ์ใหญ่
   }
 
-  const courseTitle = formatTitle(params.chapter);
+  const courseTitle = formatTitle(params.chapterId);
 
   return (
     <div className="w-full h-full  ">

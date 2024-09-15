@@ -9,40 +9,47 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User {
-  id            String      @id @default(cuid())
-  name          String?
-  last          String?
-  username      String?     @unique
-  role          String?
-  password      String?     @db.Text
-  email         String?     @unique
-  emailVerified DateTime?   @map("email_verified")
-  image         String?
-  Department    Department? @relation(fields: [departmentId], references: [id])
-  departmentId  Int?
-  interests     Category[]  @relation("UserCategories")
-  courses       Course[]
-  accounts      Account[]
-  sessions      Session[]
-
-  @@index([email], name: "idx_email")
-  @@index([departmentId])
-  @@map("users")
-}
-
 model Department {
   id         Int    @id @default(autoincrement())
   departname String
   User       User[]
 }
 
-model Category {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String   @db.VarChar(255)
-  course      Course[]
-  users       User[]   @relation("UserCategories")
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  last          String?
+  username      String?      @unique
+  role          String?
+  password      String?      @db.Text
+  email         String?      @unique
+  emailVerified DateTime?    @map("email_verified")
+  image         String?
+  Department    Department?  @relation(fields: [departmentId], references: [id])
+  departmentId  Int?
+  interests     Category[]   @relation("UserCategories")
+  courses       Course[]
+  accounts      Account[]
+  sessions      Session[]
+  Enrollment    Enrollment[]
+
+  @@index([email], name: "idx_email")
+  @@index([departmentId])
+  @@map("users")
+}
+
+model Enrollment {
+  id         String   @id @default(cuid())
+  userId     String
+  courseId   String
+  enrolledAt DateTime @default(now())
+
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
 }
 
 model Course {
@@ -61,9 +68,18 @@ model Course {
   updateAt    DateTime      @updatedAt
   Chapter     Chapter[]
   User        User          @relation(fields: [userId], references: [id])
+  Enrollment  Enrollment[]
 
   @@index([categoryId])
   @@index([userId])
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String   @db.VarChar(255)
+  course      Course[]
+  users       User[]   @relation("UserCategories")
 }
 
 model Attachments {
