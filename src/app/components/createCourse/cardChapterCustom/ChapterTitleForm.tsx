@@ -54,7 +54,11 @@ function ChapterTitleForm({
         router.refresh();
         toast.success("Chapter title updated");
       } catch (error) {
-        toast.error("Something went wrong");
+        if (isAxiosError(error)) {
+          toast.error(`Error: ${error.response?.data}`);
+        } else {
+          toast.error("Something went wrong");
+        }
       }
     });
   };
@@ -69,7 +73,7 @@ function ChapterTitleForm({
           ) : (
             <>
               <BiPencil className="h-4 w-4 mr-2" />
-              Edit Titless
+              Edit Title
             </>
           )}
         </Button>

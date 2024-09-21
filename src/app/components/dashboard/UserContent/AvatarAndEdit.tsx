@@ -9,12 +9,16 @@ import AvatarAndName from "./AvatarAndName";
 
 interface UserProps {
   initialState: {
-    userName: string;
-    email: string;
-    name: string;
-    job: string;
-    departMent: string;
-    avatar: string;
+    id: string;
+    username: string | null;
+    name: string | null;
+    last: string | null;
+    role: string | null;
+    email: string | null;
+    image: string | null;
+    Department: {
+      departname: string;
+    } | null;
   };
   isLoading: boolean;
 }

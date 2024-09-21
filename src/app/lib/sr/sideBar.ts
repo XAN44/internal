@@ -1,6 +1,5 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import { FiAlignJustify } from "react-icons/fi";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaChartBar } from "react-icons/fa";
@@ -10,6 +9,8 @@ import { HiOutlineDocumentAdd } from "react-icons/hi";
 
 export const SideBarModal = () => {
   const pathName = usePathname();
+  const notificationCount = 3; // จำนวนการแจ้งเตือน
+
   const useRouter = useMemo(
     () => [
       {
@@ -29,6 +30,7 @@ export const SideBarModal = () => {
         Icon: IoIosNotificationsOutline,
         href: "/notification",
         active: pathName === "/notification",
+        notificationCount,
       },
       {
         label: "Dashboard",
@@ -51,5 +53,6 @@ export const SideBarModal = () => {
     ],
     [pathName]
   );
+
   return useRouter;
 };

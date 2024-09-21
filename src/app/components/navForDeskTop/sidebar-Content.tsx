@@ -7,8 +7,14 @@ import clsx from "clsx";
 import SidebarCLose from "./sidebar-Close";
 import SidebarOpen from "./sidebar-Open";
 import { IoIosArrowBack } from "react-icons/io";
-
-function SidebarContent() {
+interface Data {
+  notificationCount: number;
+  userData: {
+    username: string | null;
+    image: string | null;
+  } | null;
+}
+function SidebarContent({ notificationCount, userData }: Data) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -76,7 +82,7 @@ function SidebarContent() {
                 onClick={toggleOpen}
               />
             </div>
-            <SidebarOpen isOpen={isOpen} />
+            <SidebarOpen isOpen={isOpen} userData={userData} />
           </>
         )}
         {!isOpen && (
@@ -111,7 +117,7 @@ function SidebarContent() {
                 onClick={toggleOpen}
               />
             </div>
-            <SidebarCLose />
+            <SidebarCLose notificationCount={notificationCount} />
           </>
         )}
       </div>

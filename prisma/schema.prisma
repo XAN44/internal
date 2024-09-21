@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  directUrl    = env("DIRECT_URL")
+  url          = env("POSTGRES_PRISMA_URL")
+  directUrl    = env("POSTGRES_URL_NON_POOLING")
   relationMode = "prisma"
 }
 
@@ -16,22 +16,25 @@ model Department {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String?
-  last          String?
-  username      String?      @unique
-  role          String?
-  password      String?      @db.Text
-  email         String?      @unique
-  emailVerified DateTime?    @map("email_verified")
-  image         String?
-  Department    Department?  @relation(fields: [departmentId], references: [id])
-  departmentId  Int?
-  interests     Category[]   @relation("UserCategories")
-  courses       Course[]
-  accounts      Account[]
-  sessions      Session[]
-  Enrollment    Enrollment[]
+  id                 String               @id @default(cuid())
+  name               String?
+  last               String?
+  username           String?              @unique
+  role               String?
+  password           String?              @db.Text
+  email              String?              @unique
+  emailVerified      DateTime?            @map("email_verified")
+  image              String?
+  Department         Department?          @relation(fields: [departmentId], references: [id])
+  departmentId       Int?
+  interests          Category[]           @relation("UserCategories")
+  courses            Course[]
+  accounts           Account[]
+  sessions           Session[]
+  Enrollment         Enrollment[]
+  notifications      Notification[]
+  UserLessonProgress UserLessonProgress[]
+  UserQuizProgress   UserQuizProgress[]
 
   @@index([email], name: "idx_email")
   @@index([departmentId])
@@ -43,9 +46,11 @@ model Enrollment {
   userId     String
   courseId   String
   enrolledAt DateTime @default(now())
+  progress   Int      @default(0)
 
-  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  User         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Course       Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  isEnrollment Boolean @default(true)
 
   @@unique([userId, courseId])
   @@index([userId])
@@ -69,6 +74,7 @@ model Course {
   Chapter     Chapter[]
   User        User          @relation(fields: [userId], references: [id])
   Enrollment  Enrollment[]
+  progress    Int?
 
   @@index([categoryId])
   @@index([userId])
@@ -99,6 +105,20 @@ enum TypeChapter {
   Lesson
 }
 
+model Notification {
+  id     String  @id @default(cuid())
+  userId String
+  title  String
+  body   String
+  link   String?
+
+  createdAt DateTime @default(now())
+  isRead    Boolean  @default(false)
+  User      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
 model Chapter {
   id          String      @id @default(cuid())
   title       String
@@ -106,17 +126,43 @@ model Chapter {
   description String?     @db.VarChar(255)
   position    Int
   isPublished Boolean     @default(false)
+  progress    Int         @default(0)
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  userProgress UserProgress[]
-  createAt     DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Lesson       Lesson?
-  Quiz         Quiz?
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Lesson    Lesson?
+  Quiz      Quiz?
 
   @@index([courseId])
+}
+
+model UserLessonProgress {
+  id          String  @id @default(cuid())
+  userId      String
+  lessonId    String
+  isCompleted Boolean @default(false)
+  user        User    @relation(fields: [userId], references: [id])
+  lesson      Lesson  @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+  @@index([userId, lessonId])
+  @@index([lessonId])
+}
+
+model UserQuizProgress {
+  id          String  @id @default(cuid())
+  userId      String
+  quizId      String
+  isCompleted Boolean @default(false)
+  user        User    @relation(fields: [userId], references: [id])
+  quiz        Quiz    @relation(fields: [quizId], references: [id])
+
+  @@unique([userId, quizId])
+  @@index([userId, quizId])
+  @@index([quizId])
 }
 
 model Lesson {
@@ -126,8 +172,10 @@ model Lesson {
   chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   muxData   MuxData?
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createAt           DateTime             @default(now())
+  updateAt           DateTime             @updatedAt
+  isCompleted        Boolean              @default(false)
+  UserLessonProgress UserLessonProgress[]
 
   @@index([chapterId])
 }
@@ -140,8 +188,10 @@ model Quiz {
   questions Question[] // คำถามในแบบทดสอบ
   chapter   Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createAt         DateTime           @default(now())
+  updateAt         DateTime           @updatedAt
+  isCompleted      Boolean            @default(false)
+  UserQuizProgress UserQuizProgress[]
 
   @@index([chapterId])
 }
@@ -169,19 +219,6 @@ model MuxData {
 
   lessonId String @unique
   lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-}
-
-model UserProgress {
-  id          String   @id @default(cuid())
-  userId      String
-  chapterId   String
-  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-  isCompleted Boolean  @default(false)
-  createAt    DateTime @default(now())
-  updateAt    DateTime @updatedAt
-
-  @@unique([userId, chapterId])
-  @@index([chapterId])
 }
 
 model Account {

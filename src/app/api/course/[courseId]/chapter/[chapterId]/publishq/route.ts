@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "../../../../../../lib/auth/getSession";
 import { db } from "../../../../../../lib/db";
+import { getCurrentUser } from "../../../../../../lib/auth/getSession";
 
 export async function PATCH(
   req: Request,
@@ -53,6 +53,28 @@ export async function PATCH(
       },
     });
 
+    const enrolledUsers = await db.enrollment.findMany({
+      where: {
+        courseId: params.courseId,
+        isEnrollment: true,
+      },
+      select: {
+        userId: true,
+      },
+    });
+
+    if (!enrolledUsers) {
+      return new NextResponse("No enrolled users", { status: 404 });
+    }
+
+    const notifications = enrolledUsers.map((enrollment) => ({
+      userId: enrollment.userId,
+      title: courseOwner.title,
+      link: params.courseId,
+      body: `New Chapter Alert! · ${chapter?.title} · ${courseOwner.title} - Check out the latest addition to your course!`,
+    }));
+
+    await db.notification.createMany({ data: notifications });
     return NextResponse.json(publishedChapter);
   } catch (error) {
     console.log(error);

@@ -4,12 +4,10 @@ import React from "react";
 interface Props {
   isOpen: boolean;
   onOpen: () => void;
-  item: {
-    useInterest: string[];
-  };
+  interest: { name: string }[];
 }
 
-function IsShowAllInterest({ isOpen, item, onOpen }: Props) {
+function IsShowAllInterest({ isOpen, interest, onOpen }: Props) {
   return (
     <>
       {isOpen ? (
@@ -55,9 +53,9 @@ function IsShowAllInterest({ isOpen, item, onOpen }: Props) {
                 justify-center
                 overflow-y-auto
               ">
-              {item.useInterest.map((i, index) => (
+              {interest.map((i, index) => (
                 <div key={index} className="w-full">
-                  <p className="font-bold">{i}</p>
+                  <p className="font-bold">{i.name}</p>
                 </div>
               ))}
             </div>

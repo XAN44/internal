@@ -1,8 +1,8 @@
 import React from "react";
 
 interface Props {
-  badgeNew: number;
-  badgeFar: number;
+  badgeNew?: number;
+  badgeFar?: number;
 }
 
 function Badge({ badgeNew, badgeFar }: Props) {

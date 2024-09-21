@@ -1,4 +1,5 @@
 import React from "react";
+import { Preview } from "../components/preview";
 
 interface Props {
   title: string;
@@ -15,9 +16,8 @@ export function Video({ title, url, chapter }: Props) {
           Chapter {chapter}
         </h3>
       </div>
-      <video width="1400" height="1800" controls preload="none">
+      <video width="1400" height="1200" controls>
         <source src={url} type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
     </div>
   );

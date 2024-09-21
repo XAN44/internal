@@ -6,6 +6,7 @@ import {
   Progress,
   Slider,
 } from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
 
 interface CoursesProps {
@@ -18,7 +19,7 @@ interface CoursesProps {
     thumnel: string;
     avatar: string;
     description: string;
-    progress: number; // เปอร์เซ็นต์ความคืบหน้า
+    progress: number;
   }[];
 }
 function ForYou({ filteredCourses }: CoursesProps) {
@@ -47,40 +48,41 @@ function ForYou({ filteredCourses }: CoursesProps) {
         </div>
       </div>
       {filteredCourses.map((i, index) => (
-        <Card
-          key={i.id}
-          className="
+        <Link key={i.id} href={`/course/${i.id}`}>
+          <Card
+            className="
           h-full
           flex 
           flex-col 
           gap-3 
           mt-1 
           overflow-hidden">
-          <CardBody>
-            <div
-              className="
+            <CardBody>
+              <div
+                className="
               flex 
               items-center 
               justify-start">
-              <Image
-                alt="Album cover"
-                className="object-cover 
+                <Image
+                  alt="Album cover"
+                  className="object-cover 
                 w-full h-full
                 
                 "
-                height={80}
-                shadow="md"
-                src={i.thumnel}
-              />
-              <div className="w-full flex flex-col ml-3">
-                <h1 className="text-sm  font-bold"> {i.title}</h1>
-                <p className="text-sm xsm:hidden sm:block">
-                  {i.name} | {i.role}
-                </p>
+                  height={80}
+                  shadow="md"
+                  src={i.thumnel}
+                />
+                <div className="w-full flex flex-col ml-3">
+                  <h1 className="text-sm  font-bold"> {i.title}</h1>
+                  <p className="text-sm ">
+                    {i.name} | {i.role}
+                  </p>
+                </div>
               </div>
-            </div>
-          </CardBody>
-        </Card>
+            </CardBody>
+          </Card>
+        </Link>
       ))}
     </div>
   );

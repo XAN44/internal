@@ -9,9 +9,8 @@ import InterestSkelTon from "./InterestSkelTon";
 import InterestContent from "./InterestContent";
 import IsOpenCard from "./IsOpenCard";
 interface UserProps {
-  interest: {
-    useInterest: string[];
-  };
+  interest: { name: string }[];
+
   isLoading?: boolean;
 }
 

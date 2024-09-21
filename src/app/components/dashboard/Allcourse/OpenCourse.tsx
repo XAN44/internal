@@ -9,21 +9,27 @@ interface Props {
   selectedCourse: {
     id: string;
     title: string;
-    duration: number;
+    imageURL: string;
     isRequired: boolean;
-    isCompleted: boolean;
-    category: string;
-    chapters: {
+    Chapter: {
       id: string;
       title: string;
-      duration: number;
       isCompleted: boolean;
     }[];
-    completionPercentage: number;
+    Category: {
+      name: string;
+    };
   } | null;
+
+  overallProgressPercentage: number;
 }
 
-function OpenCourse({ isOpen, onClose, selectedCourse }: Props) {
+function OpenCourse({
+  isOpen,
+  onClose,
+  selectedCourse,
+  overallProgressPercentage,
+}: Props) {
   return (
     <>
       {isOpen && selectedCourse ? (
@@ -81,8 +87,8 @@ function OpenCourse({ isOpen, onClose, selectedCourse }: Props) {
                     label: "tracking-wider font-medium text-default-600",
                     value: "text-foreground/60",
                   }}
-                  defaultValue={selectedCourse.completionPercentage}
-                  value={selectedCourse.completionPercentage}
+                  defaultValue={overallProgressPercentage}
+                  value={overallProgressPercentage}
                   minValue={0}
                   maxValue={100}
                   showValueLabel={true}
@@ -101,7 +107,7 @@ function OpenCourse({ isOpen, onClose, selectedCourse }: Props) {
                     {selectedCourse.isRequired ? "Required" : "Optional"}
                   </div>
                   <div className={clsx("badge badge-outline")}>
-                    {selectedCourse.category}
+                    {selectedCourse.Category.name}
                   </div>
                 </div>
               </div>
@@ -109,33 +115,26 @@ function OpenCourse({ isOpen, onClose, selectedCourse }: Props) {
                 <p className="text-medium text-blue-500 mb-6 text-center">
                   Chapter
                 </p>
-                {selectedCourse.chapters.map((i, index) => (
-                  <div
-                    className="
-                      w-full 
-                      text-start 
-                      flex 
-                      justify-between 
-                      items-center"
-                    key={index}>
-                    <div className="w-full flex items-center justify-start">
-                      <ul className="list-disc text-gray-500">
-                        <li key={i.id}>
-                          <p>{i.title}</p>
-                          <p
-                            className={clsx(
-                              "text-xs",
-                              i.isCompleted
-                                ? "text-green-500"
-                                : "text-yellow-500"
-                            )}>
-                            {i.isCompleted ? "Completed" : "Not Completed"}
-                          </p>
-                        </li>
-                      </ul>
+                {selectedCourse.Chapter && selectedCourse.Chapter.length > 0 ? (
+                  selectedCourse.Chapter.map((i, index) => (
+                    <div
+                      className="w-full text-start flex justify-between items-center"
+                      key={index}>
+                      <div className="w-full flex items-center justify-start">
+                        <ul className="list-disc text-gray-500">
+                          <li key={i.id}>
+                            <p>{i.title}</p>
+                            <p>{i.isCompleted ? "Success" : "Pending"}</p>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-center">
+                    No chapters available
+                  </p>
+                )}
               </div>
             </div>
           </div>

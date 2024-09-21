@@ -1,65 +1,136 @@
 "use client";
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import SearchBar from "../home/searchCourse/searchBar";
-import { Link } from "@nextui-org/react";
-import { cardCourses } from "../../../../fakeMe";
-import ChapterCard from "./ChapterCard";
-import Router from "next/router";
 import { useRouter } from "next/navigation";
 import ChapterMain from "./ChapterMain";
-import SelectChapter from "../course/SelectChapter";
+import { TypeChapter } from "@prisma/client";
+import { ChapterCard } from "./ChapterCard";
 
-type Props = {
-  title: string;
-};
+interface ChapterProps {
+  courseId: string;
+  chapterId: string;
+  chapter: {
+    course: {
+      title: string;
+    };
+    title: string;
+    type: TypeChapter;
+    Lesson: {
+      id: string;
+      videoUrl: string | null;
+      chapterId: string;
+      createAt: Date;
+      updateAt: Date;
+      description?: string | null;
+      UserLessonProgress?: {
+        lessonId: string; // เพิ่มการประกาศ lessonId
+        isCompleted: boolean;
+      }[]; // รวม lessonId ใน type
+    } | null;
+    Quiz: {
+      id: string;
+      position: number;
+      chapterId: string;
+      createAt: Date;
+      updateAt: Date;
+      questions: {
+        id: string;
+        question: string;
+        options: string[];
+        correctAnswer: string | null;
+        position: number;
+        quizId: string;
+        createAt: Date;
+        updateAt: Date;
+      }[];
+      UserQuizProgress?: {
+        quizId: string; // เพิ่มการประกาศ quizId
+        isCompleted: boolean;
+      }[]; // รวม quizId ใน type
+    } | null;
+  };
+  chapters: {
+    id: string;
+    title: string;
+    type: TypeChapter;
+    Lesson: {
+      id: string;
+      videoUrl: string | null;
+      chapterId: string;
+      createAt: Date;
+      updateAt: Date;
+      description?: string | null;
+      UserLessonProgress?: {
+        lessonId: string; // เพิ่มการประกาศ lessonId
+        isCompleted: boolean;
+      }[]; // รวม lessonId ใน type
+    } | null;
+    Quiz: {
+      id: string;
+      position: number;
+      chapterId: string;
+      createAt: Date;
+      updateAt: Date;
+      questions: {
+        id: string;
+        question: string;
+        options: string[];
+        correctAnswer: string | null;
+        position: number;
+        quizId: string;
+        createAt: Date;
+        updateAt: Date;
+      }[];
+      UserQuizProgress?: {
+        quizId: string; // เพิ่มการประกาศ quizId
+        isCompleted: boolean;
+      }[]; // รวม quizId ใน type
+    } | null;
+    isCompletedLesson: boolean;
+    isCompletedQuiz: boolean;
+  }[];
+}
 
-function ChapterTitle({ title }: Props) {
-  const course = cardCourses.find((course) =>
-    course.chapter.some(
-      (chapter) => chapter.title.toLowerCase() === title.toLowerCase()
-    )
-  );
-
+export function ChapterTitle({
+  chapter,
+  chapters,
+  chapterId,
+  courseId,
+}: ChapterProps) {
   const router = useRouter();
 
   const handleBackClick = () => {
     router.back();
   };
 
-  const courseTitle = course ? course.title : "Course Not Found";
+  const courseTitle = chapter?.course?.title || "Course Not Found";
 
-  function toPath(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
-  }
+  const selectedChapter = chapter;
 
-  const selectedChapter = course?.chapter.find(
-    (chapter) => chapter.title.toLowerCase() === title.toLowerCase()
-  );
-
-  const chapterIndex = course?.chapter.findIndex(
-    (chapter) => chapter.title.toLowerCase() === title.toLowerCase()
+  const chapterIndex = chapters?.findIndex(
+    (ch) => ch.title.toLowerCase() === chapter.title.toLowerCase()
   );
 
   const chapterNumber = chapterIndex !== undefined ? chapterIndex + 1 : 1;
 
+  const filteredCourses = chapters.map((ch) => ({
+    id: ch.id,
+    title: ch.title,
+    type: ch.type,
+    isCompletedQuiz:
+      ch.Quiz?.UserQuizProgress?.find(
+        (progress) => progress.quizId === ch.Quiz?.id
+      )?.isCompleted ?? false,
+    isCompletedLesson:
+      ch.Lesson?.UserLessonProgress?.find(
+        (progress) => progress.lessonId === ch.Lesson?.id
+      )?.isCompleted ?? false,
+  }));
+
   return (
     <div className="w-full h-full antialiased mx-auto">
       <div className="flex flex-col items-center justify-center p-6">
-        <div
-          className="
-            flex 
-            xsm:flex-col
-            md:flex-row
-            md:justify-between 
-            items-center 
-            text-center
-            gap-3 
-            w-full 
-          ">
+        <div className="flex xsm:flex-col md:flex-row md:justify-between items-center text-center gap-3 w-full">
           <div className="flex items-center justify-center gap-3">
             <button
               onClick={handleBackClick}
@@ -71,62 +142,30 @@ function ChapterTitle({ title }: Props) {
               {courseTitle}
             </p>
           </div>
-          <div
-            className="
-              flex 
-              sm:flex-row 
-              xsm:flex-col 
-              justify-center 
-              items-center
-              gap-6
-              ">
-            <div
-              className="
-                xsm:w-[300px] 
-                sm:w-[300px] 
-                md:w-[200px] 
-                lg:w-[290px]
-                xl:w-[400px]
-                ">
-              {/* รอทำ */}
-
-              {/* SearchBar */}
-            </div>
-          </div>
         </div>
-        <div
-          className="
-            flex 
-            w-full 
-            h-full
-         
-            xsm:flex-col
-            xl:flex-row
-            gap-10
-            ">
-          <div
-            className="
-            mt-6 
-            flex 
-             items-center 
-            justify-center 
-            bg-gradient-to-r 
-            from-purple-500 
-            to-sky-500 rounded-xl p-[1px]
-            flex-grow
-            ">
-            <div
-              className="
-              w-full
-             bg-white 
-             sm:p-6 
-             xsm:p-2  
-             rounded-xl">
+        <div className="w-full grid sm:grid-cols-5 md:grid-cols-6 xsm:grid-cols-1 sm:gap-3">
+          <div className="sm:col-span-4 md:col-span-5 mt-6 flex items-center justify-center bg-gradient-to-r from-purple-500 to-sky-500 rounded-xl p-[1px] flex-grow">
+            <div className="w-full h-full bg-white sm:p-6 xsm:p-2 rounded-xl">
               {selectedChapter ? (
                 <ChapterMain
+                  description={selectedChapter.Lesson?.description || ""}
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  type={selectedChapter.type}
                   title={selectedChapter.title}
-                  url={selectedChapter.url}
+                  url={selectedChapter.Lesson?.videoUrl || ""}
                   chapter={chapterNumber}
+                  questions={selectedChapter.Quiz?.questions || []}
+                  quizId={selectedChapter.Quiz?.id || ""}
+                  lessonId={selectedChapter.Lesson?.id || ""}
+                  isCompletedQuiz={
+                    selectedChapter.Quiz?.UserQuizProgress?.[0]?.isCompleted ??
+                    false
+                  }
+                  isCompletedLesson={
+                    selectedChapter.Lesson?.UserLessonProgress?.[0]
+                      ?.isCompleted ?? false
+                  }
                 />
               ) : (
                 <p className="sm:text-lg font-bold xsm:text-sm flex w-full items-center justify-center">
@@ -135,35 +174,14 @@ function ChapterTitle({ title }: Props) {
               )}
             </div>
           </div>
-          <div
-            className="
-            mt-6    
-            flex
-            items-center 
-            justify-center 
-            bg-gradient-to-r 
-            from-purple-500 
-            to-sky-500 
-            rounded-xl p-[1px]
-       
-            flex-grow
-            ">
-            <div
-              className="
-              h-full
-              w-full
-              flex
-             bg-white 
-              p-4 
-              rounded-xl
-            ">
-              {course?.chapter ? (
-                <>
-                  <ChapterCard
-                    filteredCourses={course?.chapter || []}
-                    courseSlug={toPath(courseTitle)}
-                  />
-                </>
+          <div className="mt-6 flex items-center justify-center bg-gradient-to-r from-purple-500 to-sky-500 rounded-xl p-[1px] flex-grow">
+            <div className="h-full w-full flex bg-white p-4 rounded-xl">
+              {chapters.length > 0 ? (
+                <ChapterCard
+                  courseId={courseId}
+                  courseSlug={courseTitle}
+                  filteredCourses={filteredCourses}
+                />
               ) : (
                 <div className="flex items-center justify-center w-full h-full">
                   <p className="sm:text-lg font-bold xsm:text-sm">
@@ -178,5 +196,3 @@ function ChapterTitle({ title }: Props) {
     </div>
   );
 }
-
-export default ChapterTitle;

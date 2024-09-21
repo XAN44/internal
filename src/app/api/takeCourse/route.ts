@@ -22,6 +22,14 @@ export async function GET(
           select: {
             id: true,
           },
+          orderBy: {
+            position: "asc",
+          },
+        },
+        Enrollment: {
+          select: {
+            isEnrollment: true,
+          },
         },
       },
     });

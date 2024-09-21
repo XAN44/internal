@@ -6,18 +6,18 @@ interface Props {
   AllCourse: {
     id: string;
     title: string;
-    duration: number;
     isRequired: boolean;
-    isCompleted: boolean;
-    category: string;
-    chapters: {
+    Chapter: {
       id: string;
       title: string;
-      duration: number;
       isCompleted: boolean;
     }[];
-    completionPercentage: number;
+    Category: {
+      name: string;
+    };
   }[];
+
+  overallProgressPercentage: number;
   isOpen: boolean;
   handleOpen: (val: string) => void;
   handleClose: () => void;
@@ -29,6 +29,7 @@ function CourseContentMobile({
   isOpen,
   handleClose,
   selectCourse,
+  overallProgressPercentage,
 }: Props) {
   return (
     <div className="md:h-0 xsm:h-96 overflow-y-auto">
@@ -63,8 +64,8 @@ function CourseContentMobile({
                 label: "tracking-wider font-medium text-default-600",
                 value: "text-foreground/60",
               }}
-              defaultValue={selectedCourse.completionPercentage}
-              value={selectedCourse.completionPercentage}
+              defaultValue={overallProgressPercentage}
+              value={overallProgressPercentage}
               minValue={0}
               maxValue={100}
               showValueLabel={true}
@@ -82,15 +83,14 @@ function CourseContentMobile({
                 )}>
                 {selectedCourse.isRequired ? "Required" : "Optional"}
               </div>
-              <div className={clsx("badge badge-outline")}>
-                {selectedCourse.category}
-              </div>
+              <div className="">{selectedCourse.Category.name}</div>
             </div>
           </div>
           <div className="divider"></div>
         </div>
       ))}
       <OpenCourse
+        overallProgressPercentage={overallProgressPercentage}
         isOpen={isOpen}
         onClose={handleClose}
         selectedCourse={selectCourse}

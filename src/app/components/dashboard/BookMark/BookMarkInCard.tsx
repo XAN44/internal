@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Card,
@@ -18,25 +19,43 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { InterestSchema } from "../../../lib/schema/interest/interestSchema";
-
+import axios from "axios";
+import { useRouter } from "next/navigation";
 interface SelectInterestProps {
   form: ReturnType<typeof useForm<z.infer<typeof InterestSchema>>>;
-  onSubmit: (data: z.infer<typeof InterestSchema>) => void;
-  bookMarkedCourses: Array<{
-    id: string;
-    title: string;
-    duration: number;
-    isCompleted: boolean;
-    isBookMark: boolean;
-    isRequired: boolean;
-  }>;
+  bookMarkedCourses: {
+    name: string;
+    isChecked: boolean;
+    descriptions: string;
+  }[];
 }
 
 export default function BookMarkInCard({
   form,
-  onSubmit,
   bookMarkedCourses,
 }: SelectInterestProps) {
+  const router = useRouter();
+  const handleCheckboxChange = async (course: {
+    name: string;
+    isChecked: boolean;
+  }) => {
+    const action = course.isChecked ? "remove" : "add";
+
+    try {
+      const response = await axios.patch("/api/interest", {
+        interestName: course.name,
+        action,
+      });
+
+      toast.success(response.data.message);
+      router.refresh();
+      // อัปเดตสถานะ checkbox หรือจัดการ state ตามความจำเป็น
+    } catch (error) {
+      console.error("Error updating interest:", error);
+      toast.error("Failed to update interest");
+    }
+  };
+
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -49,23 +68,10 @@ export default function BookMarkInCard({
     },
   };
 
-  const items = {
-    hidden: { y: 100, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
-
   return (
-    <div
-      className="
-    rounded-[calc(1.5rem-1px)] 
-    w-full h-full 
-    overflow-y-auto  
-    space-x-6 items-start justify-center p-0">
+    <div className="rounded-[calc(1.5rem-1px)] w-full h-full overflow-y-auto space-x-6 items-start justify-center p-0">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <form className="w-full">
           <FormField
             control={form.control}
             name="interest"
@@ -76,17 +82,10 @@ export default function BookMarkInCard({
                     initial="hidden"
                     animate="visible"
                     variants={container}
-                    className="   
-                        grid 
-                        p-4
-                        xsm:grid-cols-1
-                        md:grid-cols-2
-                        lg:grid-cols-4 
-                        2xl:grid-cols-3
-                        gap-5  ">
+                    className="grid p-4 xsm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
                     {bookMarkedCourses.map((course) => (
                       <motion.div
-                        key={course.id}
+                        key={course.name}
                         variants={{
                           hidden: { y: 100, opacity: 0 },
                           visible: { y: 0, opacity: 1 },
@@ -97,30 +96,20 @@ export default function BookMarkInCard({
                           <CardBody className="w-full h-full p-4 items-start justify-center overflow-visible">
                             <div className="flex flex-col text-white">
                               <p className="font-bold text-xl slg:text-2xl xl:text-3xl">
-                                {course.title}
+                                {course.name}
                               </p>
-                              <p className="text-xs">
-                                {`${
-                                  course.isRequired
-                                    ? "Recommended"
-                                    : "Unrecommended"
-                                } `}
+                              <p className="font-bold text-sm">
+                                {course.descriptions}
                               </p>
-                              <p className="text-xs">{`Duration: ${course.duration} hours`}</p>
-
-                              {course.isBookMark && (
-                                <p className="text-xs text-yellow-400">
-                                  Bookmarked
-                                </p>
-                              )}
                             </div>
                             <Checkbox
                               isRequired={true}
-                              isSelected={course.isBookMark}
+                              isSelected={course.isChecked}
                               size="lg"
                               color="success"
                               radius="full"
                               className="sm:absolute sm:top-2 sm:right-[20px]"
+                              onChange={() => handleCheckboxChange(course)}
                             />
                           </CardBody>
                         </Card>

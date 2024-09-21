@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../lib/db";
+import { getCurrentUser } from "../../../lib/auth/getSession";
 
 export async function GET(
   req: Request,
@@ -20,6 +21,11 @@ export async function GET(
         title: true,
         imageURL: true,
         descriptions: true,
+        Enrollment: {
+          select: {
+            isEnrollment: true,
+          },
+        },
         Chapter: {
           select: {
             id: true,
@@ -46,7 +52,61 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
+    return new NextResponse("Error something went wrong", { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const user = await getCurrentUser();
+    const { idEnrollment } = await req.json();
+
+    if (!user?.id) {
+      return NextResponse.json(
+        { error: "Unauthorized: Please sign in to enroll in the course." },
+        { status: 400 }
+      );
+    }
+
+    const findCourse = await db.course.findUnique({
+      where: {
+        id: idEnrollment,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!findCourse?.id) {
+      return NextResponse.json(
+        { error: "Course not found." },
+        { status: 404 } // เปลี่ยนเป็น 404 หากไม่พบหลักสูตร
+      );
+    }
+
+    const checkEnrolment = await db.enrollment.findFirst({
+      where: {
+        userId: user.id,
+        courseId: findCourse?.id,
+      },
+    });
+    if (checkEnrolment) {
+      return NextResponse.json(
+        { error: "You already enrolled in this course." },
+        { status: 400 }
+      );
+    }
+
+    await db.enrollment.create({
+      data: {
+        userId: user.id,
+        courseId: findCourse?.id,
+        isEnrollment: true,
+      },
+    });
+
+    return NextResponse.json({ success: "Enrolled successfully" });
+  } catch (error) {
+    console.log(error);
     return new NextResponse("Error something went wrong", { status: 500 });
   }
 }

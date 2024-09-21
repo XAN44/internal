@@ -41,28 +41,6 @@ export async function DELETE(
       return new NextResponse("Not Found", { status: 404 });
     }
 
-    const lesson = await db.lesson.findFirst({
-      where: {
-        chapterId: params.chapterId,
-      },
-    });
-
-    if (lesson?.videoUrl) {
-      const existringMuxData = await db.muxData.findFirst({
-        where: {
-          lessonId: params.chapterId,
-        },
-      });
-      if (existringMuxData) {
-        await video.assets.delete(existringMuxData.assetId);
-        await db.muxData.delete({
-          where: {
-            id: existringMuxData.id,
-          },
-        });
-      }
-    }
-
     const deletedChapter = await db.chapter.delete({
       where: {
         id: params.chapterId,
@@ -126,27 +104,29 @@ export async function PATCH(
       },
     });
 
-    const lesson = await db.lesson.findFirst({
-      where: {
-        chapterId: params.chapterId,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    if (!lesson) {
-      return new NextResponse("Not Found", { status: 404 });
-    }
-    if (videoUrl) {
-      await db.lesson.update({
+    if (chapter.type === "Lesson") {
+      const lesson = await db.lesson.findFirst({
         where: {
-          id: lesson.id,
+          chapterId: params.chapterId,
         },
-        data: {
-          videoUrl: videoUrl,
+        select: {
+          id: true,
         },
       });
+
+      if (!lesson) {
+        return new NextResponse("Not Found", { status: 404 });
+      }
+      if (videoUrl) {
+        await db.lesson.update({
+          where: {
+            id: lesson.id,
+          },
+          data: {
+            videoUrl: videoUrl,
+          },
+        });
+      }
     }
 
     return NextResponse.json(chapter);

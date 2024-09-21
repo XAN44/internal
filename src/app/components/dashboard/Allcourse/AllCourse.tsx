@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CardDashBoard from "../CardDashBoard";
 import CourseCard from "./CourseCard";
 
@@ -8,30 +8,42 @@ interface Props {
   AllCourse: {
     id: string;
     title: string;
-    duration: number;
     isRequired: boolean;
-    isCompleted: boolean;
-    category: string;
-    chapters: {
+    Chapter: {
       id: string;
       title: string;
-      duration: number;
       isCompleted: boolean;
     }[];
-    completionPercentage: number;
+    Category: {
+      name: string;
+    };
   }[];
+
+  overallProgressPercentage: number;
   isLoading: boolean;
 }
 
-function AllCourseToUse({ AllCourse, isLoading }: Props) {
+function AllCourseToUse({
+  AllCourse,
+  isLoading,
+  overallProgressPercentage,
+}: Props) {
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
 
+  // ใช้ useMemo เพื่อจัดเตรียมข้อมูลที่ส่งไปยัง CourseCard
+  const memoizedCourses = useMemo(() => AllCourse, [AllCourse]);
+
   return (
     <CardDashBoard>
-      <CourseCard AllCourse={AllCourse} isLoading={loading} />
+      <CourseCard
+        AllCourse={memoizedCourses}
+        isLoading={loading}
+        overallProgressPercentage={overallProgressPercentage}
+      />
     </CardDashBoard>
   );
 }

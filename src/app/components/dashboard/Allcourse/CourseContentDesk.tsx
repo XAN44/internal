@@ -5,18 +5,17 @@ interface Props {
   AllCourse: {
     id: string;
     title: string;
-    duration: number;
-    isRequired: boolean;
-    isCompleted: boolean;
-    category: string;
-    chapters: {
-      id: string;
+     isRequired: boolean;
+        Chapter: {
+      id:string
       title: string;
-      duration: number;
-      isCompleted: boolean;
     }[];
-    completionPercentage: number;
+    Category: {
+      name: string;
+    };
   }[];
+
+  overallProgressPercentage: number;
   isOpen: boolean;
   handleOpen: (val: string) => void;
   handleClose: () => void;
@@ -25,9 +24,9 @@ interface Props {
 function CourseContentDesk({
   handleOpen,
   AllCourse,
-  isOpen,
-  handleClose,
+
   selectCourse,
+  overallProgressPercentage,
 }: Props) {
   return (
     <div
@@ -45,7 +44,7 @@ function CourseContentDesk({
         place-items-center 
         justify-center items-start">
         <p className="text-blue-500 font-bold h-16  ">ENROLLED COURSES</p>{" "}
-        <p className="text-blue-500 font-bold h-16">REQUIREMENT</p>{" "}
+        <p className="text-blue-500 font-bold h-16">REQUIREMENT</p>
         <p className="text-blue-500 font-bold h-16">SKILL SETS</p>
         <p className="text-blue-500 font-bold h-16 ">COURSE PROGRESS</p>
       </div>
@@ -72,7 +71,7 @@ function CourseContentDesk({
         <div className="flex flex-col items-center">
           {AllCourse.map((course, index) => (
             <p key={course.id} className="text-gray-700 h-16">
-              {course.category}
+              {course.Category.name}
             </p>
           ))}
         </div>{" "}
@@ -88,8 +87,8 @@ function CourseContentDesk({
                   label: "tracking-wider font-medium text-default-600",
                   value: "text-foreground/60",
                 }}
-                defaultValue={course.completionPercentage}
-                value={course.completionPercentage}
+                defaultValue={overallProgressPercentage}
+                value={overallProgressPercentage}
                 minValue={0}
                 maxValue={100}
                 showValueLabel={true}

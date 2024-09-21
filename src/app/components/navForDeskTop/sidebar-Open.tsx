@@ -9,9 +9,13 @@ import { motion } from "framer-motion";
 import MobileCalendar from "../navFor/MobileCalendar";
 interface Props {
   isOpen?: boolean;
+  userData: {
+    username: string | null;
+    image: string | null;
+  } | null;
 }
 
-function SidebarOpen({ isOpen }: Props) {
+function SidebarOpen({ isOpen, userData }: Props) {
   const route = SideBarModal();
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -37,7 +41,7 @@ function SidebarOpen({ isOpen }: Props) {
         justify-center
          ">
         <p className="font-sans text-2xl">Hello!</p>
-        <p className="">Username</p>
+        <p className="">{userData?.username}</p>
         <Avatar
           radius="full"
           className="
@@ -51,7 +55,7 @@ function SidebarOpen({ isOpen }: Props) {
 
           "
           fallback="Avatar"
-          src="/Avatar.png"
+          src={userData?.image || "/Avatar.png"}
           name="User"
         />
       </motion.div>

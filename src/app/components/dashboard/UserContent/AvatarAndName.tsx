@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, Button } from "@nextui-org/react";
 import React from "react";
 import { FiEdit } from "react-icons/fi";
@@ -6,17 +7,22 @@ import { RxAvatar } from "react-icons/rx";
 
 interface Props {
   initialState: {
-    userName: string;
-    email: string;
-    name: string;
-    job: string;
-    departMent: string;
-    avatar: string;
+    id: string;
+    username: string | null;
+    name: string | null;
+    last: string | null;
+    role: string | null;
+    email: string | null;
+    image: string | null;
+    Department: {
+      departname: string;
+    } | null;
   };
 }
 
 function AvatarAndName({ initialState }: Props) {
-  const { avatar, departMent, email, job, name, userName } = initialState;
+  const { image, Department, email, role, name, last, username } = initialState;
+
   return (
     <div
       className="
@@ -42,7 +48,7 @@ function AvatarAndName({ initialState }: Props) {
             gap-3
             ">
         <Avatar
-          src={avatar}
+          src={image || ""}
           alt="avatar"
           className="
                 xsm:w-28 xsm:h-28
@@ -68,9 +74,11 @@ function AvatarAndName({ initialState }: Props) {
             xsm:items-center
             ">
         <div className="flex-grow">
-          <p className="font-bold text-xl">{name}</p>
-          <p className="text-sm text-blue-600">{job}</p>
-          <p className="text-xs">{departMent}</p>
+          <p className="font-bold text-xl">
+            {name} {last}
+          </p>
+          <p className="text-sm text-blue-600">{role}</p>
+          <p className="text-xs">{Department?.departname}</p>
         </div>
         <div
           className="
@@ -88,7 +96,7 @@ function AvatarAndName({ initialState }: Props) {
               bg-blue-input/60 
               rounded-xl">
           <RxAvatar size={25} className="text-sky-600/60" />
-          <p>{userName}</p>
+          <p>{username}</p>
         </div>
         <div
           className="

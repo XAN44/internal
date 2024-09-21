@@ -26,14 +26,11 @@ import SelectInterest from "../../interests/selectInterest";
 import { useRouter } from "next/navigation";
 import BookMarkInCard from "./BookMarkInCard";
 interface BookMarkContentProps {
-  bookMarkedCourses: Array<{
-    id: string;
-    title: string;
-    duration: number;
-    isBookMark: boolean;
-    isRequired: boolean;
-    isCompleted: boolean;
-  }>;
+  bookMarkedCourses: {
+    name: string;
+    isChecked: boolean;
+    descriptions: string;
+  }[];
 }
 function BookMarkCard({ bookMarkedCourses }: BookMarkContentProps) {
   const form = useForm<z.infer<typeof InterestSchema>>({
@@ -49,24 +46,6 @@ function BookMarkCard({ bookMarkedCourses }: BookMarkContentProps) {
   const {
     formState: { errors, isValid, isDirty },
   } = form;
-
-  const onSubmit = (value: z.infer<typeof InterestSchema>) => {
-    startTransition(() => {
-      TEST3(value).then((data) => {
-        if (data.success) {
-          toast.custom((t) => (
-            <div
-              className={`bg-white px-6 py-4 shadow-md rounded-full text-emerald-500 ${
-                t.visible ? "animate-enter" : "animate-leave"
-              }`}>
-              {data.success}
-            </div>
-          ));
-          router.push("/home");
-        }
-      });
-    });
-  };
 
   return (
     <div className="w-full h-full p-6 flex flex-col items-center justify-center">
@@ -89,13 +68,8 @@ function BookMarkCard({ bookMarkedCourses }: BookMarkContentProps) {
         justify-center 
         flex-col 
         overflow-y-auto 
-        p-[2px]  
-      ">
-        <BookMarkInCard
-          bookMarkedCourses={bookMarkedCourses}
-          form={form}
-          onSubmit={onSubmit}
-        />
+        p-[2px]  ">
+        <BookMarkInCard bookMarkedCourses={bookMarkedCourses} form={form} />
       </div>
     </div>
   );

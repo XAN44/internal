@@ -57,7 +57,7 @@ function ChapterCustomMain({
           <div>
             <div className="flex items-center gap-x-2">
               <MdDashboardCustomize size={30} />
-              <h2 className="text-xl">Customize your course</h2>
+              <h2 className="text-xl">Customize Your Lesson</h2>
             </div>
             <ChapterTitleForm
               initials={chapter}

@@ -1,8 +1,5 @@
 "use client";
-import { Progress } from "@nextui-org/react";
 import React, { useState } from "react";
-import OpenCourse from "./OpenCourse";
-import clsx from "clsx";
 import CourseContentMobile from "./CoursContentMobile";
 import CourseContentDesk from "./CourseContentDesk";
 import SkeltonForMobile from "./SkeltonForMobile";
@@ -10,21 +7,26 @@ interface Props {
   AllCourse: {
     id: string;
     title: string;
-    duration: number;
     isRequired: boolean;
-    isCompleted: boolean;
-    category: string;
-    chapters: {
+    Chapter: {
       id: string;
       title: string;
-      duration: number;
       isCompleted: boolean;
     }[];
-    completionPercentage: number;
+    Category: {
+      name: string;
+    };
   }[];
+
+  overallProgressPercentage: number;
+
   isLoading: boolean;
 }
-function CourseCard({ AllCourse, isLoading }: Props) {
+function CourseCard({
+  AllCourse,
+  isLoading,
+  overallProgressPercentage,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectCourse, setSelectCourse] = useState<any>(null);
 
@@ -45,6 +47,7 @@ function CourseCard({ AllCourse, isLoading }: Props) {
       ) : (
         <>
           <CourseContentMobile
+            overallProgressPercentage={overallProgressPercentage}
             handleClose={handleClose}
             AllCourse={AllCourse}
             handleOpen={handleOpen}
@@ -52,6 +55,7 @@ function CourseCard({ AllCourse, isLoading }: Props) {
             selectCourse={selectCourse}
           />
           <CourseContentDesk
+            overallProgressPercentage={overallProgressPercentage}
             handleClose={handleClose}
             AllCourse={AllCourse}
             handleOpen={handleOpen}

@@ -11,15 +11,14 @@ import Badge from "./Badge";
 ChartJS.register(Title, Tooltip, Legend, ArcElement, ChartDataLabels);
 
 interface Props {
-  AllcourseProcess: number;
-  requireCoursePerCentage: number;
-  statusCompleted: number;
-  statusPending: number;
-  HardSkill: number;
-  SoftSkill: number;
+  AllcourseProcess?: number;
+  requireCoursePerCentage?: number;
   isLoading: boolean;
-  badgeNew: number;
-  badgeFar: number;
+  statusCompleted?: number;
+  statusPending?: number;
+  courseDistribution: { [category: string]: number };
+  badgeNew?: number;
+  badgeFar?: number;
 }
 
 function CardProgressMain({
@@ -28,8 +27,7 @@ function CardProgressMain({
   AllcourseProcess,
   requireCoursePerCentage,
   isLoading,
-  HardSkill,
-  SoftSkill,
+  courseDistribution,
   statusCompleted,
   statusPending,
 }: Props) {
@@ -58,8 +56,7 @@ function CardProgressMain({
                 />
               </div>
               <Dough
-                HardSkill={HardSkill}
-                SoftSkill={SoftSkill}
+                courseDistribution={courseDistribution}
                 statusCompleted={statusCompleted}
                 statusPending={statusPending}
               />

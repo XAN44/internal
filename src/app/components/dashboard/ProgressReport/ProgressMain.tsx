@@ -1,18 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CardDashBoard from "../CardDashBoard";
 import CardProgressMain from "./CardProgressMain";
 
 interface Props {
-  AllcourseProcess: number;
-  requireCoursePerCentage: number;
+  AllcourseProcess?: number;
+  requireCoursePerCentage?: number;
   isLoading: boolean;
-  statusCompleted: number;
-  statusPending: number;
-  HardSkill: number;
-  SoftSkill: number;
-  badgeNew: number;
-  badgeFar: number;
+  statusCompleted?: number;
+  statusPending?: number;
+  courseDistribution: { [category: string]: number };
+
+  badgeNew?: number;
+  badgeFar?: number;
 }
 
 function ProgressMain({
@@ -21,8 +21,7 @@ function ProgressMain({
   isLoading,
   statusCompleted,
   statusPending,
-  HardSkill,
-  SoftSkill,
+  courseDistribution,
   badgeFar,
   badgeNew,
 }: Props) {
@@ -32,19 +31,31 @@ function ProgressMain({
     setLoading(isLoading);
   }, [isLoading]);
 
+  // ใช้ useMemo เพื่อจัดเตรียมข้อมูลที่ส่งไปยัง CardProgressMain
+  const memoizedData = useMemo(
+    () => ({
+      courseDistribution,
+      badgeFar,
+      badgeNew,
+      statusCompleted,
+      statusPending,
+      AllcourseProcess,
+      requireCoursePerCentage,
+    }),
+    [
+      courseDistribution,
+      badgeFar,
+      badgeNew,
+      statusCompleted,
+      statusPending,
+      AllcourseProcess,
+      requireCoursePerCentage,
+    ]
+  );
+
   return (
     <CardDashBoard>
-      <CardProgressMain
-        badgeFar={badgeFar}
-        badgeNew={badgeNew}
-        HardSkill={HardSkill}
-        SoftSkill={SoftSkill}
-        statusCompleted={statusCompleted}
-        statusPending={statusPending}
-        isLoading={loading}
-        AllcourseProcess={AllcourseProcess}
-        requireCoursePerCentage={requireCoursePerCentage}
-      />
+      <CardProgressMain {...memoizedData} isLoading={loading} />
     </CardDashBoard>
   );
 }

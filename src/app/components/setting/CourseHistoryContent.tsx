@@ -88,13 +88,13 @@ function CourseHistoryContent() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col items-center w-full justify-start gap-3">
+        {/* <div className="flex flex-col items-center w-full justify-start gap-3">
           {data.map((i, index) => (
             <div className="text-gray-500   line-clamp-1" key={index}>
               {format(new Date(i.date), "MMM d yyyy")}
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

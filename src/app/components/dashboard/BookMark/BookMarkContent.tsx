@@ -1,20 +1,22 @@
-import React from "react";
+"use client";
+import React, { useMemo } from "react";
 import CardDashBoard from "../CardDashBoard";
 import BookMarkCard from "./BookMarkCard";
+
 interface BookMarkContentProps {
-  bookMarkedCourses: Array<{
-    id: string;
-    title: string;
-    duration: number;
-    isRequired: boolean;
-    isBookMark: boolean;
-    isCompleted: boolean;
-  }>;
+  bookMarkedCourses: {
+    name: string;
+    isChecked: boolean;
+    descriptions: string;
+  }[];
 }
+
 function BookMarkContent({ bookMarkedCourses }: BookMarkContentProps) {
+  const memoizedCourses = useMemo(() => bookMarkedCourses, [bookMarkedCourses]);
+
   return (
     <CardDashBoard>
-      <BookMarkCard bookMarkedCourses={bookMarkedCourses} />
+      <BookMarkCard bookMarkedCourses={memoizedCourses} />
     </CardDashBoard>
   );
 }

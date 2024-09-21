@@ -4,7 +4,6 @@ import { IoMdArrowDown } from "react-icons/io";
 import { MdKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import ModalSelectCourse from "./onClickSelect/modalSelectCourse";
 import SearchBar from "./searchCourse/searchBar";
-import DeskTopCalendar from "../navFor/DeskTopCalendar";
 import ButtonCourse from "./searchCourse/ButtonCourse";
 import Courses from "./searchCourse/Courses";
 import { FakeCourse } from "../../lib/modal/fakeSelectCourse";
@@ -14,6 +13,8 @@ import { cardCourses } from "../../../../fakeMe";
 import { Category } from "@prisma/client";
 
 interface Props {
+  currentId: string;
+  overallProgressPercentage: number;
   category: {
     id: string;
     name: string;
@@ -22,6 +23,16 @@ interface Props {
       title: string;
       imageURL: string | null;
       descriptions: string | null;
+      isPublished: boolean;
+      progress?: number | null;
+      Enrollment: {
+        id: string;
+        userId: string;
+        courseId: string;
+        enrolledAt: Date;
+        progress: number;
+        isEnrollment: boolean;
+      }[];
       User: {
         username: string | null;
         image: string | null;
@@ -29,15 +40,48 @@ interface Props {
       };
     }[];
   }[];
+  userInterests: {
+    id: string;
+    name: string;
+  }[];
+  filteredCoursesForUser: {
+    id: string;
+    title: string;
+    imageURL: string | null;
+    descriptions: string | null;
+
+    Enrollment: {
+      id: string;
+      userId: string;
+      courseId: string;
+      enrolledAt: Date;
+      progress: number;
+      isEnrollment: boolean;
+    }[];
+    User: {
+      username: string | null;
+      image: string | null;
+      role: string | null;
+    };
+  }[];
 }
-function CardCouse({ category }: Props) {
+function CardCouse({
+  category,
+  currentId,
+  filteredCoursesForUser,
+  userInterests,
+  overallProgressPercentage,
+}: Props) {
   const [SelectCategory, setSelectCategory] = useState<string>("All_Course_ID");
   const [currentPage, setCurrentPage] = useState(0);
   const [currentProcess, setCurrentProcess] = useState(0);
+  const [currentForyou, setCurrentForyou] = useState(0);
 
   const itemPerPage = 4;
 
   const itemProcess = 1;
+
+  const itemPerYou = 2;
 
   const ShowCategories = [
     { id: "All_Course_ID", label: "All Course" },
@@ -49,9 +93,10 @@ function CardCouse({ category }: Props) {
     setCurrentPage(0);
   };
 
-  const getTwoCorse = cardCourses.slice(0, 2);
-
   const startIndexForProces = currentProcess * itemProcess;
+  const startIndexForYou = currentForyou * itemPerYou;
+  const startIndex = currentPage * itemPerPage;
+
   const [filterValue, setFilterValue] = useState("");
 
   const filteredCourses = useMemo(() => {
@@ -69,19 +114,88 @@ function CardCouse({ category }: Props) {
     return course;
   }, [SelectCategory, category, filterValue]);
 
-  const ShowProcress = filteredCourses.slice(
-    startIndexForProces,
-    startIndexForProces + itemProcess
-  );
-  const startIndex = currentPage * itemPerPage;
+  const filterCousreForU = useMemo(() => {
+    return category.flatMap((cat) => {
+      if (userInterests.some((interest) => interest.id === cat.id)) {
+        return cat.course
+          .filter((course) => course.isPublished)
+          .map((course) => {
+            const enrollment = course.Enrollment.find(
+              (e) => e.userId === currentId
+            );
+            return {
+              id: course.id,
+              category: cat.name,
+              title: course.title,
+              name: course.User?.username || "Unknown",
+              role: course.User?.role || "Unknown",
+              thumnel: course.imageURL || "default-image.png",
+              avatar: course.User?.image || "default-avatar.png",
+              description: course.descriptions || "No description available",
+              progress: enrollment?.progress || 0,
+            };
+          });
+      }
+      return [];
+    });
+  }, [category, userInterests, currentId]);
+
+  const filterCourseContinue = useMemo(() => {
+    return category.flatMap((cat) => {
+      return cat.course
+        .filter((course) => {
+          const enrollment = course.Enrollment.find(
+            (e) => e.userId === currentId
+          );
+          return enrollment && enrollment.isEnrollment;
+        })
+        .map((course) => {
+          const enrollment = course.Enrollment.find(
+            (e) => e.userId === currentId
+          );
+          return {
+            id: course.id,
+            category: cat.name,
+            role: course.User.role || "Unknown Role",
+            title: course.title,
+            thumnel: course.imageURL || "/default-thumbnail.png",
+            description: course.descriptions || "No description available",
+            avatar: course.User.image || "/default-avatar.png",
+            progress: enrollment?.progress || 0,
+            name: course.User.username || "Anonymous",
+            enrollment: enrollment,
+          };
+        });
+    });
+  }, [category, currentId]);
 
   const ShowCourses = filteredCourses.slice(
     startIndex,
     startIndex + itemPerPage
   );
+  const ShowForYouCourses = filterCousreForU.slice(
+    startIndexForYou,
+    startIndexForYou + itemPerYou
+  );
+
+  const ShowProcressCourses = filterCourseContinue.slice(
+    startIndexForProces,
+    startIndexForProces + itemProcess
+  );
+
+  const handleNextPageYou = () => {
+    if (startIndexForYou + itemPerYou < filterCousreForU.length)
+      setCurrentForyou(currentForyou + 1);
+  };
+
+  const handlePrevPageeYou = () => {
+    if (currentForyou > 0) {
+      setCurrentForyou(currentForyou - 1);
+    }
+  };
 
   const handleNextPage2 = () => {
-    if (startIndexForProces + itemProcess < filteredCourses.length)
+    if (startIndexForProces + itemProcess < filterCourseContinue.length)
       setCurrentProcess(currentProcess + 1);
   };
 
@@ -167,7 +281,6 @@ function CardCouse({ category }: Props) {
           />
         </div>
       </div>
-      {/* Main Content */}
       <div
         className="
         xsm:p-0 
@@ -225,27 +338,38 @@ function CardCouse({ category }: Props) {
                   onNext={handleNextPage2}
                   canGoBack={currentProcess > 0}
                   canGoNext={
-                    (currentProcess + 1) * itemProcess < filteredCourses.length
+                    (currentProcess + 1) * itemProcess <
+                    filterCourseContinue.length
                   }
                 />
               </div>
-              {/* <ContinueLearning filteredCourses={ShowProcress} /> */}
+              <ContinueLearning
+                filteredCourses={ShowProcressCourses}
+                overallProgressPercentage={overallProgressPercentage}
+              />
             </div>
           </div>
-          <div
-            className="
-              
-              xsm:w-[200px]
-              xssx:w-64
-              sm:w-80
-              sm:mt-0
-              xl:w-[480px]
-              lg:w-[480px]
-              md:mt-[85px]
-              lg:mt-[70px]
-              xms:mt-[95px]
-            ">
-            <ForYou filteredCourses={getTwoCorse} />
+
+          <div>
+            <div
+              className="
+                flex 
+                items-center 
+                justify-between 
+                xsm:flex-col 
+                md:flex-row 
+                pb-3 pt-3
+                ">
+              <ButtonCourse
+                onBack={handlePrevPageeYou}
+                onNext={handleNextPageYou}
+                canGoBack={currentForyou > 0}
+                canGoNext={
+                  (currentForyou + 1) * itemPerYou < filterCousreForU.length
+                }
+              />
+            </div>
+            <ForYou filteredCourses={ShowForYouCourses} />
           </div>
         </div>
       </div>

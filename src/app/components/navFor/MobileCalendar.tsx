@@ -1,23 +1,62 @@
+"use client";
 import React, { useState, useEffect } from "react";
-import { parseDate, Time, CalendarDate } from "@internationalized/date";
-import { Button, Calendar, DatePicker, DateValue } from "@nextui-org/react";
+import { parseDate, CalendarDate } from "@internationalized/date";
+import { Button, Calendar, DateValue } from "@nextui-org/react";
 import { startOfDay, format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
-import { useCalendar } from "../../lib/context/calendarContext";
+import { Enrollment } from "@prisma/client";
+import Link from "next/link";
+
+export async function fetchCalendarData() {
+  const res = await fetch("/api/calendar");
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json();
+}
 
 function MobileCalendar() {
-  const {
-    selectedDate,
-    setSelectedDate,
-    activity,
-    setActivity,
-    showCalendar,
-    setShowCalendar,
-    activities,
-  } = useCalendar();
-  const dateValue = parseDate(selectedDate.toISOString().split("T")[0]);
+  const [activities, setActivities] = useState<{
+    [key: string]: { id: string; title: string }[];
+  }>({});
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [activity, setActivity] = useState<{ id: string; title: string }[]>([]);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
 
+  // ดึงข้อมูลการลงทะเบียนจาก API เมื่อ component โหลด
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: {
+          courseId: string;
+          courseTitle: string;
+          enrolledAt: string;
+        }[] = await fetchCalendarData();
+        const formattedActivities = data.reduce(
+          (
+            acc: { [key: string]: { id: string; title: string }[] },
+            enrollment
+          ) => {
+            const date = format(new Date(enrollment.enrolledAt), "yyyy-MM-dd");
+            if (!acc[date]) {
+              acc[date] = [];
+            }
+            acc[date].push({
+              id: enrollment.courseId,
+              title: enrollment.courseTitle,
+            });
+            return acc;
+          },
+          {}
+        );
+        setActivities(formattedActivities);
+      } catch (error) {
+        console.error("Failed to fetch calendar data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const dateValue = parseDate(selectedDate.toISOString().split("T")[0]);
   const handleDateChange = (date: CalendarDate) => {
     const dateObj = new Date(date.year, date.month - 1, date.day);
     setSelectedDate(dateObj);
@@ -92,14 +131,14 @@ function MobileCalendar() {
             h-52 
             flex flex-col">
             <h3 className="text-lg font-semibold mb-2">
-              Activities for {format(startOfDay(selectedDate), "yyyy-MM-dd")}:
+              {format(startOfDay(selectedDate), "MMMM d, yyyy")}
             </h3>
             <div className="overflow-y-auto flex-1">
               {activity.length > 0 ? (
                 <ul className="list-disc pl-5">
                   {activity.map((act, index) => (
                     <li key={index} className="mb-1">
-                      {act}
+                      <Link href={`/course/${act.id}`}>{act.title}</Link>
                     </li>
                   ))}
                 </ul>

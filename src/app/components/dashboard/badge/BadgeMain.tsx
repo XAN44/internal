@@ -1,12 +1,30 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import CardDashBoard from "../CardDashBoard";
 import BadgeContent from "./BadgeContent";
+import BadgeSkelton from "./BadgeSkelton";
 
-function BadgeMain() {
+interface Badge {
+  name: string;
+  level: number;
+}
+
+interface BadgeMainProps {
+  badges: Badge[];
+  isLoading: boolean;
+}
+
+function BadgeMain({ badges, isLoading }: BadgeMainProps) {
+  const memoizedBadges = useMemo(() => {
+    return badges.map((badge) => ({
+      name: badge.name,
+      level: badge.level,
+    }));
+  }, [badges]);
+
   return (
     <CardDashBoard>
-      <BadgeContent />
+      {isLoading ? <BadgeSkelton /> : <BadgeContent badges={memoizedBadges} />}
     </CardDashBoard>
   );
 }

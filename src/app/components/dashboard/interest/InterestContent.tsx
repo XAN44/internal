@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import IsOpenCard from "./IsOpenCard";
 import IsShowAllInterest from "./IsShowAllInterest";
 interface UserProps {
-  interest: {
-    useInterest: string[];
-  };
+  interest: { name: string }[];
+
   onClick: (item: string) => void;
 }
 function InterestContent({ interest, onClick }: UserProps) {
@@ -15,7 +14,7 @@ function InterestContent({ interest, onClick }: UserProps) {
     setShowAll(!showAll);
   };
 
-  const i = interest.useInterest.map((i) => i);
+  const i = interest.map((i) => i);
   const slice = i.slice(0, 6);
   const showInterest = i.map;
 
@@ -45,8 +44,8 @@ function InterestContent({ interest, onClick }: UserProps) {
           ">
         {slice.map((item) => (
           <div
-            onClick={() => onClick(item)}
-            key={item}
+            onClick={() => onClick(item.name)}
+            key={item.name}
             className="      
                 bg-gradient-to-l
               from-blue-300
@@ -68,13 +67,17 @@ function InterestContent({ interest, onClick }: UserProps) {
                   p-3 truncate 
                   text-base 
                   xsm:text-xs">
-                {item}
+                {item.name}
               </p>
             </div>
           </div>
         ))}
       </div>
-      <IsShowAllInterest isOpen={showAll} item={interest} onOpen={handleShow} />
+      <IsShowAllInterest
+        isOpen={showAll}
+        interest={interest}
+        onOpen={handleShow}
+      />
     </div>
   );
 }
