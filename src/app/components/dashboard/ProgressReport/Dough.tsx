@@ -70,7 +70,7 @@ function Dough({ courseDistribution, statusCompleted, statusPending }: Props) {
   };
 
   return (
-    <div className="mt-16">
+    <>
       <div className="w-full p-8 lg:h-52 xsm:h-56 flex flex-col items-center justify-center">
         <Doughnut
           data={completionData}
@@ -91,7 +91,7 @@ function Dough({ courseDistribution, statusCompleted, statusPending }: Props) {
           ENROLLED COURSE DISTRIBUTION
         </p>
       </div>
-    </div>
+    </>
   );
 }
 

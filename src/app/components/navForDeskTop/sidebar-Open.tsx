@@ -37,8 +37,9 @@ function SidebarOpen({ isOpen, userData }: Props) {
         sm:top-0
         flex 
         flex-col text-center
-        tems-center 
+        items-center 
         justify-center
+        w-full
          ">
         <p className="font-sans text-2xl">Hello!</p>
         <p className="">{userData?.username}</p>
@@ -46,7 +47,11 @@ function SidebarOpen({ isOpen, userData }: Props) {
           radius="full"
           className="
           object-contain 
-     
+          mt-6 
+          xl:w-28
+          xl:h-28
+          sm:w-36 
+          sm:h-36 
           text-2xl
           
           // Mobile Responsive
