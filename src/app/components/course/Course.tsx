@@ -122,9 +122,11 @@ function CourseMain({
                   ">
           <Image
             isBlurred
+            width={300} // ระบุขนาดความกว้างที่ต้องการ
+            height={200} // ระบุขนาดความสูงที่ต้องการ
+            className="object-cover rounded-md aspect-auto"
             src={imageURL || ""}
             alt="Picture of the author"
-            className="object-cover"
           />
           <CardFooter
             className="

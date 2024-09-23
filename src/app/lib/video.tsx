@@ -16,7 +16,11 @@ export function Video({ title, url, chapter }: Props) {
           Chapter {chapter}
         </h3>
       </div>
-      <video width="1400" height="1200" controls>
+      <video
+        width="1400"
+        height="1200"
+        controls
+        className="aspect-video relative">
         <source src={url} type="video/mp4" />
       </video>
     </div>

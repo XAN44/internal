@@ -11,20 +11,21 @@ export default function ProtectLayout({
 }) {
   return (
     <CalendarProvider>
-      <div className="flex flex-col h-screen min-h-screen">
+      <div
+        className="flex flex-col h-screen min-h-screen        pb-[env(safe-area-inset-bottom)]  /* Support for iPhone notch */
+">
         <NavbarProtect />
         <SideBar />
         <main
           className="
-        overflow-x-hidden 
-        h-full    
-        xsm:m-0 
-        xsm:pt-3 
-        xsm:pb-3  
-        xsm:pr-1 
-        xsm:pl-1
-        sm:pl-24 
-        ">
+          overflow-x-hidden 
+          h-full    
+          xsm:m-0 
+          xsm:pt-3 
+          xsm:pb-3  
+          xsm:pr-1 
+          xsm:pl-1
+          sm:pl-24 ">
           {children}
         </main>
         <div className="xsm:flex sm:hidden ">

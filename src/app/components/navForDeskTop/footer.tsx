@@ -10,7 +10,7 @@ function Footer() {
   return (
     <div
       className="
-      w-full
+       w-full
       
         sm:hidden 
         xsm:flex">
