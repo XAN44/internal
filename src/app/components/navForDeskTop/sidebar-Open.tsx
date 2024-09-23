@@ -16,7 +16,6 @@ interface Props {
 }
 
 function SidebarOpen({ isOpen, userData }: Props) {
-  const route = SideBarModal();
   const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
@@ -40,6 +39,7 @@ function SidebarOpen({ isOpen, userData }: Props) {
         items-center 
         justify-center
         w-full
+        h-full
          ">
         <p className="font-sans text-2xl">Hello!</p>
         <p className="">{userData?.username}</p>
@@ -69,24 +69,13 @@ function SidebarOpen({ isOpen, userData }: Props) {
         className="
       w-full 
       h-full 
-      flex 
+      flex flex-col
       items-center 
       justify-center
       xsm:mb-36
+      space-y-14
       ">
         {showCalendar && <MobileCalendar />}
-      </div>
-      <div
-        className="
-          flex flex-col mt-auto
-          gap-x-3
-          p-3
-          leading-6
-          rounded-md
-          hover:text-gray-500
-          hover:bg-gray-100
-          hover:cursor-pointer
-        ">
         <SignOutButton isOpen={isOpen} />
       </div>
     </>
