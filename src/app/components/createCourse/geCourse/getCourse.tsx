@@ -34,6 +34,7 @@ import { ActionsTableToCourse } from "../cardCourseCustom/ActionsToCustomCourse"
 import Link from "next/link";
 
 interface Course {
+  enrollmentCount: number;
   id: number;
   title: string;
   isPublished: boolean;
@@ -77,6 +78,7 @@ function GetCourse() {
     { label: "Course Name" },
     { label: "Published" },
     { label: "Chapter Count" },
+    { label: "Enrollment Count" }, // เพิ่มคอลัมน์จำนวนผู้เข้าเรียน
     { label: "Action" },
   ];
 
@@ -170,11 +172,14 @@ function GetCourse() {
                   </div>
                 </TableCell>
                 <TableCell>{row.chapterCount}</TableCell>
+                <TableCell>{row.enrollmentCount}</TableCell>
                 <TableCell>
                   <div className="relative flex items-center gap-2">
                     <Tooltip content="Details">
                       <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                        <EyeIcon />
+                        <Link href={`/course/${row.id}`}>
+                          <EyeIcon />
+                        </Link>
                       </span>
                     </Tooltip>
                     <Tooltip content="Redirect to custom course page">

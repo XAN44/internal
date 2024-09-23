@@ -4,9 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import SearchBar from "../home/searchCourse/searchBar";
 import CourseButton from "./CourseButton";
 import { Link } from "@nextui-org/react";
-import { cardCourses } from "../../../../fakeMe";
 import CourseMain from "./Course";
-import SelectChapter from "./SelectChapter";
 import { db } from "../../lib/db";
 
 type Props = {

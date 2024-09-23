@@ -104,7 +104,7 @@ function ProgressAR({ AllcourseProcess, requireCoursePerCentage }: Props) {
           {(titleProps) => (
             <div className="px-1 py-2">
               <h3 className="text-xl font-bold" {...titleProps}>
-                REQUIRED COURSE?
+                What is REQUIRED COURSE?
               </h3>
               <div className="text-tiny">
                 <p className="text-sm">

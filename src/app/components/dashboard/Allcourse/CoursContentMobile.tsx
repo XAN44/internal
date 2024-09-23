@@ -15,9 +15,8 @@ interface Props {
     Category: {
       name: string;
     };
+    overallProgressPercentage: number;
   }[];
-
-  overallProgressPercentage: number;
   isOpen: boolean;
   handleOpen: (val: string) => void;
   handleClose: () => void;
@@ -29,7 +28,6 @@ function CourseContentMobile({
   isOpen,
   handleClose,
   selectCourse,
-  overallProgressPercentage,
 }: Props) {
   return (
     <div className="md:h-0 xsm:h-96 overflow-y-auto">
@@ -64,8 +62,8 @@ function CourseContentMobile({
                 label: "tracking-wider font-medium text-default-600",
                 value: "text-foreground/60",
               }}
-              defaultValue={overallProgressPercentage}
-              value={overallProgressPercentage}
+              defaultValue={selectedCourse.overallProgressPercentage}
+              value={selectedCourse.overallProgressPercentage}
               minValue={0}
               maxValue={100}
               showValueLabel={true}
@@ -90,7 +88,6 @@ function CourseContentMobile({
         </div>
       ))}
       <OpenCourse
-        overallProgressPercentage={overallProgressPercentage}
         isOpen={isOpen}
         onClose={handleClose}
         selectedCourse={selectCourse}

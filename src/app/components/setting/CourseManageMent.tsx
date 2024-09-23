@@ -2,11 +2,21 @@ import React from "react";
 import CardDashBoard from "../dashboard/CardDashBoard";
 import ManageMentCard from "./ManageMentCard";
 
-function CourseManageMent() {
+interface Props {
+  enrolement: {
+    courseId: string;
+    isEnrollment: boolean;
+    Course: {
+      title: string;
+    };
+  }[];
+}
+
+function CourseManageMent({ enrolement }: Props) {
   return (
     <div className="w-full h-full flex">
       <CardDashBoard>
-        <ManageMentCard />
+        <ManageMentCard enrolement={enrolement} />
       </CardDashBoard>
     </div>
   );

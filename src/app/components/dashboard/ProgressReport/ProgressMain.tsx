@@ -6,7 +6,6 @@ import CardProgressMain from "./CardProgressMain";
 interface Props {
   AllcourseProcess?: number;
   requireCoursePerCentage?: number;
-  isLoading: boolean;
   statusCompleted?: number;
   statusPending?: number;
   courseDistribution: { [category: string]: number };
@@ -18,19 +17,12 @@ interface Props {
 function ProgressMain({
   AllcourseProcess,
   requireCoursePerCentage,
-  isLoading,
   statusCompleted,
   statusPending,
   courseDistribution,
   badgeFar,
   badgeNew,
 }: Props) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
-
   // ใช้ useMemo เพื่อจัดเตรียมข้อมูลที่ส่งไปยัง CardProgressMain
   const memoizedData = useMemo(
     () => ({
@@ -55,7 +47,7 @@ function ProgressMain({
 
   return (
     <CardDashBoard>
-      <CardProgressMain {...memoizedData} isLoading={loading} />
+      <CardProgressMain {...memoizedData} />
     </CardDashBoard>
   );
 }

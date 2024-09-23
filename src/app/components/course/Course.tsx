@@ -45,6 +45,7 @@ function CourseMain({
   Enrollment,
   attachments,
 }: Course) {
+  const [loading, setLoading] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -58,13 +59,14 @@ function CourseMain({
   }
 
   const handleEnrollment = async (idEnrollment: string) => {
+    setLoading(true); // ตั้งค่า loading เป็น true
     try {
       if (Enrollment?.length > 0 && Enrollment[0].isEnrollment) {
         await axios.delete(`/api/takeCourse/${courseId}/enrolment`, {
           data: { idEnrollment: courseId },
         });
         router.refresh();
-        toast.success("Cancled successfully");
+        toast.success("Canceled successfully");
       } else {
         await axios.post(`/api/takeCourse/${courseId}/enrolment`, {
           idEnrollment,
@@ -85,6 +87,8 @@ function CourseMain({
       } else {
         setErrorMessage("Network error or server is down");
       }
+    } finally {
+      setLoading(false); // ตั้งค่า loading เป็น false หลังจากเสร็จสิ้น
     }
   };
   const firstChapterId = chapter[0]?.id;
@@ -201,8 +205,12 @@ function CourseMain({
                 variant="shadow"
                 className="bg-blue-500/50 hover:bg-blue-500"
                 startContent={<FcReading className="w-4 h-4 " />}
-                onClick={() => handleEnrollment(courseId)}>
-                {Enrollment?.length > 0 && Enrollment[0].isEnrollment
+                onClick={() => handleEnrollment(courseId)}
+                disabled={loading} // ปิดการใช้งานปุ่มในขณะที่ loading
+              >
+                {loading
+                  ? "Processing..."
+                  : Enrollment?.length > 0 && Enrollment[0].isEnrollment
                   ? "Cancel Course"
                   : "Begin Course"}
               </Button>

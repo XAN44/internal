@@ -27,12 +27,19 @@ export async function GET(req: Request) {
             id: true,
           },
         },
+        Enrollment: {
+          // นับจำนวนผู้ใช้ที่เข้าร่วม
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
     const result = data.map((course) => ({
       ...course,
       chapterCount: course.Chapter.length, // เพิ่มจำนวน chapter
+      enrollmentCount: course.Enrollment.length, // นับจำนวนผู้ใช้ที่เข้าร่วม
     }));
 
     return NextResponse.json(result);

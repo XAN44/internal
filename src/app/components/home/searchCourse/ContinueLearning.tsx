@@ -14,7 +14,6 @@ interface CoursesProps {
     thumnel: string;
     avatar: string;
     description: string;
-    progress: number;
   }[];
   overallProgressPercentage: number;
 }

@@ -36,16 +36,17 @@ async function page() {
       title: string;
       isCompleted: boolean;
     }[];
+    overallProgressPercentage: number;
     Category: {
       name: string;
     };
   }[] = [];
+
   let allCategories: {
     name: string;
     isChecked: boolean;
     descriptions: string;
   }[] = [];
-  let overallProgressPercentage = 0;
 
   try {
     const [
@@ -90,7 +91,11 @@ async function page() {
               id: true,
               title: true,
               imageURL: true,
+              isPublished: true,
               Chapter: {
+                where: {
+                  isPublished: true,
+                },
                 select: {
                   id: true,
                   title: true,
@@ -145,6 +150,7 @@ async function page() {
       isChecked: userInterestNames.includes(category.name),
       descriptions: category.description,
     }));
+
     totalCourses = enrolledCourseIds.length;
 
     enrollments.forEach((enrollment) => {
@@ -160,20 +166,22 @@ async function page() {
         totalQuizzesInCourse,
         completedQuizzesInCourse,
       ] = await Promise.all([
-        db.lesson.count({ where: { chapter: { courseId } } }),
+        db.lesson.count({
+          where: { chapter: { courseId, isPublished: true } },
+        }),
         db.userLessonProgress.count({
           where: {
             userId: user.id,
             isCompleted: true,
-            lesson: { chapter: { courseId } },
+            lesson: { chapter: { courseId, isPublished: true } },
           },
         }),
-        db.quiz.count({ where: { chapter: { courseId } } }),
+        db.quiz.count({ where: { chapter: { courseId, isPublished: true } } }),
         db.userQuizProgress.count({
           where: {
             userId: user.id,
             isCompleted: true,
-            quiz: { chapter: { courseId } },
+            quiz: { chapter: { courseId, isPublished: true } },
           },
         }),
       ]);
@@ -207,28 +215,13 @@ async function page() {
 
     await Promise.all(progressPromises);
 
-    const completedLessons = LessonProgress.filter(
-      (progress) => progress.isCompleted
-    ).length;
-    const completedQuizzes = QuizProgress.filter(
-      (progress) => progress.isCompleted
-    ).length;
-
-    const totalTasks = totalLessons + totalQuizzes;
-    const completedTasks = completedLessons + completedQuizzes;
-    const overallProgress =
-      totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-
-    overallProgressPercentage = overallProgress;
-
     const userInterestCategories =
       userData?.interests.map((interest) => interest.name) || [];
-    const completedChapters = new Set(); // ใช้เพื่อเก็บ chapter ที่เรียนเสร็จแล้ว
+    const completedChapters = new Set();
 
-    // สร้าง Set สำหรับตรวจสอบว่า chapter ไหนเรียนเสร็จ
     LessonProgress.forEach((lesson) => {
       if (lesson.isCompleted) {
-        completedChapters.add(lesson.lesson.chapterId); // สมมุติว่ามี. ใน lesson
+        completedChapters.add(lesson.lesson.chapterId);
       }
     });
 
@@ -243,6 +236,14 @@ async function page() {
       const chapters = enrollment.Course.Chapter || [];
       const isRequired = userInterestCategories.includes(courseCategory);
 
+      const totalTasks = chapters.length;
+      const completedTasks = chapters.filter((chapter) =>
+        completedChapters.has(chapter.id)
+      ).length;
+
+      const progressPercentage =
+        totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
       return {
         id: enrollment.courseId,
         title: enrollment.Course.title,
@@ -255,6 +256,7 @@ async function page() {
           name: courseCategory,
         },
         isRequired,
+        overallProgressPercentage: progressPercentage,
       };
     });
 
@@ -276,20 +278,24 @@ async function page() {
           totalQuizzesInCourse,
           completedQuizzesInCourse,
         ] = await Promise.all([
-          db.lesson.count({ where: { chapter: { courseId } } }),
+          db.lesson.count({
+            where: { chapter: { courseId, isPublished: true } },
+          }),
           db.userLessonProgress.count({
             where: {
               userId: user.id,
               isCompleted: true,
-              lesson: { chapter: { courseId } },
+              lesson: { chapter: { courseId, isPublished: true } },
             },
           }),
-          db.quiz.count({ where: { chapter: { courseId } } }),
+          db.quiz.count({
+            where: { chapter: { courseId, isPublished: true } },
+          }),
           db.userQuizProgress.count({
             where: {
               userId: user.id,
               isCompleted: true,
-              quiz: { chapter: { courseId } },
+              quiz: { chapter: { courseId, isPublished: true } },
             },
           }),
         ]);
@@ -322,36 +328,33 @@ async function page() {
 
   const progressPercent =
     totalCourses > 0 ? (completedCourses / totalCourses) * 100 : 0;
+
   const requiredCoursePercent =
     totalRequired > 0 ? (completedRequiredCourses / totalRequired) * 100 : 0;
+
   const badgeNew = userBadges.filter((badge) => badge.level === 1).length;
   const badgeFar = userBadges.length;
 
   return (
     <div className="w-full min-h-screen p-6">
       <div className="grid xsm:grid-cols-1 md:grid-cols-3 items-stretch place-items-center gap-3">
-        <Userinfo initialState={userData} isLoading={isLoading} />
-        <UserInterests interest={userData.interests} isLoading={isLoading} />
-        <BadgeMain badges={userBadges} isLoading={isLoading} />
+        <Userinfo initialState={userData} />
+        <UserInterests interest={userData.interests} />
+        <BadgeMain badges={userBadges} />
       </div>
       <div className="mt-6">
         <ProgressMain
-          isLoading={isLoading}
           AllcourseProcess={progressPercent}
+          requireCoursePerCentage={requiredCoursePercent}
           statusCompleted={completedCourses}
           statusPending={pendingCourses}
-          requireCoursePerCentage={requiredCoursePercent}
           courseDistribution={courseDistribution}
           badgeFar={badgeFar}
           badgeNew={badgeNew}
         />
       </div>
       <div className="mt-6">
-        <AllCourseToUse
-          overallProgressPercentage={overallProgressPercentage}
-          AllCourse={enrolledCourses}
-          isLoading={isLoading}
-        />
+        <AllCourseToUse AllCourse={enrolledCourses} />
       </div>
       <div className="mt-6">
         <BookMarkContent bookMarkedCourses={allCategories} />

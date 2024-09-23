@@ -17,33 +17,16 @@ interface Props {
     Category: {
       name: string;
     };
+    overallProgressPercentage: number;
   }[];
-
-  overallProgressPercentage: number;
-  isLoading: boolean;
 }
 
-function AllCourseToUse({
-  AllCourse,
-  isLoading,
-  overallProgressPercentage,
-}: Props) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
-
-  // ใช้ useMemo เพื่อจัดเตรียมข้อมูลที่ส่งไปยัง CourseCard
+function AllCourseToUse({ AllCourse }: Props) {
   const memoizedCourses = useMemo(() => AllCourse, [AllCourse]);
 
   return (
     <CardDashBoard>
-      <CourseCard
-        AllCourse={memoizedCourses}
-        isLoading={loading}
-        overallProgressPercentage={overallProgressPercentage}
-      />
+      <CourseCard AllCourse={memoizedCourses} />
     </CardDashBoard>
   );
 }

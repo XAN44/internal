@@ -5,17 +5,17 @@ interface Props {
   AllCourse: {
     id: string;
     title: string;
-     isRequired: boolean;
-        Chapter: {
-      id:string
+    isRequired: boolean;
+    Chapter: {
+      id: string;
       title: string;
+      isCompleted: boolean;
     }[];
     Category: {
       name: string;
     };
+    overallProgressPercentage: number;
   }[];
-
-  overallProgressPercentage: number;
   isOpen: boolean;
   handleOpen: (val: string) => void;
   handleClose: () => void;
@@ -26,7 +26,6 @@ function CourseContentDesk({
   AllCourse,
 
   selectCourse,
-  overallProgressPercentage,
 }: Props) {
   return (
     <div
@@ -87,15 +86,15 @@ function CourseContentDesk({
                   label: "tracking-wider font-medium text-default-600",
                   value: "text-foreground/60",
                 }}
-                defaultValue={overallProgressPercentage}
-                value={overallProgressPercentage}
+                defaultValue={course.overallProgressPercentage}
+                value={course.overallProgressPercentage}
                 minValue={0}
                 maxValue={100}
                 showValueLabel={true}
                 size="md"
                 radius="sm"
                 className="w-full"
-              />{" "}
+              />
             </div>
           ))}
         </div>

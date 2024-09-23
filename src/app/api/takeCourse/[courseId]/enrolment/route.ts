@@ -32,18 +32,26 @@ export async function POST(req: Request) {
         courseId: findCourse?.id,
       },
     });
+
     if (checkEnrolment) {
-      return NextResponse.json(
-        { error: "You already enrolled in this course." },
-        { status: 400 }
-      );
+      // อัปเดต isEnrollment เป็น true
+      await db.enrollment.update({
+        where: {
+          userId_courseId: {
+            userId: user.id,
+            courseId: findCourse.id,
+          },
+        },
+        data: { isEnrollment: true },
+      });
+      return NextResponse.json({ success: "Re-enrolled successfully" });
+    } else {
+      // สร้าง enrollment ใหม่
+      await db.enrollment.create({
+        data: { userId: user.id, courseId: findCourse.id, isEnrollment: true },
+      });
+      return NextResponse.json({ success: "Enrolled successfully" });
     }
-
-    await db.enrollment.create({
-      data: { userId: user.id, courseId: findCourse.id, isEnrollment: true },
-    });
-
-    return NextResponse.json({ success: "Enrolled successfully" });
   } catch (error) {
     console.log(error);
     return new NextResponse("Error something went wrong", { status: 500 });
@@ -58,33 +66,35 @@ export async function DELETE(req: Request) {
     if (!user?.id) {
       return NextResponse.json(
         { error: "Unauthorized: Please sign in to enroll in the course." },
-        { status: 400 }
+        { status: 401 }
       );
     }
 
-    const findCourse = await db.course.findUnique({
+    const findEnrollment = await db.enrollment.findFirst({
       where: {
-        id: idEnrollment,
         userId: user.id,
-      },
-      select: {
-        id: true,
+        courseId: idEnrollment,
       },
     });
-    if (!findCourse?.id) {
-      return NextResponse.json({ error: "Course not found." }, { status: 404 });
+
+    if (!findEnrollment) {
+      return NextResponse.json(
+        { error: "Enrollment not found." },
+        { status: 404 }
+      );
     }
 
-    await db.enrollment.delete({
+    await db.enrollment.update({
       where: {
         userId_courseId: {
           userId: user.id,
-          courseId: findCourse.id,
+          courseId: findEnrollment.courseId,
         },
       },
+      data: { isEnrollment: false },
     });
 
-    return NextResponse.json({ success: "Enrolled successfully" });
+    return NextResponse.json({ success: "Enrollment canceled successfully" });
   } catch (error) {
     console.log(error);
     return new NextResponse("Error something went wrong", { status: 500 });

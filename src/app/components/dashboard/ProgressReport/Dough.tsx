@@ -36,7 +36,6 @@ function Dough({ courseDistribution, statusCompleted, statusPending }: Props) {
     },
   };
 
-  // กราฟสำหรับการกระจายคอร์สตามหมวดหมู่
   const distributionData = {
     labels: Object.keys(courseDistribution),
     datasets: [

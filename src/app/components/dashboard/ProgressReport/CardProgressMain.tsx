@@ -13,7 +13,6 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, ChartDataLabels);
 interface Props {
   AllcourseProcess?: number;
   requireCoursePerCentage?: number;
-  isLoading: boolean;
   statusCompleted?: number;
   statusPending?: number;
   courseDistribution: { [category: string]: number };
@@ -26,21 +25,17 @@ function CardProgressMain({
   badgeNew,
   AllcourseProcess,
   requireCoursePerCentage,
-  isLoading,
   courseDistribution,
   statusCompleted,
   statusPending,
 }: Props) {
   return (
     <>
-      {isLoading ? (
-        <ProgressSkelton />
-      ) : (
-        <div className="w-full h-full">
-          <div className="flex w-full h-full flex-col">
-            <p className="text-xl font-bold">ANNUAL PROGRESS REPORT</p>
-            <div
-              className="
+      <div className="w-full h-full">
+        <div className="flex w-full h-full flex-col">
+          <p className="text-xl font-bold">ANNUAL PROGRESS REPORT</p>
+          <div
+            className="
               grid 
               lg:grid-cols-4
               xsm:grid-cols-1 
@@ -49,22 +44,21 @@ function CardProgressMain({
               place-content-center
               justify-center
               ">
-              <div className=" sm:h-full  ">
-                <ProgressAR
-                  AllcourseProcess={AllcourseProcess}
-                  requireCoursePerCentage={requireCoursePerCentage}
-                />
-              </div>
-              <Dough
-                courseDistribution={courseDistribution}
-                statusCompleted={statusCompleted}
-                statusPending={statusPending}
+            <div className=" sm:h-full  ">
+              <ProgressAR
+                AllcourseProcess={AllcourseProcess}
+                requireCoursePerCentage={requireCoursePerCentage}
               />
-              <Badge badgeFar={badgeFar} badgeNew={badgeNew} />
             </div>
+            <Dough
+              courseDistribution={courseDistribution}
+              statusCompleted={statusCompleted}
+              statusPending={statusPending}
+            />
+            <Badge badgeFar={badgeFar} badgeNew={badgeNew} />
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

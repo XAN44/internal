@@ -9,7 +9,6 @@ interface Props {
   selectedCourse: {
     id: string;
     title: string;
-    imageURL: string;
     isRequired: boolean;
     Chapter: {
       id: string;
@@ -19,17 +18,11 @@ interface Props {
     Category: {
       name: string;
     };
+    overallProgressPercentage: number;
   } | null;
-
-  overallProgressPercentage: number;
 }
 
-function OpenCourse({
-  isOpen,
-  onClose,
-  selectedCourse,
-  overallProgressPercentage,
-}: Props) {
+function OpenCourse({ isOpen, onClose, selectedCourse }: Props) {
   return (
     <>
       {isOpen && selectedCourse ? (
@@ -87,8 +80,8 @@ function OpenCourse({
                     label: "tracking-wider font-medium text-default-600",
                     value: "text-foreground/60",
                   }}
-                  defaultValue={overallProgressPercentage}
-                  value={overallProgressPercentage}
+                  defaultValue={selectedCourse.overallProgressPercentage}
+                  value={selectedCourse.overallProgressPercentage}
                   minValue={0}
                   maxValue={100}
                   showValueLabel={true}

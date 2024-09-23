@@ -5,22 +5,15 @@ import InterestCard from "./InterestCard";
 import CardDashBoard from "../CardDashBoard";
 interface UserProps {
   interest: { name: string }[];
-
-  isLoading: boolean;
 }
-function UserInterests({ interest, isLoading }: UserProps) {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
-
+function UserInterests({ interest }: UserProps) {
   const initialsData = useMemo(() => {
     return interest; // หรืออาจจะใช้ spread operator ถ้าต้องการ
   }, [interest]);
 
   return (
     <CardDashBoard>
-      <InterestCard interest={initialsData} isLoading={loading} />
+      <InterestCard interest={initialsData} />
     </CardDashBoard>
   );
 }

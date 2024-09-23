@@ -3,44 +3,37 @@ import React, { useEffect, useState } from "react";
 import CardDashBoard from "../../components/dashboard/CardDashBoard";
 import TashCard from "./TashCard";
 import TaskShowTask from "./TaskShowTask";
-interface Props {
-  initial: {
-    pendingTask: number;
-    pendingTaskPersentage: string;
-    completedTask: number;
-    completionTaskPersentage: string;
-    hardSkillPercentage: number;
-    softSkillPercentage: number;
-  };
-  isLoading: boolean;
-}
 
+interface TaskProgress {
+  category: string;
+  completed: number;
+  total: number;
+  percentage: number;
+}
 interface Props {
-  initals: {
+  courseEnrolment: {
     id: string;
     title: string;
+    enrolledAt: Date;
+    duelDate: Date | null;
     isCompleted: boolean;
-    skillType: string;
-    assignedDate: string;
-    dueDate: string;
-    nameCourse: string;
   }[];
+  initial: {
+    pendingTasks: number;
+    completedTasks: number;
+    progress: TaskProgress[];
+  };
 }
 
-export default function Page({ initial, isLoading, initals }: Props) {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
-
+export default function Page({ initial, courseEnrolment }: Props) {
   return (
     <>
       <CardDashBoard>
-        <TashCard initial={initial} isLoading={loading} />
+        <TashCard initial={initial} />
       </CardDashBoard>
       <div className="divider pt-3" />
       <CardDashBoard>
-        <TaskShowTask initals={initals} />
+        <TaskShowTask initals={courseEnrolment} />
       </CardDashBoard>
     </>
   );

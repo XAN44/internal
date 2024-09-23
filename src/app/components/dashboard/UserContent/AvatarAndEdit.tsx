@@ -20,17 +20,12 @@ interface UserProps {
       departname: string;
     } | null;
   };
-  isLoading: boolean;
 }
 
-function UserAvatarAndEdit({ initialState, isLoading }: UserProps) {
+function UserAvatarAndEdit({ initialState }: UserProps) {
   return (
     <>
-      {isLoading ? (
-        <AvatarSkelton />
-      ) : (
-        <AvatarAndName initialState={initialState} />
-      )}
+      <AvatarAndName initialState={initialState} />
     </>
   );
 }

@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { InterestSchema } from "../../lib/schema/interest/interestSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TEST3 } from "../../../../server/test";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";

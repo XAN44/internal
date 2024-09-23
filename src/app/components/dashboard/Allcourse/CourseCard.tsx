@@ -16,17 +16,10 @@ interface Props {
     Category: {
       name: string;
     };
+    overallProgressPercentage: number;
   }[];
-
-  overallProgressPercentage: number;
-
-  isLoading: boolean;
 }
-function CourseCard({
-  AllCourse,
-  isLoading,
-  overallProgressPercentage,
-}: Props) {
+function CourseCard({ AllCourse }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectCourse, setSelectCourse] = useState<any>(null);
 
@@ -42,28 +35,20 @@ function CourseCard({
   };
   return (
     <div className="w-full h-full p-6 ">
-      {isLoading ? (
-        <SkeltonForMobile />
-      ) : (
-        <>
-          <CourseContentMobile
-            overallProgressPercentage={overallProgressPercentage}
-            handleClose={handleClose}
-            AllCourse={AllCourse}
-            handleOpen={handleOpen}
-            isOpen={isOpen}
-            selectCourse={selectCourse}
-          />
-          <CourseContentDesk
-            overallProgressPercentage={overallProgressPercentage}
-            handleClose={handleClose}
-            AllCourse={AllCourse}
-            handleOpen={handleOpen}
-            isOpen={isOpen}
-            selectCourse={selectCourse}
-          />
-        </>
-      )}
+      <CourseContentMobile
+        handleClose={handleClose}
+        AllCourse={AllCourse}
+        handleOpen={handleOpen}
+        isOpen={isOpen}
+        selectCourse={selectCourse}
+      />
+      <CourseContentDesk
+        handleClose={handleClose}
+        AllCourse={AllCourse}
+        handleOpen={handleOpen}
+        isOpen={isOpen}
+        selectCourse={selectCourse}
+      />
     </div>
   );
 }

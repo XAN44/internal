@@ -19,7 +19,6 @@ interface CoursesProps {
     thumnel: string;
     avatar: string;
     description: string;
-    progress: number;
   }[];
 }
 function ForYou({ filteredCourses }: CoursesProps) {

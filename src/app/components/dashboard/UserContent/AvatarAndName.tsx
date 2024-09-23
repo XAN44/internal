@@ -1,9 +1,10 @@
 "use client";
-import { Avatar, Button } from "@nextui-org/react";
-import React from "react";
+import { Avatar, Button, useDisclosure } from "@nextui-org/react";
+import React, { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { ImMail4 } from "react-icons/im";
 import { RxAvatar } from "react-icons/rx";
+import IsSetting from "./isSetting";
 
 interface Props {
   initialState: {
@@ -22,6 +23,8 @@ interface Props {
 
 function AvatarAndName({ initialState }: Props) {
   const { image, Department, email, role, name, last, username } = initialState;
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <div
@@ -56,12 +59,12 @@ function AvatarAndName({ initialState }: Props) {
                 bg-cardAvatar/70 
                 object-cover"
         />
-        <Button
-          variant="bordered"
-          className="w-16 border-cardAvatar"
-          endContent={<FiEdit size={60} />}>
-          Edit
-        </Button>
+        {/* <IsSetting
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onOpenChange={onOpenChange}
+          initialState={initialState}
+        /> */}
       </div>
       <div
         className="

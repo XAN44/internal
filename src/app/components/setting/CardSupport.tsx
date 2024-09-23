@@ -1,5 +1,6 @@
 import React from "react";
 import CardDashBoard from "../dashboard/CardDashBoard";
+import Link from "next/link";
 
 function CardSupport() {
   return (
@@ -50,11 +51,13 @@ function CardSupport() {
             </p>
             <div className="flex flex-col items-start justify-center">
               <p className="text-blue-500 text-sm mt-3">HEPL GUID</p>
-              <p className="pl-6 text-sm">FAQ {">"} </p>
+              <Link href="/faq">
+                <p className="pl-6 text-sm">FAQ {">"} </p>
+              </Link>
               <p className="pl-6 text-sm">USER GUID {">"}</p>
               <p className="text-blue-500 text-sm mt-3">HEPL GUID</p>
               <p className="pl-6 text-sm">CONTACT SUPPORT</p>
-              <p className="pl-6 text-sm">support@test</p>
+              <p className="pl-6 text-sm">systemxandav@gmail.com</p>
             </div>
           </div>
         </div>

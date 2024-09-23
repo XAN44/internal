@@ -62,6 +62,31 @@ export async function POST(
       });
     }
 
+    // ตรวจสอบว่ามีการเข้าเรียนหรือไม่
+    const enrollment = await db.enrollment.findUnique({
+      where: {
+        userId_courseId: {
+          userId: user.id,
+          courseId: params.courseId,
+        },
+      },
+    });
+
+    // ถ้ามีการเข้าเรียนแล้วให้ทำการอัปเดต
+    if (enrollment) {
+      const result = await db.enrollment.update({
+        where: {
+          userId_courseId: {
+            userId: user.id,
+            courseId: params.courseId,
+          },
+        },
+        data: {
+          dueDate: null,
+        },
+      });
+    }
+
     return NextResponse.json(chapter);
   } catch (error) {
     console.log(error);

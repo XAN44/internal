@@ -165,20 +165,6 @@ function Courses({ filteredCourses }: CoursesProps) {
                                   {course.User.role}
                                 </p>
                               </div>
-                              <Button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleLike(course.id);
-                                }}
-                                isIconOnly>
-                                <FaHeart
-                                  className={clsx(
-                                    likedCourses[course.id]
-                                      ? "text-red-800"
-                                      : "text-black"
-                                  )}
-                                />
-                              </Button>
                             </div>
                           </div>
                           <p className="truncate text-xs mt-3 xsm:hidden xms:block">

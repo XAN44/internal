@@ -22,6 +22,7 @@ export const ResetPasswordSchema = z
     message: "password do not match ",
     path: ["confirmPassword"],
   });
+
 export const SignUpSchema = z
   .object({
     username: z
@@ -31,6 +32,20 @@ export const SignUpSchema = z
     password: z
       .string()
       .min(6, { message: "Password must be more than 6 characters." }),
+    confirmPassword: z.string().min(6),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "password do not match ",
+    path: ["confirmPassword"],
+  });
+
+export const ResetPasswordSchemaHavePW = z
+
+  .object({
+    currentPassword: z.string(),
+    password: z
+      .string()
+      .min(6, { message: "Minimum of 6 characters required" }),
     confirmPassword: z.string().min(6),
   })
   .refine((data) => data.password === data.confirmPassword, {

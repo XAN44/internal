@@ -9,12 +9,10 @@ import Courses from "./searchCourse/Courses";
 import { FakeCourse } from "../../lib/modal/fakeSelectCourse";
 import ContinueLearning from "./searchCourse/ContinueLearning";
 import ForYou from "./searchCourse/ForYou";
-import { cardCourses } from "../../../../fakeMe";
 import { Category } from "@prisma/client";
 
 interface Props {
   currentId: string;
-  overallProgressPercentage: number;
   category: {
     id: string;
     name: string;
@@ -24,13 +22,12 @@ interface Props {
       imageURL: string | null;
       descriptions: string | null;
       isPublished: boolean;
-      progress?: number | null;
+
       Enrollment: {
         id: string;
         userId: string;
         courseId: string;
         enrolledAt: Date;
-        progress: number;
         isEnrollment: boolean;
       }[];
       User: {
@@ -44,18 +41,38 @@ interface Props {
     id: string;
     name: string;
   }[];
+  filterCourseContinue: {
+    id: string;
+    category: string;
+    role: string;
+    title: string;
+    thumnel: string;
+    description: string;
+    avatar: string;
+    name: string;
+    enrollment:
+      | {
+          id: string;
+          userId: string;
+          courseId: string;
+          enrolledAt: Date;
+          dueDate: Date | null;
+          progress: number;
+          isEnrollment: boolean;
+        }
+      | undefined;
+    progress: number;
+  }[];
   filteredCoursesForUser: {
     id: string;
     title: string;
     imageURL: string | null;
     descriptions: string | null;
-
     Enrollment: {
       id: string;
       userId: string;
       courseId: string;
       enrolledAt: Date;
-      progress: number;
       isEnrollment: boolean;
     }[];
     User: {
@@ -70,7 +87,7 @@ function CardCouse({
   currentId,
   filteredCoursesForUser,
   userInterests,
-  overallProgressPercentage,
+  filterCourseContinue,
 }: Props) {
   const [SelectCategory, setSelectCategory] = useState<string>("All_Course_ID");
   const [currentPage, setCurrentPage] = useState(0);
@@ -132,42 +149,12 @@ function CardCouse({
               thumnel: course.imageURL || "default-image.png",
               avatar: course.User?.image || "default-avatar.png",
               description: course.descriptions || "No description available",
-              progress: enrollment?.progress || 0,
             };
           });
       }
       return [];
     });
   }, [category, userInterests, currentId]);
-
-  const filterCourseContinue = useMemo(() => {
-    return category.flatMap((cat) => {
-      return cat.course
-        .filter((course) => {
-          const enrollment = course.Enrollment.find(
-            (e) => e.userId === currentId
-          );
-          return enrollment && enrollment.isEnrollment;
-        })
-        .map((course) => {
-          const enrollment = course.Enrollment.find(
-            (e) => e.userId === currentId
-          );
-          return {
-            id: course.id,
-            category: cat.name,
-            role: course.User.role || "Unknown Role",
-            title: course.title,
-            thumnel: course.imageURL || "/default-thumbnail.png",
-            description: course.descriptions || "No description available",
-            avatar: course.User.image || "/default-avatar.png",
-            progress: enrollment?.progress || 0,
-            name: course.User.username || "Anonymous",
-            enrollment: enrollment,
-          };
-        });
-    });
-  }, [category, currentId]);
 
   const ShowCourses = filteredCourses.slice(
     startIndex,
@@ -215,6 +202,12 @@ function CardCouse({
       setCurrentPage(currentPage - 1);
     }
   };
+  const overallProgressPercentage = ShowProcressCourses.length
+    ? ShowProcressCourses.reduce(
+        (acc, course) => acc + (course.progress ?? 0),
+        0
+      ) / ShowProcressCourses.length
+    : 0;
 
   return (
     <div className="w-full h-full">
@@ -297,79 +290,81 @@ function CardCouse({
         <div className="mt-16 w-full border-black sm:hidden xsm:block " />
         <div
           className="
-          mt-6
-          flex
-          items-center
-          justify-center
-          sm:flex-col
-          md:flex-row
-          xms:flex-row
-          xsm:flex-col 
-          flex-row
-          gap-5
-          h-full
-
-          ">
+    mt-6
+    flex
+    items-center
+    justify-center
+    sm:flex-col
+    md:flex-row
+    xms:flex-row
+    xsm:flex-col 
+    flex-row
+    gap-5
+    h-full
+">
           <div
             className="
-            flex
-            xsm:flex-col
-            sm:flex-row
-            lg:w-full
-
-            ">
-            <div
-              className="
-              w-full  
-              flex 
-              flex-col">
-              <div
-                className="
-                flex 
-                items-center 
-                justify-between 
-                xsm:flex-col 
-                md:flex-row 
-                pb-3 pt-3
-                ">
-                <h1 className="text-2xl font-bold ">Continue Learning</h1>
-                <ButtonCourse
-                  onBack={handlePrevPage2}
-                  onNext={handleNextPage2}
-                  canGoBack={currentProcess > 0}
-                  canGoNext={
-                    (currentProcess + 1) * itemProcess <
-                    filterCourseContinue.length
-                  }
-                />
-              </div>
-              <ContinueLearning
-                filteredCourses={ShowProcressCourses}
-                overallProgressPercentage={overallProgressPercentage}
-              />
+      flex
+      xsm:flex-col
+      sm:flex-row
+      lg:w-full
+    ">
+            <div className="w-full flex flex-col">
+              {ShowProcressCourses.length > 0 && (
+                <>
+                  <div
+                    className="
+            flex 
+            items-center 
+            justify-between 
+            xsm:flex-col 
+            md:flex-row 
+            pb-3 pt-3
+          ">
+                    <h1 className="text-2xl font-bold">Continue Learning</h1>
+                    <ButtonCourse
+                      onBack={handlePrevPage2}
+                      onNext={handleNextPage2}
+                      canGoBack={currentProcess > 0}
+                      canGoNext={
+                        (currentProcess + 1) * itemProcess <
+                        filterCourseContinue.length
+                      }
+                    />
+                  </div>
+                  <ContinueLearning
+                    filteredCourses={ShowProcressCourses}
+                    overallProgressPercentage={overallProgressPercentage}
+                  />
+                </>
+              )}
             </div>
           </div>
 
           <div>
-            <div
-              className="
-                flex 
-                items-center 
-                justify-between 
-                xsm:flex-col 
-                md:flex-row 
-                pb-3 pt-3
-                ">
-              <ButtonCourse
-                onBack={handlePrevPageeYou}
-                onNext={handleNextPageYou}
-                canGoBack={currentForyou > 0}
-                canGoNext={
-                  (currentForyou + 1) * itemPerYou < filterCousreForU.length
-                }
-              />
-            </div>
-            <ForYou filteredCourses={ShowForYouCourses} />
+            {ShowForYouCourses.length > 0 && (
+              <>
+                <div
+                  className="
+          flex 
+          items-center 
+          justify-between 
+          xsm:flex-col 
+          md:flex-row 
+          pb-3 pt-3
+        ">
+                  <ButtonCourse
+                    onBack={handlePrevPageeYou}
+                    onNext={handleNextPageYou}
+                    canGoBack={currentForyou > 0}
+                    canGoNext={
+                      (currentForyou + 1) * itemPerYou < filterCousreForU.length
+                    }
+                  />
+                </div>
+                <ForYou filteredCourses={ShowForYouCourses} />
+              </>
+            )}
           </div>
         </div>
       </div>

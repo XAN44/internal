@@ -3,11 +3,6 @@ import { getCurrentUser } from "../../../lib/auth/getSession";
 import { db } from "../../../lib/db";
 import Mux from "@mux/mux-node";
 
-const { video } = new Mux({
-  tokenId: process.env.MUX_TOKEN_ID,
-  tokenSecret: process.env.MUX_TOKEN_SECRET,
-});
-
 export async function DELETE(
   req: Request,
   { params }: { params: { courseId: string } }

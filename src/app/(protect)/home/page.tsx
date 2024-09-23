@@ -11,6 +11,9 @@ async function page() {
       id: true,
       name: true,
       course: {
+        where: {
+          isPublished: true,
+        },
         select: {
           id: true,
           title: true,
@@ -18,11 +21,15 @@ async function page() {
           isPublished: true,
           descriptions: true,
           Enrollment: true,
-          progress: true,
           Chapter: {
+            where: {
+              isPublished: true,
+            },
             select: {
+              id: true,
               Quiz: {
                 select: {
+                  id: true,
                   UserQuizProgress: {
                     where: {
                       userId: user.id,
@@ -36,6 +43,7 @@ async function page() {
               },
               Lesson: {
                 select: {
+                  id: true,
                   UserLessonProgress: {
                     where: {
                       userId: user.id,
@@ -64,6 +72,7 @@ async function page() {
   const LessonProgress = await db.userLessonProgress.findMany({
     where: { userId: user.id },
     select: {
+      lessonId: true,
       isCompleted: true,
     },
   });
@@ -71,6 +80,7 @@ async function page() {
   const QuizProgress = await db.userQuizProgress.findMany({
     where: { userId: user.id },
     select: {
+      quizId: true,
       isCompleted: true,
     },
   });
@@ -99,32 +109,61 @@ async function page() {
     .flatMap((category) => category.course)
     .filter((course) => course.isPublished);
 
-  const totalLessons = await db.lesson.count();
-  const totalQuizzes = await db.quiz.count();
+  const coursesWithProgress = filteredCategories.flatMap((category) =>
+    category.course.map((course) => {
+      const lessonProgress = LessonProgress.filter((progress) =>
+        course.Chapter.some(
+          (chapter) => chapter.Lesson && chapter.Lesson.id === progress.lessonId
+        )
+      );
 
-  const completedLessons = LessonProgress.filter(
-    (progress) => progress.isCompleted
-  ).length;
-  const completedQuizzes = QuizProgress.filter(
-    (progress) => progress.isCompleted
-  ).length;
+      const quizProgress = QuizProgress.filter((progress) =>
+        course.Chapter.some(
+          (chapter) => chapter.Quiz && chapter.Quiz.id === progress.quizId
+        )
+      );
 
-  const totalTasks = totalLessons + totalQuizzes;
-  const completedTasks = completedLessons + completedQuizzes;
-  const overallProgressPercentage =
-    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+      const totalLessons = course.Chapter.filter(
+        (chapter) => chapter.Lesson
+      ).length;
+      const completedLessons = lessonProgress.filter(
+        (p) => p.isCompleted
+      ).length;
+
+      const totalQuizzes = course.Chapter.filter(
+        (chapter) => chapter.Quiz
+      ).length;
+      const completedQuizzes = quizProgress.filter((p) => p.isCompleted).length;
+
+      const totalTasks = totalLessons + totalQuizzes;
+      const completedTasks = completedLessons + completedQuizzes;
+
+      const progressPercentage =
+        totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      return {
+        id: course.id,
+        category: category.name,
+        role: course.User.role || "Unknown Role",
+        title: course.title,
+        thumnel: course.imageURL || "/default-thumbnail.png",
+        description: course.descriptions || "",
+        avatar: course.User.image || "",
+        name: course.User.username || "",
+        enrollment: course.Enrollment.find((e) => e.userId === user.id),
+        progress: progressPercentage,
+      };
+    })
+  );
 
   return (
-    <div
-      className="
-          w-full
-        ">
+    <div className="w-full">
       <CardCouse
+        filterCourseContinue={coursesWithProgress}
         currentId={user?.id || ""}
         category={filteredCategories}
         filteredCoursesForUser={filterCourseForYou}
         userInterests={userInterests?.interests || []}
-        overallProgressPercentage={overallProgressPercentage}
       />
     </div>
   );

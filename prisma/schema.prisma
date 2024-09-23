@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
-  directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
 }
 
@@ -42,11 +41,12 @@ model User {
 }
 
 model Enrollment {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   userId     String
   courseId   String
-  enrolledAt DateTime @default(now())
-  progress   Int      @default(0)
+  enrolledAt DateTime  @default(now())
+  dueDate    DateTime?
+  progress   Int       @default(0)
 
   User         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   Course       Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -152,19 +152,6 @@ model UserLessonProgress {
   @@index([lessonId])
 }
 
-model UserQuizProgress {
-  id          String  @id @default(cuid())
-  userId      String
-  quizId      String
-  isCompleted Boolean @default(false)
-  user        User    @relation(fields: [userId], references: [id])
-  quiz        Quiz    @relation(fields: [quizId], references: [id])
-
-  @@unique([userId, quizId])
-  @@index([userId, quizId])
-  @@index([quizId])
-}
-
 model Lesson {
   id        String   @id @default(cuid())
   videoUrl  String?  @db.VarChar(255)
@@ -178,6 +165,19 @@ model Lesson {
   UserLessonProgress UserLessonProgress[]
 
   @@index([chapterId])
+}
+
+model UserQuizProgress {
+  id          String  @id @default(cuid())
+  userId      String
+  quizId      String
+  isCompleted Boolean @default(false)
+  user        User    @relation(fields: [userId], references: [id])
+  quiz        Quiz    @relation(fields: [quizId], references: [id])
+
+  @@unique([userId, quizId])
+  @@index([userId, quizId])
+  @@index([quizId])
 }
 
 model Quiz {

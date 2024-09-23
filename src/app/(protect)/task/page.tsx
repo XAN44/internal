@@ -1,71 +1,224 @@
 import React from "react";
-import CardDashBoard from "../../components/dashboard/CardDashBoard";
 import TaskStatus from "../../components/task/TaskStatus";
+import { db } from "../../lib/db";
+import { getCurrentUser } from "../../lib/auth/getSession";
+import Chapter from "../course/[courseId]/chapter/[chapterId]/page";
+import { title } from "process";
 
 async function page() {
-  // let initial = null;
-  // let isLoading = true;
-  // let error = null;
+  let userData = null;
+  let isLoading = true;
+  let error = null;
+  let courseEnrolmentData: {
+    id: string;
+    title: string;
+    enrolledAt: Date;
+    duelDate: Date | null;
+    isCompleted: boolean;
+  }[] = [];
 
-  // try {
-  //   const { data, status } = await elysia.api.Course.ChangeAvatar.get();
-  //   if (status === 200) {
-  //     initial = data;
-  //   } else {
-  //     error = "Failed to fetch data.";
-  //   }
-  // } catch (err) {
-  //   error = "An error occurred: ";
-  // } finally {
-  //   isLoading = false;
-  // }
+  try {
+    const user = await getCurrentUser();
+    if (!user?.id) {
+      return null;
+    }
 
-  // if (!initial || !initial.Course) {
-  //   return <div>No data available.</div>;
-  // }
+    const enrollments = await db.enrollment.findMany({
+      where: { userId: user.id, isEnrollment: true },
+      select: {
+        id: true,
+        courseId: true,
+        dueDate: true,
+        enrolledAt: true,
+        Course: {
+          select: {
+            title: true,
+            Category: {
+              select: {
+                name: true,
+              },
+            },
+            Chapter: {
+              select: {
+                isPublished: true,
+                id: true,
+                Lesson: {
+                  select: {
+                    UserLessonProgress: {
+                      where: { userId: user.id },
+                      select: {
+                        isCompleted: true,
+                      },
+                    },
+                  },
+                },
+                Quiz: {
+                  select: {
+                    id: true,
+                    UserQuizProgress: {
+                      where: { userId: user.id },
+                      select: {
+                        isCompleted: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
 
-  // const { Course } = initial;
-  // const skillType = Course.AllCourse.flatMap((course) =>
-  //   course.chapters.flatMap((chapter) =>
-  //     chapter.tasks.map((task) => task.skillType)
-  //   )
-  // );
+    const LessonProgress = await db.userLessonProgress.findMany({
+      where: {
+        userId: user.id,
+      },
+      select: {
+        isCompleted: true,
+        lesson: {
+          select: {
+            chapterId: true,
+          },
+        },
+      },
+    });
 
-  // const {
-  //   softSkillPercentage,
-  //   hardSkillPercentage,
-  //   pendingTask,
-  //   pendingTaskPersentage,
-  //   completedTask,
-  //   completionTaskPersentage,
-  //   AllCourse,
-  // } = Course;
+    const QuizProgress = await db.userQuizProgress.findMany({
+      where: {
+        userId: user.id,
+      },
+      select: {
+        isCompleted: true,
+        quiz: {
+          select: {
+            chapterId: true,
+          },
+        },
+      },
+    });
 
-  // const Task = AllCourse.flatMap((f) => f.chapters).flatMap((f) => f.tasks);
+    interface CategoryProgress {
+      completed: number;
+      total: number;
+    }
 
-  // const nameCourse = AllCourse.map((f) => f.title);
+    // เก็บข้อมูล categoryProgress สำหรับแต่ละ category
+    let totalCompletedTasks = 0;
+    let totalPendingTasks = 0;
+    let categoryProgress: Record<string, CategoryProgress> = {};
 
-  // const initials = {
-  //   hardSkillPercentage,
-  //   softSkillPercentage,
-  //   pendingTask,
-  //   pendingTaskPersentage,
-  //   completedTask,
-  //   completionTaskPersentage,
-  //   skillType,
-  //   nameCourse,
-  // };
+    enrollments.forEach((enrollment) => {
+      const category = enrollment.Course.Category?.name; // ดึงชื่อ category ของ course
 
-  // const Data = Task.map((task, index) => ({
-  //   ...task,
-  //   nameCourse: nameCourse[index],
-  // }));
+      if (!category) {
+        return null;
+      }
 
-  console.log();
+      if (!categoryProgress[category]) {
+        categoryProgress[category] = { completed: 0, total: 0 };
+      }
+
+      enrollment.Course.Chapter.forEach((chapter) => {
+        // ตรวจสอบว่า chapter ถูกเผยแพร่หรือไม่
+        if (chapter.isPublished) {
+          if (chapter.Lesson) {
+            const lessonProgress = chapter.Lesson.UserLessonProgress;
+            if (lessonProgress.length > 0) {
+              if (lessonProgress[0].isCompleted) {
+                totalCompletedTasks += 1;
+                categoryProgress[category].completed += 1;
+              } else {
+                totalPendingTasks += 1;
+              }
+              categoryProgress[category].total += 1;
+            } else {
+              totalPendingTasks += 1;
+              categoryProgress[category].total += 1;
+            }
+          }
+
+          // กรณีแบบทดสอบ (Quiz)
+          if (chapter.Quiz) {
+            const quizProgress = chapter.Quiz.UserQuizProgress;
+            if (quizProgress.length > 0) {
+              if (quizProgress[0].isCompleted) {
+                totalCompletedTasks += 1;
+                categoryProgress[category].completed += 1;
+              } else {
+                totalPendingTasks += 1; // เพิ่มในกรณีที่ยังไม่เสร็จสมบูรณ์
+              }
+              categoryProgress[category].total += 1; // เพิ่มจำนวนรวมแบบทดสอบใน category นี้
+            } else {
+              totalPendingTasks += 1; // เพิ่มในกรณีที่ไม่มี progress
+              categoryProgress[category].total += 1;
+            }
+          }
+        }
+      });
+    });
+
+    const progressData = Object.keys(categoryProgress).map((category) => {
+      const progress = categoryProgress[category];
+      const percentage = (progress.completed / progress.total) * 100;
+      return {
+        category,
+        completed: progress.completed,
+        total: progress.total,
+        percentage: Math.round(percentage * 100) / 100,
+      };
+    });
+
+    const courseEnrolments = enrollments.map((enrollment) => {
+      const course = enrollment.Course;
+
+      const completedChapters = new Set();
+
+      LessonProgress.forEach((lesson) => {
+        if (lesson.isCompleted) {
+          completedChapters.add(lesson.lesson.chapterId);
+        }
+      });
+      QuizProgress.forEach((quiz) => {
+        if (quiz.isCompleted) {
+          completedChapters.add(quiz.quiz.chapterId);
+        }
+      });
+
+      const isCompleted = course.Chapter.filter(
+        (chapter) => chapter.isPublished
+      ).every((chapter) => completedChapters.has(chapter.id));
+
+      return {
+        id: enrollment.courseId,
+        title: enrollment.Course.title,
+        enrolledAt: enrollment.enrolledAt,
+        duelDate: enrollment.dueDate,
+        isCompleted: isCompleted,
+      };
+    });
+
+    courseEnrolmentData = courseEnrolments;
+
+    userData = {
+      pendingTasks: totalPendingTasks,
+      completedTasks: totalCompletedTasks,
+      progress: progressData,
+    };
+  } catch (err) {
+    error = "An error occurred: ";
+  } finally {
+    isLoading = false;
+  }
+
+  if (!userData) {
+    return <div>No data available.</div>;
+  }
+
   return (
     <div className="w-full min-h-screen p-6">
-      <p className="text-xl font-bold mb-6">Task</p>
-      {/* <TaskStatus initial={initials} isLoading={isLoading} initals={Data} /> */}
+      <p className="text-xl font-bold mb-6">Task Status</p>
+      <TaskStatus initial={userData} courseEnrolment={courseEnrolmentData} />
     </div>
   );
 }

@@ -3,102 +3,118 @@
 // const database = new PrismaClient();
 
 // async function main() {
+//   const categories = [
+//     {
+//       name: "Hard Skill",
+//       description:
+//         "Courses that focus on specific technical skills and knowledge.",
+//     },
+//     {
+//       name: "Soft Skill",
+//       description:
+//         "Courses that develop interpersonal and communication skills.",
+//     },
+//     {
+//       name: "Management",
+//       description: "Courses that teach leadership and management principles.",
+//     },
+//     {
+//       name: "Business",
+//       description: "Courses focused on business strategies and operations.",
+//     },
+//     {
+//       name: "Technology",
+//       description: "Courses that cover technological advancements and tools.",
+//     },
+//     {
+//       name: "Art",
+//       description: "Courses that explore creativity and artistic expression.",
+//     },
+//     {
+//       name: "Health & Wellness",
+//       description: "Courses that promote physical and mental well-being.",
+//     },
+//     {
+//       name: "Finance",
+//       description:
+//         "Courses that teach financial literacy and investment strategies.",
+//     },
+//     {
+//       name: "Marketing",
+//       description: "Courses focused on marketing strategies and techniques.",
+//     },
+//     {
+//       name: "Data Science",
+//       description: "Courses that cover data analysis and statistical methods.",
+//     },
+//     {
+//       name: "Programming",
+//       description:
+//         "Courses that teach various programming languages and coding practices.",
+//     },
+//     {
+//       name: "Writing",
+//       description:
+//         "Courses that improve writing skills for different contexts.",
+//     },
+//     {
+//       name: "Communication",
+//       description:
+//         "Courses that enhance verbal and non-verbal communication skills.",
+//     },
+//     {
+//       name: "Sales",
+//       description:
+//         "Courses that focus on sales techniques and customer relationship management.",
+//     },
+//     {
+//       name: "Project Management",
+//       description:
+//         "Courses that cover project planning and execution strategies.",
+//     },
+//     {
+//       name: "Entrepreneurship",
+//       description: "Courses that inspire and teach entrepreneurship skills.",
+//     },
+//     {
+//       name: "Public Speaking",
+//       description:
+//         "Courses that enhance public speaking and presentation skills.",
+//     },
+//     {
+//       name: "Design",
+//       description: "Courses that cover design principles and methodologies.",
+//     },
+//     {
+//       name: "Research",
+//       description:
+//         "Courses that teach research methods and data collection techniques.",
+//     },
+//     {
+//       name: "Networking",
+//       description: "Courses that improve professional networking skills.",
+//     },
+//     {
+//       name: "Customer Service",
+//       description:
+//         "Courses that focus on providing excellent customer support.",
+//     },
+//     {
+//       name: "Digital Marketing",
+//       description: "Courses that cover online marketing strategies and tools.",
+//     },
+//     {
+//       name: "Cybersecurity",
+//       description:
+//         "Courses that teach how to protect systems and networks from threats.",
+//     },
+//   ];
+
 //   try {
 //     await database.Category.createMany({
-//       data: [
-//         {
-//           name: "Programming",
-//           description:
-//             "Courses related to programming languages and techniques",
-//         },
-//         {
-//           name: "Data Science",
-//           description:
-//             "Courses focusing on data analysis, statistics, and machine learning",
-//         },
-//         {
-//           name: "Design",
-//           description: "Courses on design principles and software",
-//         },
-//         {
-//           name: "Business",
-//           description:
-//             "Courses on business management, strategy, and operations",
-//         },
-//         {
-//           name: "Marketing",
-//           description: "Courses related to marketing strategies and practices",
-//         },
-//         {
-//           name: "Finance",
-//           description:
-//             "Courses covering financial management and investment strategies",
-//         },
-//         {
-//           name: "Health",
-//           description: "Courses related to health, wellness, and nutrition",
-//         },
-//         {
-//           name: "Engineering",
-//           description:
-//             "Courses on various engineering disciplines and applications",
-//         },
-//         {
-//           name: "Personal Development",
-//           description:
-//             "Courses focused on personal growth and skill development",
-//         },
-//         {
-//           name: "Management",
-//           description:
-//             "Courses on project management, team management, and leadership",
-//         },
-//         {
-//           name: "Cybersecurity",
-//           description:
-//             "Courses on protecting systems and networks from cyber threats",
-//         },
-//         {
-//           name: "Artificial Intelligence",
-//           description: "Courses related to AI concepts and technologies",
-//         },
-//         {
-//           name: "Cloud Computing",
-//           description: "Courses on cloud infrastructure and services",
-//         },
-//         {
-//           name: "Data Analysis",
-//           description: "Courses focused on analyzing and interpreting data",
-//         },
-//         {
-//           name: "E-commerce",
-//           description:
-//             "Courses on online business and digital sales strategies",
-//         },
-//         {
-//           name: "Creative Writing",
-//           description: "Courses on writing fiction, non-fiction, and poetry",
-//         },
-//         {
-//           name: "Graphic Design",
-//           description: "Courses on visual design principles and tools",
-//         },
-//         {
-//           name: "Photography",
-//           description: "Courses on photography techniques and editing",
-//         },
-//         {
-//           name: "Education",
-//           description: "Courses on teaching methods and educational theories",
-//         },
-//         {
-//           name: "Social Media",
-//           description:
-//             "Courses on managing and marketing through social media platforms",
-//         },
-//       ],
+//       data: categories,
 //     });
-//     console.log("Success");
+//     console.log("Success: Categories added");
 //   } catch (error) {
 //     console.log("Error seeding the database", error);
 //   } finally {

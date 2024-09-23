@@ -10,11 +10,9 @@ import InterestContent from "./InterestContent";
 import IsOpenCard from "./IsOpenCard";
 interface UserProps {
   interest: { name: string }[];
-
-  isLoading?: boolean;
 }
 
-const InterestCard = ({ interest, isLoading }: UserProps) => {
+const InterestCard = ({ interest }: UserProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedInterest, setSelectedInterest] = useState<string | null>("");
 
@@ -30,18 +28,12 @@ const InterestCard = ({ interest, isLoading }: UserProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <InterestSkelTon />
-      ) : (
-        <>
-          <InterestContent interest={interest} onClick={handleOpen} />
-          <IsOpenCard
-            isOpen={isOpen}
-            onClose={handleClose}
-            selectedInterest={selectedInterest}
-          />
-        </>
-      )}
+      <InterestContent interest={interest} onClick={handleOpen} />
+      <IsOpenCard
+        isOpen={isOpen}
+        onClose={handleClose}
+        selectedInterest={selectedInterest}
+      />
     </>
   );
 };

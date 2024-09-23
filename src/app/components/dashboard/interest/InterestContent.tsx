@@ -16,7 +16,6 @@ function InterestContent({ interest, onClick }: UserProps) {
 
   const i = interest.map((i) => i);
   const slice = i.slice(0, 6);
-  const showInterest = i.map;
 
   return (
     <div className="w-full h-full">

@@ -1,6 +1,7 @@
 import { Button } from "@nextui-org/button";
 import React, { useState } from "react";
 import { GiEmptyChessboard } from "react-icons/gi";
+import IsOpenBadge from "./isOpenBadge";
 
 interface Badge {
   name: string;
@@ -50,6 +51,7 @@ function BadgeContent({ badges }: BadgeMainProps) {
           </div>
         )}
       </div>
+      <IsOpenBadge isOpen={showAll} badges={badges} onOpen={handleShow} />
     </div>
   );
 }

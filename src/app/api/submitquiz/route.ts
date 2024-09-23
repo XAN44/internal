@@ -1,4 +1,3 @@
-// app/api/submitquiz/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../lib/db";
 import { getCurrentUser } from "../../lib/auth/getSession";
@@ -30,9 +29,7 @@ export async function PATCH(req: NextRequest) {
     }));
 
     const allCorrect = correctAnswers.every((item) => item.correct);
-    const score = correctAnswers.filter((item) => item.correct).length;
 
-    // Update progress in the userQuizProgress table
     await db.userQuizProgress.upsert({
       where: {
         userId_quizId: {
@@ -40,20 +37,49 @@ export async function PATCH(req: NextRequest) {
           quizId: quizId,
         },
       },
-      update: {
-        isCompleted: allCorrect, // Set to true if all answers are correct, otherwise false
-      },
+      update: { isCompleted: allCorrect },
       create: {
         userId: user?.id || "",
         quizId: quizId,
-        isCompleted: allCorrect, // Set to true if all answers are correct, otherwise false
+        isCompleted: allCorrect,
       },
     });
+
+    // ตรวจสอบความก้าวหน้าทั้งหมดในคอร์ส
+    const courseQuizzes = await db.quiz.findMany({
+      where: { chapter: { courseId: quiz.chapter.course.id } },
+    });
+
+    const allQuizzesCompleted = await Promise.all(
+      courseQuizzes.map(async (q) => {
+        const progress = await db.userQuizProgress.findUnique({
+          where: {
+            userId_quizId: {
+              userId: user?.id || "",
+              quizId: q.id,
+            },
+          },
+        });
+        return progress?.isCompleted;
+      })
+    );
+
+    if (allQuizzesCompleted.every(Boolean)) {
+      await db.enrollment.update({
+        where: {
+          userId_courseId: {
+            userId: user?.id || "",
+            courseId: quiz.chapter.course.id,
+          },
+        },
+        data: { dueDate: new Date() }, // อัปเดต dueDate
+      });
+    }
 
     return NextResponse.json({
       success: true,
       correctAnswers,
-      score,
+      score: correctAnswers.filter((item) => item.correct).length,
       chapterId: quiz.chapter.id,
       courseId: quiz.chapter.course.id,
       message: "Quiz submitted successfully!",

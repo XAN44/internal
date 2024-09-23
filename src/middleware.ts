@@ -27,11 +27,9 @@ export async function middleware(request: any) {
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
 
-  // ถ้าผู้ใช้เข้าสู่ระบบแล้วให้ผ่านไป
   return NextResponse.next();
 }
 
-// กำหนด matcher ให้ middleware ทำงานเฉพาะหน้าที่อยู่ในโฟลเดอร์ (protect) และ auth
 export const config = {
   matcher: [
     "/createcourse",

@@ -11,10 +11,9 @@ interface Badge {
 
 interface BadgeMainProps {
   badges: Badge[];
-  isLoading: boolean;
 }
 
-function BadgeMain({ badges, isLoading }: BadgeMainProps) {
+function BadgeMain({ badges }: BadgeMainProps) {
   const memoizedBadges = useMemo(() => {
     return badges.map((badge) => ({
       name: badge.name,
@@ -24,7 +23,7 @@ function BadgeMain({ badges, isLoading }: BadgeMainProps) {
 
   return (
     <CardDashBoard>
-      {isLoading ? <BadgeSkelton /> : <BadgeContent badges={memoizedBadges} />}
+      <BadgeContent badges={memoizedBadges} />
     </CardDashBoard>
   );
 }

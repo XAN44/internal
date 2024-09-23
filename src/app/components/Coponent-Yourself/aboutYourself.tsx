@@ -19,7 +19,6 @@ import {
   FormItem,
   FormLabel,
 } from "../../../../components/ui/form";
-import { TEST1, TEST2 } from "../../../../server/test";
 import SubSignUp from "../auth/sign-up/subBtnSignUp";
 import { AboutYourSelfSchema } from "../../lib/schema/aboutYourself/zodSelf";
 import { Role } from "../../lib/modal/abYourself";

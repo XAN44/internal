@@ -16,16 +16,9 @@ export interface Props {
       departname: string;
     } | null;
   };
-  isLoading: boolean;
 }
 
-function Userinfo({ initialState, isLoading }: Props) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
-
+function Userinfo({ initialState }: Props) {
   const initialsData = useMemo(() => {
     return {
       id: initialState.id,
@@ -42,7 +35,7 @@ function Userinfo({ initialState, isLoading }: Props) {
 
   return (
     <CardDashBoard>
-      <UserAvatarAndEdit initialState={initialsData} isLoading={loading} />
+      <UserAvatarAndEdit initialState={initialsData} />
     </CardDashBoard>
   );
 }

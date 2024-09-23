@@ -1,45 +1,71 @@
+import { format } from "date-fns";
 import React from "react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
+import { cn } from "../../../../lib/utils";
+import Link from "next/link";
 
 interface Props {
   initals: {
     id: string;
     title: string;
+    enrolledAt: Date;
+    duelDate: Date | null;
     isCompleted: boolean;
-    skillType: string;
-    assignedDate: string;
-    nameCourse: string;
-    dueDate: string;
   }[];
 }
 
 function TaskShowTask({ initals }: Props) {
   return (
-    <div
-      className="
-        w-full 
-        h-full 
-        grid 
-        grid-cols-4  
-        items-start
-        place-content-start 
-        place-items-center
-        text-blue-500
-        font-bold
-        ">
-      <p>COURSE NAME</p>
-      <p>ASSIGNED DATE</p>
-      <p>DUE DATE</p>
-      <p>STATUS</p>
-
-      {initals.map((task) => (
-        <React.Fragment key={task.id}>
-          <p>{task.nameCourse}</p>
-          <p>{task.assignedDate}</p>
-          <p>{task.dueDate}</p>
-          <p>{task.isCompleted ? "Completed" : "Pending"}</p>
-        </React.Fragment>
-      ))}
-    </div>
+    <Table isStriped aria-label="Example static collection table">
+      <TableHeader>
+        <TableColumn className="text-blue-500 text-medium">
+          COURSE NAME
+        </TableColumn>
+        <TableColumn className="text-blue-500 text-medium">
+          ASSIGNED DATE
+        </TableColumn>
+        <TableColumn className="text-blue-500 text-medium">
+          DUE DATE
+        </TableColumn>
+        <TableColumn className="text-blue-500 text-medium">STATUS</TableColumn>
+      </TableHeader>
+      <TableBody
+        loadingContent={
+          <div className="animate-pulse text-xl">Peep .. Peep ..</div>
+        }>
+        {initals.map((task) => (
+          <TableRow key={task.id}>
+            <TableCell>
+              <Link href={`/course/${task.id}`}>{task.title}</Link>
+            </TableCell>
+            <TableCell>
+              {format(new Date(task.enrolledAt), "MMMM do, yyyy")}
+            </TableCell>
+            <TableCell>
+              {task.duelDate
+                ? `${format(new Date(task.duelDate), "MMMM do, yyyy")} ${format(
+                    new Date(task.duelDate),
+                    "HH:mm"
+                  )}`
+                : "N/A"}
+            </TableCell>
+            <TableCell
+              className={cn(
+                task.isCompleted ? "text-green-500" : "text-yellow-500"
+              )}>
+              {task.isCompleted ? "Completed" : "Pending"}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 
