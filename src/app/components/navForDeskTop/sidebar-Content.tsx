@@ -87,37 +87,10 @@ function SidebarContent({ notificationCount, userData }: Data) {
         )}
         {!isOpen && (
           <>
-            <div
-              className="
-              xsm:border-2
-              xsm:border-blue-500
-              xsm:rounded-full
-              xsm:w-6 xsm:h-6
-              xsm:p-4
-              xsm:absolute xsm:top-4
-              xsm:flex xsm:items-center xsm:justify-center
-              sm:border-none
-            ">
-              <FiAlignJustify
-                className="
-              w-12 h-12 
-              
-              absolute
-              sm:w-9 sm:h-9
-              sm:top-6
-              cursor-pointer
-              sm:text-white
-              
-              // Responsive Mobile
-              xsm:text-blue-500
-              xsm:w-6 xsm:h-6
-           
-   
-              "
-                onClick={toggleOpen}
-              />
-            </div>
-            <SidebarCLose notificationCount={notificationCount} />
+            <SidebarCLose
+              notificationCount={notificationCount}
+              toggleOpen={toggleOpen}
+            />
           </>
         )}
       </div>
