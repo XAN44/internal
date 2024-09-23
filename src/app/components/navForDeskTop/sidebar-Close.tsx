@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { SideBarModal } from "../../lib/sr/sideBar";
 import DesktopItem from "./item/desktopItem";
 import SignOutButton from "../auth/sign-out/signOut";
-import axios from "axios";
 import { FiAlignJustify } from "react-icons/fi";
+
 interface Data {
   notificationCount: number;
   toggleOpen: () => void;
@@ -13,28 +13,19 @@ function SidebarClose({ notificationCount, toggleOpen }: Data) {
   const route = SideBarModal();
 
   return (
-    <>
-      <ul
-        role="list"
-        className="flex-col flex-grow items-start justify-center sm:space-y-6 md:space-y-8 2xl:space-y-3 xsm:hidden sm:flex">
+    <div className="h-full flex flex-col">
+      {/* ส่วนของปุ่ม FiAlignJustify จะคงที่อยู่ด้านบน */}
+      <div className="flex-none p-4">
         <FiAlignJustify
-          className="
-              w-12 h-12 
-              
-              absolute
-              sm:w-9 sm:h-9
-              sm:top-6
-              cursor-pointer
-              sm:text-white
-              
-              // Responsive Mobile
-              xsm:text-blue-500
-              xsm:w-6 xsm:h-6
-           
-   
-              "
+          className="w-10 h-10 cursor-pointer"
           onClick={toggleOpen}
         />
+      </div>
+
+      {/* เนื้อหาที่สามารถเลื่อนขึ้นลงได้ */}
+      <ul
+        role="list"
+        className="flex-grow overflow-y-auto flex flex-col space-y-4 px-4">
         {route.map((item, index) => (
           <DesktopItem
             key={index}
@@ -47,10 +38,11 @@ function SidebarClose({ notificationCount, toggleOpen }: Data) {
         ))}
       </ul>
 
-      <div className="flex flex-col mt-auto xsm:hidden leading-6 rounded-md hover:text-gray-500 hover:bg-gray-100 hover:cursor-pointer">
+      {/* ปุ่ม SignOut ที่อยู่ด้านล่างสุด */}
+      <div className="flex-none p-4">
         <SignOutButton />
       </div>
-    </>
+    </div>
   );
 }
 

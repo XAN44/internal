@@ -86,12 +86,12 @@ function SidebarContent({ notificationCount, userData }: Data) {
           </>
         )}
         {!isOpen && (
-          <>
+          <div className="h-full flex items-center justify-center overflow-y-auto">
             <SidebarCLose
               notificationCount={notificationCount}
               toggleOpen={toggleOpen}
             />
-          </>
+          </div>
         )}
       </div>
     </motion.div>
