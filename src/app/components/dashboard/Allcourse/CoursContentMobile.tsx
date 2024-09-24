@@ -30,7 +30,7 @@ function CourseContentMobile({
   selectCourse,
 }: Props) {
   return (
-    <div className="md:h-0 xsm:h-96 overflow-y-auto">
+    <div className="sm:hidden xsm:h-96 overflow-y-auto">
       {AllCourse.map((selectedCourse) => (
         <div
           onClick={() => handleOpen(selectedCourse.id)}

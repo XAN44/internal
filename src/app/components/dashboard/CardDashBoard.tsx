@@ -8,7 +8,7 @@ function CardDashBoard({ children }: Props) {
   return (
     <div
       className="
-        xsm:w-full
+         w-full
         bg-gradient-to-l
         from-blue-300
         via-green-200

@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(`min-h-screen w-screen`, inter.className)}>
+      <body className={cn(` `, inter.className)}>
         <Provider>
           <Providers>
             <ConfettiProvider />

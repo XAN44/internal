@@ -30,18 +30,18 @@ function CourseContentDesk({
   return (
     <div
       className="
-      xsm:hidden
-          sm:grid 
-  
-    ">
+        xsm:hidden
+            sm:grid 
+    
+      ">
       <div
         className="
-        w-full 
-        h-full 
-        grid 
-        grid-cols-4 
-        place-items-center 
-        justify-center items-start">
+          w-full 
+          h-full 
+          grid 
+          grid-cols-4 
+          place-items-center 
+          justify-center items-start">
         <p className="text-blue-500 font-bold h-16  ">ENROLLED COURSES</p>{" "}
         <p className="text-blue-500 font-bold h-16">REQUIREMENT</p>
         <p className="text-blue-500 font-bold h-16">SKILL SETS</p>
@@ -54,8 +54,8 @@ function CourseContentDesk({
               onClick={() => handleOpen(course.id)}
               key={course.id}
               className="text-gray-700 sm:h-16 xsm:h-full
-                  xsm:hover:cursor-pointer
-              ">
+                    xsm:hover:cursor-pointer
+                ">
               {index + 1}.{course.title}
             </p>
           ))}
