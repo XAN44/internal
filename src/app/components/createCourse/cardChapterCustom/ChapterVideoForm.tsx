@@ -5,15 +5,13 @@ import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import MuxPlayer from "@mux/mux-player-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import { Chapter, Lesson, MuxData } from "@prisma/client";
+import { Chapter, Lesson } from "@prisma/client";
 import { FaPlusCircle } from "react-icons/fa";
 import { FileUpload } from "../../fileUpload";
-import Image from "next/image";
 import { VideoUrl } from "../../../lib/schema/auth/zodChapter";
 import { RiVideoFill } from "react-icons/ri";
 
