@@ -30,6 +30,7 @@ type Props = {
       name: string;
     } | null;
     User: {
+      id: string;
       username: string | null;
       image: string | null;
       role: string | null;
@@ -44,6 +45,7 @@ function CourseTitle({ title, course, courseId, userId }: Props) {
   const userImage = course.User.image || "";
   const userRole = course.User.role || "";
   const attachments = course.attachments;
+  const currentId = course.User.id;
 
   return (
     <div className="w-full h-full antialiased mx-auto">
@@ -71,6 +73,7 @@ function CourseTitle({ title, course, courseId, userId }: Props) {
         <div className="mt-6 flex  h-full items-center justify-center ">
           <div className="w-full bg-white p-1 rounded-lg">
             <CourseMain
+              userId={userId}
               attachments={attachments}
               Enrollment={enrollment}
               chapter={course?.Chapter || []}
@@ -79,6 +82,7 @@ function CourseTitle({ title, course, courseId, userId }: Props) {
               imageURL={course?.imageURL || ""}
               title={course?.title || ""}
               User={{
+                id: currentId,
                 image: userImage,
                 username: username,
                 role: userRole,

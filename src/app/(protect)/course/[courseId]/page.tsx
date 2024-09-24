@@ -50,6 +50,7 @@ async function CoursePage({ params }: { params: { courseId: string } }) {
       },
       User: {
         select: {
+          id: true,
           username: true,
           image: true,
           role: true,

@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 interface Course {
+  userId: string;
   title: string;
   imageURL: string | null;
   description: string | null;
@@ -29,6 +30,8 @@ interface Course {
     categoryname: string;
   };
   User: {
+    id: string;
+
     username: string;
     image: string | null;
     role: string | null;
@@ -45,6 +48,7 @@ function CourseMain({
   chapter,
   Enrollment,
   attachments,
+  userId,
 }: Course) {
   const [loading, setLoading] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
@@ -60,7 +64,7 @@ function CourseMain({
   }
 
   const handleEnrollment = async (idEnrollment: string) => {
-    setLoading(true); // ตั้งค่า loading เป็น true
+    setLoading(true);
     try {
       if (Enrollment?.length > 0 && Enrollment[0].isEnrollment) {
         await axios.delete(`/api/takeCourse/${courseId}/enrolment`, {
@@ -202,19 +206,24 @@ function CourseMain({
           </Button>
           <CardFooter>
             <div className="w-full flex items-center justify-center">
-              <Button
-                variant="shadow"
-                className="bg-blue-500/50 hover:bg-blue-500"
-                startContent={<FcReading className="w-4 h-4 " />}
-                onClick={() => handleEnrollment(courseId)}
-                disabled={loading} // ปิดการใช้งานปุ่มในขณะที่ loading
-              >
-                {loading
-                  ? "Processing..."
-                  : Enrollment?.length > 0 && Enrollment[0].isEnrollment
-                  ? "Cancel Course"
-                  : "Begin Course"}
-              </Button>
+              {userId === User.id ? (
+                <p className="text-red-500">
+                  You cannot enroll in your own course
+                </p>
+              ) : (
+                <Button
+                  variant="shadow"
+                  className="bg-blue-500/50 hover:bg-blue-500"
+                  startContent={<FcReading className="w-4 h-4 " />}
+                  onClick={() => handleEnrollment(courseId)}
+                  disabled={loading}>
+                  {loading
+                    ? "Processing..."
+                    : Enrollment?.length > 0 && Enrollment[0].isEnrollment
+                    ? "Cancel Course"
+                    : "Begin Course"}
+                </Button>
+              )}
             </div>
           </CardFooter>
           {attachments.map((a) => (
