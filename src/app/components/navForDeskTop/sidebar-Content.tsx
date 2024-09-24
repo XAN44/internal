@@ -26,9 +26,8 @@ function SidebarContent({ notificationCount, userData }: Data) {
       className={clsx(
         `
         xsm:fixed
-        sm:block
-        z-50 
-        sm:h-screen
+         z-50 
+        h-screen
         rounded-tr-[90px]
         rounded-br-[90px]
         transition-all duration-300
@@ -36,7 +35,7 @@ function SidebarContent({ notificationCount, userData }: Data) {
         `,
         isOpen
           ? "bg-gradient-to-br from-blue-500 to-blue-700"
-          : "xsm:bg-transparent sm:bg-gradient-to-br from-blue-500 to-blue-700"
+          : " bg-transparent  bg-gradient-to-br from-blue-500 to-blue-700"
       )}
       initial={{ width: "6rem" }}
       animate={{ width: isOpen ? "17rem" : "6rem" }}

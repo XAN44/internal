@@ -38,7 +38,6 @@ function SidebarClose({ notificationCount, toggleOpen }: Data) {
         ))}
       </ul>
 
-      {/* ปุ่ม SignOut ที่อยู่ด้านล่างสุด */}
       <div className="flex-none p-4">
         <SignOutButton />
       </div>

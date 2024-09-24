@@ -28,9 +28,6 @@ export default function ProtectLayout({
           sm:pl-24 ">
           {children}
         </main>
-        <div className="xsm:flex sm:hidden ">
-          <Footer />
-        </div>
       </div>
     </CalendarProvider>
   );

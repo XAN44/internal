@@ -35,11 +35,11 @@ function DesktopItem({
       <Link
         href={href}
         className={clsx(
-          `group gap-x-3 p-3 text-sm font-semibold leading-6 sm:text-white xsm:text-blue-900/50 rounded-md hover:text-balance hover:bg-white/50 sm:flex`,
+          `group gap-x-3 p-3 text-sm font-semibold leading-6  text-white   rounded-md hover:text-balance hover:bg-white/50 sm:flex`,
           {
             "xsm:text-blue-800 sm:text-black sm:rounded-l-3xl":
               active && isOpen,
-            "xsm:text-blue-900/50 sm:bg-white/50 sm:text-white": active,
+            "xsm:text-blue-900/50  bg-white/50  text-white": active,
           }
         )}>
         <div className="relative flex items-center">
@@ -50,7 +50,7 @@ function DesktopItem({
             </span>
           ) : null}
           {active && (
-            <div className="absolute bottom-[-6px] left-[50%] transform -translate-x-1/2 xsm:block sm:hidden">
+            <div className="absolute bottom-[-6px] left-[50%] transform -translate-x-1/2 xsm:block  ">
               <span className="block w-1.5 h-1.5 bg-blue-900/50 rounded-full"></span>
             </div>
           )}
