@@ -11,7 +11,7 @@ function Footer() {
     <div
       className="
        w-full
-      
+      xsm:h-28
         sm:hidden 
         xsm:flex">
       <ul
@@ -21,7 +21,7 @@ function Footer() {
           xsm:flex 
           overflow-hidden
           justify-center
-          items-center
+          items-start
           mx-auto">
         {route.map((item, index) => (
           <div
