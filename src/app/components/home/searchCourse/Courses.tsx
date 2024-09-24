@@ -167,7 +167,7 @@ function Courses({ filteredCourses }: CoursesProps) {
                               </div>
                             </div>
                           </div>
-                          <p className="truncate text-xs mt-3 xsm:hidden xms:block">
+                          <p className="truncate text-xs mt-3  xms:block">
                             {course.descriptions}
                           </p>
                         </div>
