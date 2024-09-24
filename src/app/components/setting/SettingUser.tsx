@@ -268,7 +268,7 @@ function SettingUser({ userInfo, departnames }: Props) {
       <div className="flex items-center justify-center ">
         {!isEditingNameLast && (
           <>
-            <p className="font-bold">
+            <p className="font-bold truncate">
               {name} {last}
             </p>
             <MdModeEdit
@@ -278,7 +278,7 @@ function SettingUser({ userInfo, departnames }: Props) {
           </>
         )}
         {isEditingNameLast && (
-          <>
+          <div className="w-full">
             <Form {...formNameLast}>
               <form
                 className="space-y-6 mt-4"
@@ -341,10 +341,10 @@ function SettingUser({ userInfo, departnames }: Props) {
                 </div>
               </form>
             </Form>
-          </>
+          </div>
         )}
       </div>
-      <div className="w-96 flex flex-col gap-3 p-8">
+      <div className="w-full flex flex-col gap-3  ">
         <div className="relative p-2 border-2 rounded-xl border-blue-500/50 flex  items-center justify-between">
           {!isEditingRole && (
             <>
@@ -430,7 +430,7 @@ function SettingUser({ userInfo, departnames }: Props) {
         <div className="relative p-2 border-2 rounded-xl border-blue-500/50 flex  items-center justify-between">
           {!isEditingDepartMent && (
             <>
-              <p className="text-sm text-blue-500/60 w-full text-center">
+              <p className="text-sm text-blue-500/60 w-full text-center truncate">
                 {Department?.departname}
               </p>
               <CiEdit
@@ -521,7 +521,7 @@ function SettingUser({ userInfo, departnames }: Props) {
           {!isEditingUsername && (
             <>
               <RxAvatar className="text-blue-600 right-3  static" size={25} />
-              <p className="text-sm text-blue-500/60 w-full text-center">
+              <p className="text-sm text-blue-500/60 w-full text-center truncate">
                 {username}
               </p>
               <CiEdit
@@ -581,7 +581,9 @@ function SettingUser({ userInfo, departnames }: Props) {
         </div>
         <div className="relative p-2 bg-gradient-to-r from-green-400/40 via-blue-400/50 to-blue-500/40 top-0 rounded-xl flex  items-center justify-between">
           <FiMail className="text-blue-600 right-3  static" size={25} />
-          <p className="text-sm text-blue-500/60 w-full text-center">{email}</p>
+          <p className="text-sm text-blue-500/60 w-full text-center truncate">
+            {email}
+          </p>
         </div>
       </div>
     </div>

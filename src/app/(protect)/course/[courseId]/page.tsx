@@ -36,6 +36,9 @@ async function CoursePage({ params }: { params: { courseId: string } }) {
         orderBy: {
           position: "asc",
         },
+        where: {
+          isPublished: true,
+        },
         select: {
           id: true,
         },

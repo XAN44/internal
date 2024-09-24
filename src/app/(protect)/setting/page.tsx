@@ -155,8 +155,7 @@ async function Page() {
         sm:grid 
         sm:grid-rows-2 
         lg:grid-flow-col 
-        lg:grid-cols-4
-        sm:grid-cols-2
+         sm:grid-cols-2
         gap-6
         w-full h-full
         xsm:space-y-3

@@ -37,7 +37,7 @@ interface QuizData {
 function QuizForm({ quiz, params, chapter }: QuizData) {
   const querstions = quiz?.questions ?? [];
   const [isUpdating, setIsUpdateing] = useState(false);
-  const [options, setOptions] = useState<string[]>([""]);
+  const [options, setOptions] = useState<string[]>(["", "", "", ""]);
   const [text, setText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -69,7 +69,7 @@ function QuizForm({ quiz, params, chapter }: QuizData) {
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
       question: "",
-      options: options,
+      options: ["", "", "", ""],
       correctAnswer: "",
     },
     mode: "onChange",
@@ -235,10 +235,6 @@ function QuizForm({ quiz, params, chapter }: QuizData) {
               </div>
             ))}
 
-            <Button type="button" onClick={addOption}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Answer
-            </Button>
             <p className="text-gray-500"> Add Correct Answer</p>
 
             <FormField
@@ -262,9 +258,7 @@ function QuizForm({ quiz, params, chapter }: QuizData) {
                 </FormItem>
               )}
             />
-            <Button
-              disabled={options.length < 4 || !isValid || isSubmitting}
-              type="submit">
+            <Button disabled={options.length < 4 || isSubmitting} type="submit">
               {isPending ? <Spinner /> : "Create Quiz"}
             </Button>
           </form>

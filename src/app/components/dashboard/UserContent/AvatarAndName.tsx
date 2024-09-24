@@ -59,12 +59,6 @@ function AvatarAndName({ initialState }: Props) {
                 bg-cardAvatar/70 
                 object-cover"
         />
-        {/* <IsSetting
-          isOpen={isOpen}
-          onOpen={onOpen}
-          onOpenChange={onOpenChange}
-          initialState={initialState}
-        /> */}
       </div>
       <div
         className="
@@ -116,7 +110,7 @@ function AvatarAndName({ initialState }: Props) {
               text-sm 
               bg-blue-input/60 
               rounded-xl">
-          <span className="flex items-center gap-3 justify-center ">
+          <span className="flex items-center gap-3 justify-center  truncate">
             <ImMail4 size={25} className="text-sky-600/60" />
             <p>{email}</p>
           </span>

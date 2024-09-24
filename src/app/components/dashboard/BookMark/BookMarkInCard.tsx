@@ -81,7 +81,7 @@ export default function BookMarkInCard({
                     initial="hidden"
                     animate="visible"
                     variants={container}
-                    className="grid p-4 xsm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
+                    className="grid p-4 xsm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-5">
                     {bookMarkedCourses.map((course) => (
                       <motion.div
                         key={course.name}
