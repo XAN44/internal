@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "../../../../lib/auth/getSession";
 import { db } from "../../../../lib/db";
-
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -20,10 +19,15 @@ export async function POST(req: Request) {
       },
       select: {
         id: true,
+        userId: true,
+        title: true,
       },
     });
-    if (!findCourse?.id) {
-      return NextResponse.json({ error: "Course not found." }, { status: 404 });
+    if (!findCourse || !findCourse.title) {
+      return NextResponse.json(
+        { error: "Course title not found." },
+        { status: 404 }
+      );
     }
 
     const checkEnrolment = await db.enrollment.findFirst({
@@ -33,8 +37,9 @@ export async function POST(req: Request) {
       },
     });
 
+    console.log(findCourse.title);
+
     if (checkEnrolment) {
-      // อัปเดต isEnrollment เป็น true
       await db.enrollment.update({
         where: {
           userId_courseId: {
@@ -44,12 +49,33 @@ export async function POST(req: Request) {
         },
         data: { isEnrollment: true },
       });
+
+      // สร้างการแจ้งเตือนไปยังเจ้าของคอร์ส
+      await db.notification.create({
+        data: {
+          userId: findCourse.userId,
+          title: "Re-enrollment notification",
+          body: `${user.username} has re-enrolled in your course: ${findCourse.title}`,
+          link: findCourse.id,
+        },
+      });
+
       return NextResponse.json({ success: "Re-enrolled successfully" });
     } else {
-      // สร้าง enrollment ใหม่
       await db.enrollment.create({
         data: { userId: user.id, courseId: findCourse.id, isEnrollment: true },
       });
+
+      // สร้างการแจ้งเตือนไปยังเจ้าของคอร์ส
+      await db.notification.create({
+        data: {
+          userId: findCourse.userId,
+          title: "New enrollment notification",
+          body: `${user.username} has enrolled in your course: ${findCourse.title}`,
+          link: `/course/${findCourse.id}`,
+        },
+      });
+
       return NextResponse.json({ success: "Enrolled successfully" });
     }
   } catch (error) {

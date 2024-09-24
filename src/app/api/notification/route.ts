@@ -28,3 +28,33 @@ export async function GET(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json();
+
+    // ตรวจสอบว่ามีการส่ง id มาหรือไม่
+    if (!id) {
+      return NextResponse.json(
+        { error: "Notification ID is required." },
+        { status: 400 }
+      );
+    }
+
+    // ลบการแจ้งเตือน
+    const notification = await db.notification.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: "Notification deleted successfully",
+      notification,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Error deleting notification" },
+      { status: 500 }
+    );
+  }
+}

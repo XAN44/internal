@@ -126,7 +126,6 @@ model Chapter {
   description String?     @db.VarChar(255)
   position    Int
   isPublished Boolean     @default(false)
-  progress    Int         @default(0)
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)

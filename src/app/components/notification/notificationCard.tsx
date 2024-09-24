@@ -6,6 +6,7 @@ import { cn } from "../../../../lib/utils";
 import axios from "axios";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Notification {
   id: string;
@@ -45,6 +46,17 @@ function Notifications({ initials }: NotificationsProps) {
     }
   };
 
+  const deleteNotification = async (notificationId: string) => {
+    try {
+      const response = await axios.delete("/api/notification", {
+        data: { id: notificationId }, // ส่ง id ของ notification ที่ต้องการลบใน data
+      });
+      router.refresh();
+      toast.success(response.data.success);
+    } catch (error) {
+      toast.error("Error deleting notification");
+    }
+  };
   return (
     <div className="w-full h-full p-6 font-bold text-lg">
       <div>Notification Center</div>
@@ -67,13 +79,20 @@ function Notifications({ initials }: NotificationsProps) {
                 />
               </div>
               <div className="flex flex-col">
-                <p>{notification.course?.title || "No Title"}</p>
+                <p>{notification.title}</p>
                 <p className="text-sm">{notification.body}</p>
               </div>
             </div>
             <p className="text-sm">
               {format(new Date(notification.createdAt), "h:mm")}
             </p>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                deleteNotification(notification.id);
+              }}>
+              Delete
+            </button>
           </div>
         </div>
       ))}

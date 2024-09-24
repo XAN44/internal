@@ -28,7 +28,6 @@ export async function GET(req: Request) {
           },
         },
         Enrollment: {
-          // นับจำนวนผู้ใช้ที่เข้าร่วม
           select: {
             id: true,
           },
@@ -38,8 +37,8 @@ export async function GET(req: Request) {
 
     const result = data.map((course) => ({
       ...course,
-      chapterCount: course.Chapter.length, // เพิ่มจำนวน chapter
-      enrollmentCount: course.Enrollment.length, // นับจำนวนผู้ใช้ที่เข้าร่วม
+      chapterCount: course.Chapter.length,
+      enrollmentCount: course.Enrollment.length,
     }));
 
     return NextResponse.json(result);
