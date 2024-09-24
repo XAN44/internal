@@ -14,7 +14,6 @@ function SidebarClose({ notificationCount, toggleOpen }: Data) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* ส่วนของปุ่ม FiAlignJustify จะคงที่อยู่ด้านบน */}
       <div className="flex-none p-4">
         <FiAlignJustify
           className="w-10 h-10 cursor-pointer"
@@ -22,7 +21,6 @@ function SidebarClose({ notificationCount, toggleOpen }: Data) {
         />
       </div>
 
-      {/* เนื้อหาที่สามารถเลื่อนขึ้นลงได้ */}
       <ul
         role="list"
         className="flex-grow overflow-y-auto flex flex-col space-y-4 px-4">
@@ -36,11 +34,11 @@ function SidebarClose({ notificationCount, toggleOpen }: Data) {
             notificationCount={notificationCount}
           />
         ))}
-      </ul>
 
-      <div className="flex-none p-4">
-        <SignOutButton />
-      </div>
+        <div className="flex-none p-4">
+          <SignOutButton />
+        </div>
+      </ul>
     </div>
   );
 }

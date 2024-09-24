@@ -1,5 +1,5 @@
 "use client";
-import { Image } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
 import { cn } from "../../../../lib/utils";
@@ -58,16 +58,16 @@ function Notifications({ initials }: NotificationsProps) {
     }
   };
   return (
-    <div className="w-full h-full p-6 font-bold text-lg">
-      <div>Notification Center</div>
+    <div className="w-full h-full p-6 text-lg ">
+      <p className="font-bold">Notification Center</p>
       {initials.map((notification, index) => (
         <div
-          className="flex mt-4 group hover:cursor-pointer"
+          className="flex  mt-4 group hover:cursor-pointer"
           key={index}
           onClick={() => handleRead(notification)}>
           <div
             className={cn(
-              "group-hover:bg-blue-300 rounded-lg flex items-center justify-between w-full p-3  group-hover:text-black",
+              "group-hover:bg-blue-300 sm:gap-0 xsm:gap-6 rounded-lg flex sm:flex-row xsm:flex-col items-center justify-between w-full p-3  group-hover:text-black",
               notification.isRead ? "text-gray-400" : "text-black"
             )}>
             <div className="flex gap-3">
@@ -86,13 +86,15 @@ function Notifications({ initials }: NotificationsProps) {
             <p className="text-sm">
               {format(new Date(notification.createdAt), "h:mm")}
             </p>
-            <button
+            <Button
+              variant="bordered"
+              color="danger"
               onClick={(event) => {
                 event.stopPropagation();
                 deleteNotification(notification.id);
               }}>
               Delete
-            </button>
+            </Button>
           </div>
         </div>
       ))}

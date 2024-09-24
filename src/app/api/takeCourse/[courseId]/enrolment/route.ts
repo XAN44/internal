@@ -13,6 +13,15 @@ export async function POST(req: Request) {
       );
     }
 
+    const userData = await db.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      select: {
+        username: true,
+      },
+    });
+
     const findCourse = await db.course.findUnique({
       where: {
         id: idEnrollment,
@@ -55,7 +64,7 @@ export async function POST(req: Request) {
         data: {
           userId: findCourse.userId,
           title: "Re-enrollment notification",
-          body: `${user.username} has re-enrolled in your course: ${findCourse.title}`,
+          body: `${userData?.username} has re-enrolled in your course: ${findCourse.title}`,
           link: findCourse.id,
         },
       });
@@ -71,7 +80,7 @@ export async function POST(req: Request) {
         data: {
           userId: findCourse.userId,
           title: "New enrollment notification",
-          body: `${user.username} has enrolled in your course: ${findCourse.title}`,
+          body: `${userData?.username} has enrolled in your course: ${findCourse.title}`,
           link: `/course/${findCourse.id}`,
         },
       });

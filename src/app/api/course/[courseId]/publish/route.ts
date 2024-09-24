@@ -19,6 +19,11 @@ export async function PATCH(
       },
       include: {
         Chapter: true,
+        Category: {
+          include: {
+            users: true, // Fetch users interested in this category
+          },
+        },
       },
     });
 
@@ -40,7 +45,7 @@ export async function PATCH(
       return new NextResponse("Missing required fields", { status: 401 });
     }
 
-    const publishedChapter = await db.course.update({
+    const publishedCourse = await db.course.update({
       where: {
         id: params.courseId,
         userId: user.id,
@@ -49,10 +54,23 @@ export async function PATCH(
         isPublished: true,
       },
     });
-    return NextResponse.json(publishedChapter);
+
+    const interestedUsers = course.Category?.users || [];
+
+    for (const interestedUser of interestedUsers) {
+      await db.notification.create({
+        data: {
+          userId: interestedUser.id,
+          title: `New Course Published: ${course.title}`,
+          body: `A new course in the category "${course.Category?.name}" has been published. Check it out!`,
+          link: course.id,
+        },
+      });
+    }
+
+    return NextResponse.json(publishedCourse);
   } catch (error) {
     console.log(error);
-
     return new NextResponse("Initials Error", { status: 401 });
   }
 }

@@ -12,8 +12,7 @@ export default function ProtectLayout({
   return (
     <CalendarProvider>
       <div
-        className="flex flex-col h-screen min-h-screen  
-">
+        className="flex flex-col h-screen min-h-screen  ">
         <NavbarProtect />
         <SideBar />
         <main

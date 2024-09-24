@@ -108,12 +108,15 @@ function QuizForm({ quiz, params, chapter }: QuizData) {
         );
         router.refresh();
         togleEidt();
-        form.reset();
-        setOptions([""]);
+        form.reset({
+          question: "",
+          options: ["", "", "", ""],
+          correctAnswer: "",
+        });
+        setOptions(["", "", "", ""]);
         toast.success("Quiz chapter update");
       } catch (error) {
         toast.error("Something went wrong");
-
         console.log(error);
       }
     });

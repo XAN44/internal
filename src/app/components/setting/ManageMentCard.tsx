@@ -76,12 +76,12 @@ function ManageMentCard({ enrolement }: Props) {
         </div>
         <div className="flex flex-col items-start col-span-2 justify-start gap-4">
           {enrolement.map((item) => (
-            <Button
+            <p
               className="text-red-500 hover:cursor-pointer"
               key={item.courseId}
               onClick={() => openModal(item.courseId)}>
               Delete
-            </Button>
+            </p>
           ))}
         </div>
       </div>
