@@ -57,7 +57,6 @@ interface Props {
           courseId: string;
           enrolledAt: Date;
           dueDate: Date | null;
-          progress: number;
           isEnrollment: boolean;
         }
       | undefined;

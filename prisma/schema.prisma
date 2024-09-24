@@ -46,7 +46,6 @@ model Enrollment {
   courseId   String
   enrolledAt DateTime  @default(now())
   dueDate    DateTime?
-  progress   Int       @default(0)
 
   User         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   Course       Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -74,7 +73,6 @@ model Course {
   Chapter     Chapter[]
   User        User          @relation(fields: [userId], references: [id])
   Enrollment  Enrollment[]
-  progress    Int?
 
   @@index([categoryId])
   @@index([userId])

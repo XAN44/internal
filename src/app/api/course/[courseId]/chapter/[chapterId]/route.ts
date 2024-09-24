@@ -4,11 +4,6 @@ import { getCurrentUser } from "../../../../../lib/auth/getSession";
 import { db } from "../../../../../lib/db";
 import { BiDumbbell } from "react-icons/bi";
 
-const { video } = new Mux({
-  tokenId: process.env.MUX_TOKEN_ID,
-  tokenSecret: process.env.MUX_TOKEN_SECRET,
-});
-
 export async function DELETE(
   req: Request,
   { params }: { params: { courseId: string; chapterId: string } }

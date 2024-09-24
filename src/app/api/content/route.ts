@@ -18,7 +18,6 @@ export async function GET() {
           isPublished: true,
           descriptions: true,
           Enrollment: true,
-          progress: true,
           Chapter: {
             select: {
               Quiz: {

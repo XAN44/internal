@@ -9,14 +9,12 @@ export async function DELETE(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { courseId } = await req.json(); // รับ courseId จาก body
+    const { courseId } = await req.json();
 
-    // ตรวจสอบว่ามี courseId หรือไม่
     if (!courseId) {
       return new NextResponse("Course ID is required", { status: 400 });
     }
 
-    // ลบการลงทะเบียน
     await db.enrollment.deleteMany({
       where: {
         userId: user.id,
