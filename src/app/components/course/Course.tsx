@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Video } from "../../lib/video";
-import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Avatar, Button, Card, CardBody, CardFooter } from "@nextui-org/react";
 import clsx from "clsx";
 import ShowDsip from "./ShowDsip";
 import { useRouter } from "next/navigation";
 import { FcReading } from "react-icons/fc";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface Course {
   title: string;
@@ -120,14 +121,14 @@ function CourseMain({
               items-center 
               justify-center               
                   ">
-          <Image
-            isBlurred
-            width={300} // ระบุขนาดความกว้างที่ต้องการ
-            height={200} // ระบุขนาดความสูงที่ต้องการ
-            className="object-cover rounded-md aspect-auto"
-            src={imageURL || ""}
-            alt="Picture of the author"
-          />
+          <div className="relative aspect-video w-full">
+            <Image
+              className="absolute inset-0 object-cover rounded-md"
+              src={imageURL || ""}
+              alt="Picture of the author"
+              fill
+            />
+          </div>
           <CardFooter
             className="
                 flex 
@@ -150,11 +151,9 @@ function CourseMain({
                 sm:flex-row
                 w-full
                 ">
-              <Image
+              <Avatar
                 src={User.image || "/Avatar.png"}
                 alt="sd"
-                fallbackSrc={title}
-                radius="full"
                 className="
                     rounded-full 
                     object-contain 
