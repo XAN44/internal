@@ -11,7 +11,7 @@ function Footer() {
     <div
       className="
        w-full
-      xsm:h-28
+      xsm:h-40
         sm:hidden 
         xsm:flex">
       <ul
