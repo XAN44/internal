@@ -77,7 +77,7 @@ function Dough({ courseDistribution, statusCompleted, statusPending }: Props) {
           className="w-full"
         />
         <p className="pt-6 pb-6 font-semibold text-blue-500">
-          COURSE COMPLETION OVERVIEW
+          COURSES COMPLETION OVERVIEW
         </p>
       </div>
       <div className="w-full p-8 lg:h-52 xsm:h-56 flex flex-col items-center justify-center">
@@ -87,7 +87,7 @@ function Dough({ courseDistribution, statusCompleted, statusPending }: Props) {
           className="w-full"
         />
         <p className="pt-6 pb-6 font-semibold text-blue-500">
-          ENROLLED COURSE DISTRIBUTION
+          ENROLLED COURSES DISTRIBUTION
         </p>
       </div>
     </>

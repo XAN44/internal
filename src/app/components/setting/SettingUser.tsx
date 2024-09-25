@@ -72,7 +72,7 @@ function SettingUser({ userInfo, departnames }: Props) {
   const defaultUserInfo = {
     Department: { departname: null },
     email: null,
-    id: "",
+    id: null,
     image: null,
     last: null,
     name: null,
@@ -80,12 +80,10 @@ function SettingUser({ userInfo, departnames }: Props) {
     username: null,
   };
 
-  // Use the default values if userInfo is not available
   const user = userInfo || defaultUserInfo;
 
   const { Department, email, id, image, last, name, role, username } = user;
 
-  // All hooks should be called here
   const formAvatar = useForm<z.infer<typeof AvatarForm>>({
     resolver: zodResolver(AvatarForm),
     defaultValues: {
@@ -227,6 +225,13 @@ function SettingUser({ userInfo, departnames }: Props) {
       }
     });
   };
+  // const isVannessplusUser = userInfo?.email?.endsWith("@vannessplus.com");
+
+  // const Role = [
+  //   { value: "Trainee", label: "Trainee" },
+  //   { value: "Employe", label: "Employe" },
+  //   ...(isVannessplusUser ? [{ value: "Admin", label: "Admin" }] : []),
+  // ];
 
   return (
     <div className="grid grid-cols-1 place-items-center gap-5 items-center justify-center ">

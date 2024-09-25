@@ -23,7 +23,7 @@ function BadgeContent({ badges }: BadgeMainProps) {
     <div className="w-full h-full">
       <div className="flex justify-between items-center">
         <p className="font-bold sm:text-xl xsm:text-sm text-cardAvatar">
-          Badge
+          BADGE
         </p>
         <Button onClick={handleShow} variant="light">
           {showAll ? "Show Less" : "Show More"}

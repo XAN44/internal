@@ -38,23 +38,23 @@ function ProgressAR({ AllcourseProcess, requireCoursePerCentage }: Props) {
           <Button
             className="bg-gradient-to-r from-green-800 to-green-500"
             size="sm">
-            ALL COURSE?
+            ALL COURSES?
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full">
           {(titleProps) => (
             <div className="px-1 py-2">
               <h3 className="text-xl font-bold" {...titleProps}>
-                What is ALL COURSE?
+                What is ALL COURSES?
               </h3>
               <div className="text-tiny">
                 <p className="text-sm">
-                  <strong>&quot;ALL COURSE &quot;</strong> represents the total
+                  <strong>&quot;ALL COURSES &quot;</strong> represents the total
                   percentage of courses you have completed out of all the
                   courses you have registered for.
                 </p>
                 <p className="text-sm">
-                  To increase the percentage of ALL COURSE:
+                  To increase the percentage of ALL COURSES:
                 </p>
                 <ul className="text-sm">
                   <li>
