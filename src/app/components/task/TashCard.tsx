@@ -32,16 +32,16 @@ function TashCard({ initial }: Props) {
             <p className="font-bold text-gray-500 text-sm w-full text-center">
               Pending Task
             </p>
-            <div className=" w-full  bg-gradient-to-l from-yellow-700 to-yellow-500 p-[1px] rounded-xl">
-              <div className="bg-white w-full text-center  p-[1px] rounded-xl">
+            <div className="    bg-gradient-to-l from-yellow-700 to-yellow-500 p-[1px] rounded-xl">
+              <div className=" bg-white  text-center pr-[6px] pl-[6px] rounded-xl">
                 {pendingTasks}
               </div>
             </div>
             <p className="font-bold text-gray-500 text-sm w-full text-center">
               Completed Task
             </p>
-            <div className=" w-full  bg-gradient-to-l from-green-700 to-green-500 p-[1px] rounded-xl">
-              <div className="bg-white w-full  text-center p-[1px] rounded-xl">
+            <div className=" w-auto  bg-gradient-to-l from-green-700 to-green-500 p-[1px] rounded-xl">
+              <div className="bg-white w-full   text-center  pr-[6px] pl-[6px] rounded-xl">
                 {completedTasks}
               </div>
             </div>
