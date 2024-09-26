@@ -225,13 +225,13 @@ function SettingUser({ userInfo, departnames }: Props) {
       }
     });
   };
-  // const isVannessplusUser = userInfo?.email?.endsWith("@vannessplus.com");
+  const isVannessplusUser = userInfo?.email?.endsWith("@vannessplus.com");
 
-  // const Role = [
-  //   { value: "Trainee", label: "Trainee" },
-  //   { value: "Employe", label: "Employe" },
-  //   ...(isVannessplusUser ? [{ value: "Admin", label: "Admin" }] : []),
-  // ];
+  const Role = [
+    { value: "Trainee", label: "Trainee" },
+    { value: "Employe", label: "Employe" },
+    ...(isVannessplusUser ? [{ value: "Admin", label: "Admin" }] : []),
+  ];
 
   return (
     <div className="grid grid-cols-1 place-items-center gap-5 items-center justify-center ">

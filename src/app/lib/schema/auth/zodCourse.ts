@@ -4,6 +4,11 @@ export const CreateCourseSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });
 
+export const CreateCategorySchema = z.object({
+  name: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Title is required"),
+});
+
 export const TitleFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });

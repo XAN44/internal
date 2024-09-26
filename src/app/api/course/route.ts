@@ -26,7 +26,6 @@ export async function POST(req: Request) {
       },
     });
 
-    // ตรวจสอบว่า `id` ถูกส่งกลับ
     return NextResponse.json({
       success: "Course created successfully",
       id: newCourse.id,

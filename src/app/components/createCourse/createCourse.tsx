@@ -34,6 +34,7 @@ function CreateCourse({ handleCreateCourse }: Props) {
   const { isSubmitting, isValid } = form.formState;
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
   const onSubmit = async (value: z.infer<typeof CreateCourseSchema>) => {
     startTransition(async () => {
       try {
@@ -57,7 +58,7 @@ function CreateCourse({ handleCreateCourse }: Props) {
 
   return (
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-start p-6 flex-col relative bg-white rounded-md">
-      <p className="text-xl font-bold text-blue-500">Name your course</p>
+      <p className="text-xl font-bold text-blue-500">NAME YOUR COURSE</p>
       <p className="text-blue-500 text-sm">
         Create new course , You can change this later.
       </p>
