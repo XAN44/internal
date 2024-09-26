@@ -20,7 +20,7 @@ function SignOutButton({ isOpen }: Props) {
       items-center 
       justify-center
       leading-6 
-      
+      hover:cursor-pointer
     ">
         <RiLogoutBoxRLine
           className="
