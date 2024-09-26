@@ -46,8 +46,6 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log(findCourse.title);
-
     if (checkEnrolment) {
       await db.enrollment.update({
         where: {
@@ -75,13 +73,12 @@ export async function POST(req: Request) {
         data: { userId: user.id, courseId: findCourse.id, isEnrollment: true },
       });
 
-      // สร้างการแจ้งเตือนไปยังเจ้าของคอร์ส
       await db.notification.create({
         data: {
           userId: findCourse.userId,
           title: "New enrollment notification",
           body: `${userData?.username} has enrolled in your course: ${findCourse.title}`,
-          link: `/course/${findCourse.id}`,
+          link: findCourse.id,
         },
       });
 

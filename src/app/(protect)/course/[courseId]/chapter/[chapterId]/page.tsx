@@ -114,11 +114,13 @@ async function Chapter({
       isCompletedQuiz: quizProgress,
     };
   });
+  const isOwner = chapter.course.userId === user?.id;
 
   return (
     <div className="w-full h-full">
       <div className="flex flex-col">
         <ChapterTitle
+          isOwner={isOwner}
           chapterId={params.chapterId}
           courseId={params.courseId}
           chapter={chapter}

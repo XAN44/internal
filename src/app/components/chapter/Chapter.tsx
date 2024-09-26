@@ -7,6 +7,7 @@ import { TypeChapter } from "@prisma/client";
 import { ChapterCard } from "./ChapterCard";
 
 interface ChapterProps {
+  isOwner: boolean;
   courseId: string;
   chapterId: string;
   chapter: {
@@ -96,6 +97,7 @@ export function ChapterTitle({
   chapters,
   chapterId,
   courseId,
+  isOwner,
 }: ChapterProps) {
   const router = useRouter();
 
@@ -148,6 +150,7 @@ export function ChapterTitle({
             <div className="w-full h-full bg-white sm:p-6 xsm:p-2 rounded-xl">
               {selectedChapter ? (
                 <ChapterMain
+                  isOwner={isOwner}
                   description={selectedChapter.Lesson?.description || ""}
                   chapterId={chapterId}
                   courseId={courseId}
@@ -181,6 +184,7 @@ export function ChapterTitle({
                   courseId={courseId}
                   courseSlug={courseTitle}
                   filteredCourses={filteredCourses}
+                  isOwner={isOwner}
                 />
               ) : (
                 <div className="flex items-center justify-center w-full h-full">

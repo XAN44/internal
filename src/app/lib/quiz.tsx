@@ -13,13 +13,20 @@ interface Question {
 }
 
 interface Props {
+  isOwner: boolean;
   title: string;
   questions: Question[];
   quizId: string;
   isCompleted: boolean; // รับสถานะ isCompleted
 }
 
-export function Quiz({ title, questions, quizId, isCompleted }: Props) {
+export function Quiz({
+  title,
+  questions,
+  quizId,
+  isCompleted,
+  isOwner,
+}: Props) {
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<string, string>
   >({});
@@ -115,20 +122,22 @@ export function Quiz({ title, questions, quizId, isCompleted }: Props) {
           </div>
         ))}
       </div>
-      <div className="mt-4">
-        <button
-          onClick={handleSubmit}
-          disabled={isSubmitting || isCompleted}
-          className="bg-blue-500 text-white py-2 px-4 rounded">
-          {isSubmitting
-            ? "Submitting..."
-            : isCompleted
-            ? "Quiz Completed"
-            : "Submit"}
-        </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        {success && <p className="text-green-500 mt-2">{success}</p>}
-      </div>
+      {!isOwner && (
+        <div className="mt-4">
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting || isCompleted}
+            className="bg-blue-500 text-white py-2 px-4 rounded">
+            {isSubmitting
+              ? "Submitting..."
+              : isCompleted
+              ? "Quiz Completed"
+              : "Submit"}
+          </button>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {success && <p className="text-green-500 mt-2">{success}</p>}
+        </div>
+      )}
     </div>
   );
 }

@@ -13,12 +13,14 @@ interface CoursesProps {
   courseId: string;
   courseSlug: string;
   filteredCourses: ChapterCourse[];
+  isOwner: boolean;
 }
 
 export function ChapterCard({
   courseSlug,
   filteredCourses,
   courseId,
+  isOwner,
 }: CoursesProps) {
   return (
     <div className="flex flex-col gap-3 overflow-y-auto w-full h-full">
@@ -26,6 +28,7 @@ export function ChapterCard({
         // ตรวจสอบความก้าวหน้าในบทเรียนและการทดสอบจากบทก่อนหน้า
         const previousChapter = index > 0 ? filteredCourses[index - 1] : null;
         const isUnlocked =
+          isOwner || // ถ้าเป็นเจ้าของคอร์สจะเข้าถึงได้เสมอ
           index === 0 ||
           (previousChapter &&
             (previousChapter.isCompletedLesson ||

@@ -58,14 +58,17 @@ export async function PATCH(
     const interestedUsers = course.Category?.users || [];
 
     for (const interestedUser of interestedUsers) {
-      await db.notification.create({
-        data: {
-          userId: interestedUser.id,
-          title: `New Course Published: ${course.title}`,
-          body: `A new course in the category "${course.Category?.name}" has been published. Check it out!`,
-          link: course.id,
-        },
-      });
+      // เช็คว่าไม่ส่งแจ้งเตือนให้เจ้าของคอร์ส
+      if (interestedUser.id !== user.id) {
+        await db.notification.create({
+          data: {
+            userId: interestedUser.id,
+            title: `New Course Published: ${course.title}`,
+            body: `A new course in the category "${course.Category?.name}" has been published. Check it out!`,
+            link: course.id,
+          },
+        });
+      }
     }
 
     return NextResponse.json(publishedCourse);

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Preview } from "../preview";
 
 interface Props {
+  isOwner: boolean;
   courseId: string;
   title: string;
   url: string;
@@ -38,6 +39,7 @@ function ChapterMain({
   lessonId,
   chapterId,
   description,
+  isOwner,
 }: Props) {
   const router = useRouter();
   const [showDescription, setShowDescription] = useState(false);
@@ -62,12 +64,17 @@ function ChapterMain({
     <div className="relative">
       {type === "Lesson" && (
         <div className=" flex items-center justify-end w-full">
-          <Button
-            onClick={handleMark}
-            variant="flat"
-            className={isCompletedLesson ? "text-green-600" : "text-blue-600"}>
-            {isCompletedLesson ? "Completed" : "Mark as Complete"}
-          </Button>
+          {!isOwner && (
+            <Button
+              disabled={isCompletedLesson}
+              onClick={handleMark}
+              variant="flat"
+              className={
+                isCompletedLesson ? "text-green-600" : "text-blue-600"
+              }>
+              {isCompletedLesson ? "Completed" : "Mark as Complete"}
+            </Button>
+          )}
         </div>
       )}
       {type === "Lesson" ? (
@@ -101,6 +108,7 @@ function ChapterMain({
         </>
       ) : (
         <Quiz
+          isOwner={isOwner}
           title={title}
           questions={questions || []}
           quizId={quizId}

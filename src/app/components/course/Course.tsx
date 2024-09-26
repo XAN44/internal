@@ -207,9 +207,18 @@ function CourseMain({
           <CardFooter>
             <div className="w-full flex items-center justify-center">
               {userId === User.id ? (
-                <p className="text-red-500">
-                  You cannot enroll in your own course
-                </p>
+                <div className="flex flex-col gap-6">
+                  <p className="text-red-500">
+                    You cannot enroll in your own course
+                  </p>
+                  {Enrollment?.length > 0 && Enrollment[0].isEnrollment && (
+                    <Button
+                      onClick={() => togleToCourse(courseId, firstChapterId)}
+                      className="bg-blue-500/50 hover:bg-blue-500">
+                      Enter to course
+                    </Button>
+                  )}
+                </div>
               ) : (
                 <Button
                   variant="shadow"
