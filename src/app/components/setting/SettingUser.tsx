@@ -229,7 +229,7 @@ function SettingUser({ userInfo, departnames }: Props) {
 
   const Role = [
     { value: "Trainee", label: "Trainee" },
-    { value: "Employe", label: "Employe" },
+    { value: "Employee", label: "Employee" },
     ...(isVannessplusUser ? [{ value: "Admin", label: "Admin" }] : []),
   ];
 

@@ -14,5 +14,5 @@ export const DepartMent = [
 
 export const Role = [
   { value: "Trainee", label: "Trainee" },
-  { value: "Employe", label: "Employe" },
+  { value: "Employee", label: "Employee" },
 ];

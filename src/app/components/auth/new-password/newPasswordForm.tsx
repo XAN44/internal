@@ -68,6 +68,7 @@ function NewPasswordForm() {
                 <FormControl>
                   <Input
                     type="password"
+                    placeholder="password"
                     {...field}
                     classNames={{
                       inputWrapper: "bg-white",
@@ -87,6 +88,7 @@ function NewPasswordForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    placeholder="confirm password"
                     type="password"
                     {...field}
                     classNames={{
