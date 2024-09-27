@@ -15,6 +15,7 @@ interface ChapterProps {
       title: string;
     };
     title: string;
+    description: string | null;
     type: TypeChapter;
     Lesson: {
       id: string;
@@ -53,6 +54,7 @@ interface ChapterProps {
   chapters: {
     id: string;
     title: string;
+    description: string | null;
     type: TypeChapter;
     Lesson: {
       id: string;
@@ -151,7 +153,7 @@ export function ChapterTitle({
               {selectedChapter ? (
                 <ChapterMain
                   isOwner={isOwner}
-                  description={selectedChapter.Lesson?.description || ""}
+                  description={selectedChapter.description || ""}
                   chapterId={chapterId}
                   courseId={courseId}
                   type={selectedChapter.type}
